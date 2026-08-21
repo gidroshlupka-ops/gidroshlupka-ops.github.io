@@ -54,7 +54,7 @@ export function Navbar({ onOpenResume, activeSection, onNavigate }: NavbarProps)
             🍃
           </span>
           <span className="text-xs font-mono-tech font-bold tracking-widest text-white uppercase flex items-center gap-1.5">
-            <span>ALEX</span>
+            <span>AFORI</span>
             <span className="text-white/40 font-normal">// PORTFOLIO</span>
           </span>
         </a>

@@ -500,7 +500,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
         {/* Footer */}
         <footer className="border-t border-white/10 px-4 sm:px-8 py-4 flex items-center justify-between text-xs font-mono-tech text-white/40">
           <span>{project.title} // DEEP DIVE COMPLETE</span>
-          <span>© 2026 ALEX.SYS</span>
+          <span>© 2026 AFORI.SYS</span>
         </footer>
       </div>
     </AnimatePresence>
