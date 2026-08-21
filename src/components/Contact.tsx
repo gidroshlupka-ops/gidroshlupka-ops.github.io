@@ -29,18 +29,36 @@ export function Contact() {
     setTimeout(() => setCopied(false), 2200);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const CONTACT_ENDPOINT = 'https://portfolio-contact-relay.afori.workers.dev';
+
+  const [sendError, setSendError] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
-    setSubmitted(true);
-    setTimeout(() => {
-      const subject = encodeURIComponent(`Сообщение от ${formState.name} через портфолио`);
-      const body = encodeURIComponent(
-        `От: ${formState.name} (${formState.email})\n\nСообщение:\n${formState.message}`
-      );
-      window.location.href = `mailto:${portfolioData.personal.email}?subject=${subject}&body=${body}`;
-    }, 800);
+    setSending(true);
+    setSendError(false);
+
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formState.name,
+          contact: formState.email, // поле "Контакты (Telegram / Email)" из формы
+          message: formState.message,
+        }),
+      });
+
+      if (!res.ok) throw new Error('request failed');
+      setSubmitted(true);
+    } catch {
+      setSendError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -227,7 +245,7 @@ export function Contact() {
       {/* Bottom Barcode & Meta */}
       <div className="relative z-10 flex items-center justify-between pt-4 border-t border-white/10 text-xs font-mono-tech text-white/40">
         <span>TRANSMISSION // READY</span>
-        <span>© 2026 ALEX.SYS</span>
+        <span>© 2026 AFORI.SYS</span>
       </div>
     </section>
   );
