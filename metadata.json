@@ -1,0 +1,8 @@
+{
+  "name": "Remix Fullstack Developer Portfolio",
+  "description": "Modern single-page portfolio for fullstack developers featuring dark/light modes, project deep-dive modals, interactive skill matrix, and experience timeline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

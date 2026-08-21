@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #0c0e12;
+    color: #f1f5f9;
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: #0c0e12;
+    color: #f1f5f9;
+  }
+
+  /* Custom Clean Minimal Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0c0e12;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #272c38;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f475a;
+  }
+}
+
+/* Subtle Organic Flowing Background (Non-AI, Eye-Safe Matte Theme) */
+@keyframes ambientFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.15;
+  }
+  33% {
+    transform: translate(30px, -40px) scale(1.08);
+    opacity: 0.22;
+  }
+  66% {
+    transform: translate(-25px, 30px) scale(0.95);
+    opacity: 0.18;
+  }
+}
+
+.animate-ambient-slow {
+  animation: ambientFloat 18s ease-in-out infinite;
+}
+
+.animate-ambient-slow-reverse {
+  animation: ambientFloat 22s ease-in-out infinite reverse;
+}
+
+/* Monospace font utility for barcodes & tech numbers */
+.font-mono-tech {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Snap Scroll Container */
+.snap-page-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+}
+
+/* Custom Glass & Sleek Buttons */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-solid-primary {
+  background: #f1f5f9;
+  color: #0c0e12;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-solid-primary:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(255, 255, 255, 0.25);
+}
+
+/* Print styles for Resume preview */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  nav, footer, .no-print, .snap-page-container {
+    display: none !important;
+    height: auto !important;
+  }
+}
