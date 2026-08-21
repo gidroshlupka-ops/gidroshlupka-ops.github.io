@@ -94,7 +94,7 @@ export function Interactive3DModel() {
     speechTimeoutRef.current = window.setTimeout(() => {
       setSpeechBubble(null);
     }, 3200);
-    
+
     // Keep smooth continuous petting loop for a full cycle (2.8s) without abrupt jumps
     if (petTimeoutRef.current) clearTimeout(petTimeoutRef.current);
     petTimeoutRef.current = window.setTimeout(() => {
@@ -260,10 +260,10 @@ export function Interactive3DModel() {
           animate={
             isPetting
               ? {
-                  y: [0, -1.8, 0.6, -1.2, 0],       // Траектория вверх-вниз, замыкающаяся в 0
-                  rotate: [0, -2.5, 1.6, -1.2, 0],  // Покачивание кисти с возвратом в 0
+                  y: [0, -1.8, 0.6, -1.2, 0],
+                  rotate: [0, -2.5, 1.6, -1.2, 0],
                   originX: '38%',
-                  originY: '58%',                    // Точка привязки строго на запястье
+                  originY: '58%',
                 }
               : {
                   y: [0, -0.6, 0],
@@ -274,9 +274,9 @@ export function Interactive3DModel() {
           transition={
             isPetting
               ? {
-                  repeat: Infinity,                 // Бесконечный цикл пока активно поглаживание
-                  duration: 1.35,                   // Длительность одного полного поглаживания
-                  ease: 'easeInOut',                // Сглаживание начала и конца полуволны
+                  repeat: Infinity,
+                  duration: 1.35,
+                  ease: 'easeInOut',
                 }
               : {
                   repeat: Infinity,
@@ -286,6 +286,13 @@ export function Interactive3DModel() {
           }
           className="absolute inset-0 w-full h-full pointer-events-none"
         >
+          <img
+            src="/character/hand.png"
+            alt="Hand Petting Cat"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
 
         {/* LAYER 4: CAT (Organic purr & petting snuggle without crude scaling) */}
         <motion.div
