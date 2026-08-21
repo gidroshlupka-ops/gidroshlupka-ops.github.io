@@ -2,7 +2,7 @@ import { PortfolioData } from '../types';
 
 export const portfolioData: PortfolioData = {
   personal: {
-    name: 'Алексей',
+    name: 'AFORI',
     role: 'Full-stack Developer',
     taglineRoles: [
       'Full-stack Developer',
@@ -25,11 +25,11 @@ export const portfolioData: PortfolioData = {
     location: 'Remote / Worldwide',
     workStatus: 'Открыт к предложениям и проектам',
     availabilityNote: 'Готов к фриланс-заказам, Full-stack разработке и интересным задачам',
-    email: 'alex.developer@example.com',
-    telegramUsername: '@alex_fullstack_dev',
-    telegramLink: 'https://t.me/alex_fullstack_dev',
-    githubUrl: 'https://github.com',
-    linkedinUrl: 'https://linkedin.com',
+    email: 'aforigidroshlupka@gmail.com',
+    telegramUsername: '@shlalalalalalalo',
+    telegramLink: 'https://t.me/@shlalalalalalalo',
+    githubUrl: 'https://github.com/gidroshlupka-ops',
+    linkedinUrl: 'https://www.linkedin.com/in/afori',
     experienceYears: '3+',
     metricsSummary: [
       {
@@ -173,345 +173,280 @@ export const portfolioData: PortfolioData = {
 
   projects: [
     {
-      id: 'omniflow-ai',
-      title: 'OmniFlow AI Orchestrator',
-      tagline: 'Платформа автономных AI-агентов и мультимодельных пайплайнов',
+      id: 'rigbi',
+      title: 'RIGBI — обработчик Excel-данных',
+      tagline: 'Backend-инструмент для сбора и валидации данных из 3500+ таблиц',
+      category: 'backend',
+      categoryLabel: 'Backend & Data Processing',
+      shortDescription:
+        'Инструмент для автоматического сбора и валидации данных из распределённого репозитория Excel-таблиц. Ускорил обработку в разы, заменив стандартный парсер на Rust-движок.',
+      quoteHighlight: 'RUST-POWERED EXCEL PARSING WITH MULTITHREADED VALIDATION PIPELINE',
+
+      // previewImage — картинка на карточке. Сделай скриншот консоли/кода/схемы и положи в public/projects/
+      previewImage: '/projects/rigbi-preview.png',
+
+      tags: ['Python', 'python-calamine (Rust engine)', 'ThreadPoolExecutor', 'Валидация данных'],
+
+      // ССЫЛКИ:
+      githubUrl: 'https://github.com/gidroshlupka-ops/RIGBI_V2-calamine-', 
+
+      accentColor: '#3B82F6',
+      accentGradient: 'from-blue-500 to-cyan-500',
+      iconName: 'Database',
+      featured: true,
+      caseStudy: {
+        overview:
+          'RIGBI — backend-инструмент для автоматического сбора и валидации данных из распределённого репозитория, содержащего более 3500 Excel-таблиц.',
+        problem:
+          'Стандартный стек на openpyxl не тянул объём по скорости — обработка тысяч таблиц занимала неприемлемо много времени, плюс данные в таблицах были «грязными»: несогласованные форматы дат, пропуски, опечатки.',
+        solution:
+          'Заменил openpyxl на Rust-движок python-calamine, что ускорило парсинг в разы. Добавил многопоточную обработку через ThreadPoolExecutor и отдельный слой строгой валидации/очистки данных, чтобы система не падала на кривых файлах.',
+        architecture:
+          'Excel-репозиторий (3500+ файлов) -> python-calamine (Rust parser) -> ThreadPoolExecutor (параллельная обработка) -> Валидация и очистка -> Структурированный вывод.',
+        keyFeatures: [
+          'Парсинг тысяч Excel-файлов на Rust-движке вместо медленного openpyxl',
+          'Многопоточная обработка для параллельного чтения таблиц',
+          'Строгая валидация дат, форматов и пропусков — отказоустойчивость на «грязных» данных',
+        ],
+        metrics: [
+          { label: 'Обрабатываемых таблиц', value: '3500+' },
+          { label: 'Ускорение парсинга', value: 'в разы (Rust vs Python)' },
+        ],
+        techDetails: [
+          { area: 'Парсинг', stack: 'python-calamine (Rust engine)' },
+          { area: 'Многопоточность', stack: 'concurrent.futures.ThreadPoolExecutor' },
+          { area: 'Валидация', stack: 'Собственная логика очистки данных' },
+        ],
+      },
+    },
+
+    {
+      id: 'zvezda-murka',
+      title: 'ССК «Звезда» + Мурка',
+      tagline: 'KPI-система предприятия: десктоп-клиент, Telegram-бот и AI-ассистент',
       category: 'ai_llm',
-      categoryLabel: 'AI & LLM Engine',
+      categoryLabel: 'AI & Enterprise System',
       shortDescription:
-        'Интеллектуальная система автоматизации рабочих процессов с поддержкой цепочек рассуждений, векторного поиска и стриминга ответов в реальном времени.',
-      quoteHighlight: 'AUTONOMOUS MULTI-AGENT ORCHESTRATION WITH REAL-TIME STREAMING & PGVECTOR',
-      previewImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop',
-      tags: ['Python', 'FastAPI', 'React', 'TypeScript', 'pgvector', 'Gemini / Claude API', 'Redis'],
-      githubUrl: 'https://github.com',
-      liveUrl: 'https://example.com',
-      telegramBotUrl: 'https://t.me/alex_fullstack_dev',
-      accentColor: '#6366F1',
-      accentGradient: 'from-indigo-500 to-cyan-400',
-      iconName: 'Cpu',
-      featured: true,
-      caseStudy: {
-        overview:
-          'OmniFlow AI — это масштабируемая система для запуска и оркестрации цепочек AI-агентов, решающих сложные аналитические задачи и формирующих структурированные отчеты.',
-        problem:
-          'Ручной сбор данных, классификация входящей информации и формирование многостраничных отчетов отнимали много времени. Требовалось решение с фоновым выполнением задач, потоковым выводом и контролем точности ответов.',
-        solution:
-          'Спроектировал асинхронный бэкенд на FastAPI с очередями задач на Redis. Реализовал механизм Function Calling для вызова внешних API, векторный поиск по базе знаний через pgvector и реактивный фронтенд со стримингом токенов через WebSockets.',
-        architecture:
-          'API Gateway + FastAPI воркеры + Vector Store (PostgreSQL) + Кеширующий слой Redis + React 19 интерфейс с интерактивным графом выполнения задач.',
-        keyFeatures: [
-          'Параллельное исполнение задач несколькими AI-агентами с контролем контекста',
-          'Потоковая генерация и рендеринг Markdown в реальном времени',
-          'Гибридный семантический поиск по загруженным документам',
-          'Панель мониторинга стоимости токенов и времени отклика каждого агента',
-        ],
-        metrics: [
-          { label: 'Экономия времени', value: '75%' },
-          { label: 'Скорость отклика', value: '<200ms TTFB' },
-          { label: 'Точность извлечения', value: '96.4%' },
-          { label: 'Обработанных документов', value: '50,000+' },
-        ],
-        techDetails: [
-          { area: 'Backend Core', stack: 'FastAPI, Python 3.12, Asyncio, Pydantic v2' },
-          { area: 'Frontend', stack: 'React 19, TypeScript, Tailwind CSS, Motion' },
-          { area: 'Storage & Cache', stack: 'PostgreSQL 16, pgvector, Redis' },
-          { area: 'AI & Ingestion', stack: 'OpenAI/Gemini Embeddings, Hybrid BM25/Cosine' },
-        ],
-        screenshots: [
-          {
-            title: 'Интерактивный граф агентов',
-            url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop',
-            description: 'Визуализация связей между агентами, очередей задач и текущего статуса обработки данных.',
-          },
-          {
-            title: 'Векторная база знаний pgvector',
-            url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000&auto=format&fit=crop',
-            description: 'Хранение векторных эмбеддингов документов с гибридным косинусным поиском.',
-          },
-          {
-            title: 'Потоковый терминал ответов',
-            url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop',
-            description: 'WebSocket-стриминг генерации токенов в реальном времени с форматированием Markdown.',
-          },
-        ],
-      },
-    },
-    {
-      id: 'telecommerce-platform',
-      title: 'TeleCommerce Ecosystem',
-      tagline: 'Telegram Mini App & Бот для цифровых продаж и подписок',
-      category: 'telegram_bot',
-      categoryLabel: 'Telegram & TMA',
-      shortDescription:
-        'Комплексное решение для интернет-коммерции внутри Telegram: каталог товаров, нативная корзина, онлайн-оплата и мгновенная автоматическая выдача доступов.',
-      quoteHighlight: 'SEAMLESS IN-APP TELEGRAM COMMERCE, CRYPTO GATEWAYS & AUTO-ACCESS',
-      previewImage: 'https://images.unsplash.com/photo-1614680376593-902f749f7ffc?q=80&w=1000&auto=format&fit=crop',
-      tags: ['Python', 'Aiogram 3', 'React TMA', 'PostgreSQL', 'Docker', 'Stripe / CryptoPay'],
-      githubUrl: 'https://github.com',
-      liveUrl: 'https://example.com',
-      telegramBotUrl: 'https://t.me/alex_fullstack_dev',
-      accentColor: '#0EA5E9',
-      accentGradient: 'from-sky-500 to-blue-600',
-      iconName: 'Bot',
-      featured: true,
-      caseStudy: {
-        overview:
-          'TeleCommerce — платформа для автоматизации продаж цифрового контента и товаров прямо в мессенджере с высокой конверсией без перехода на сторонние сайты.',
-        problem:
-          'Пользователям неудобно выходить из мессенджера для оформления покупок. Требовалось создать нативный удобный магазин с каталогом и моментальной оплатой.',
-        solution:
-          'Разработал Telegram Mini App на React с плавными мобильными анимациями и бэкенд на Aiogram 3 с обработкой вебхуков, интеграцией платежей (карты + криптовалюты) и мгновенным управлением закрытыми каналами.',
-        architecture:
-          'Telegram Webhook Server -> Fast Dispatcher -> PostgreSQL с транзакционным учетом заказов -> Очередь уведомлений -> Интеграция с Telegram Bot Payments API.',
-        keyFeatures: [
-          'Полноценный каталог с поиском, фильтрами и мгновенной синхронизацией остатков',
-          'Автоматическая генерация инвойсов и подтверждение транзакций через вебхуки',
-          'CRM-панель администратора с аналитикой заказов и клиентов',
-          'Управление правами в закрытых Telegram-каналах и чатах (Auto-Kick / Auto-Invite)',
-        ],
-        metrics: [
-          { label: 'Рост конверсии', value: '+38%' },
-          { label: 'Активных пользователей', value: '45,000+ MAU' },
-          { label: 'Бесперебойность', value: '99.98%' },
-          { label: 'Обработка транзакции', value: '< 1.2 сек' },
-        ],
-        techDetails: [
-          { area: 'Bot Engine', stack: 'Python, Aiogram 3.x, Asyncpg' },
-          { area: 'Mini App UI', stack: 'React 19, Telegram WebApp SDK, Tailwind' },
-          { area: 'Payments', stack: 'Telegram Payments, Stars, CryptoPay, ЮKassa' },
-          { area: 'Infrastructure', stack: 'Docker Compose, Nginx, PostgreSQL, Redis' },
-        ],
-        screenshots: [
-          {
-            title: 'Интерфейс каталога Telegram Mini App',
-            url: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1000&auto=format&fit=crop',
-            description: 'Мобильный SPA-интерфейс с быстрой загрузкой, корзиной и выбором способов оплаты.',
-          },
-          {
-            title: 'Аналитическая панель продаж',
-            url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop',
-            description: 'Графики выручки, конверсий, когортный анализ и управление товарной матрицей.',
-          },
-        ],
-      },
-    },
-    {
-      id: 'pulsemetric-cloud',
-      title: 'PulseMetric Real-time Monitor',
-      tagline: 'Дашборд мониторинга микросервисов и аналитики API',
-      category: 'fullstack',
-      categoryLabel: 'Full-stack Platform',
-      shortDescription:
-        'Система сбора метрик, трейсинга ошибок и мониторинга доступности серверов с визуализацией временных рядов и алертами в Telegram/Slack.',
-      quoteHighlight: 'SUB-50MS LATENCY TELEMETRY, REAL-TIME SOCKETS & INSTANT TELEGRAM ALERTS',
-      previewImage: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1000&auto=format&fit=crop',
-      tags: ['TypeScript', 'Node.js', 'React', 'Tailwind', 'PostgreSQL', 'WebSockets', 'Docker'],
-      githubUrl: 'https://github.com',
-      liveUrl: 'https://example.com',
-      telegramBotUrl: 'https://t.me/alex_fullstack_dev',
-      accentColor: '#10B981',
-      accentGradient: 'from-emerald-500 to-teal-400',
-      iconName: 'Activity',
-      featured: true,
-      caseStudy: {
-        overview:
-          'PulseMetric предоставляет мгновенный срез состояния распределенных сервисов с графиками задержки, потребления ресурсов и статусов эндпоинтов.',
-        problem:
-          'Большинство готовых систем мониторинга тяжеловесны и сложны в быстрой настройке для пет-проектов и небольших сервисов.',
-        solution:
-          'Создал легковесный агент сбора метрик и централизованный сервер с поддержкой WebSockets для обновления графиков без перезагрузки страниц и гибким конструктором правил оповещения в Telegram.',
-        architecture:
-          'HTTP Telemetry Collector -> Aggregator Service -> PostgreSQL Time-Series -> WebSocket Gateway -> Canvas / SVG Charting Engine.',
-        keyFeatures: [
-          'Live-графики задержки (p50, p95, p99) и статус-кодов ответов',
-          'Настраиваемые правила алертинга с подавлением ложных срабатываний',
-          'Экспорт логов инцидентов и автоматическая генерация отчетов',
-          'Конструктор кастомных дашбордов под разные проекты',
-        ],
-        metrics: [
-          { label: 'Пропускная способность', value: '10k req/sec' },
-          { label: 'Задержка обновления UI', value: '<50ms' },
-          { label: 'MTTR инцидентов', value: '-45%' },
-          { label: 'Использование CPU агентом', value: '< 1.5%' },
-        ],
-        techDetails: [
-          { area: 'Frontend', stack: 'React 19, TypeScript, Recharts, Tailwind CSS' },
-          { area: 'Backend', stack: 'Node.js, Express, WebSocket (ws), Async Workers' },
-          { area: 'Database', stack: 'PostgreSQL с партиционированием по датам' },
-          { area: 'Alerts', stack: 'Telegram Bot API, Webhook Integrations, Email' },
-        ],
-        screenshots: [
-          {
-            title: 'Графики времени отклика API',
-            url: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=1000&auto=format&fit=crop',
-            description: 'Векторные графики p50/p95/p99 задержек эндпоинтов в реальном времени.',
-          },
-          {
-            title: 'Алерты и нотификации в Telegram',
-            url: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1000&auto=format&fit=crop',
-            description: 'Мгновенная доставка отчетов об ошибках и падениях с полным стектрейсом.',
-          },
-        ],
-      },
-    },
-    {
-      id: 'neuraldoc-engine',
-      title: 'NeuralDoc Semantic Search',
-      tagline: 'Движок семантического поиска по базе знаний и документам',
-      category: 'ai_llm',
-      categoryLabel: 'AI & Knowledge Base',
-      shortDescription:
-        'Быстрый поиск ответов в PDF, DOCX и текстовых файлах с точными ссылками на источники и контекстными цитатами с помощью векторных эмбеддингов.',
-      quoteHighlight: 'HYBRID BM25 & VECTOR EMBEDDINGS WITH PRECISE CONTEXTUAL CITATIONS',
-      previewImage: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1000&auto=format&fit=crop',
-      tags: ['Python', 'FastAPI', 'pgvector', 'React', 'TypeScript', 'Docker', 'NLP'],
-      githubUrl: 'https://github.com',
-      liveUrl: 'https://example.com',
-      telegramBotUrl: 'https://t.me/alex_fullstack_dev',
+        'Внутренняя система учёта KPI и ресурсов производственного предприятия: десктоп-приложение в связке с Telegram-ботом на общей базе, плюс мультимодальный AI-бот с долгосрочной памятью.',
+      quoteHighlight: 'REALTIME DESKTOP-TO-TELEGRAM SYNC WITH MULTIMODAL AI MEMORY SYSTEM',
+
+      previewImage: '/projects/zvezda-preview.png',
+      // heroImage: '/projects/zvezda-hero.png', // необязательно, крупная картинка в модалке
+
+      tags: ['Python', 'Tkinter', 'PostgreSQL (Supabase)', 'Aiogram 3', 'Gemini API', 'Fernet/bcrypt'],
+
+      githubUrl: 'https://github.com/gidroshlupka-ops/SSK_ZVEZDA_KPI',
+
       accentColor: '#8B5CF6',
-      accentGradient: 'from-violet-500 to-fuchsia-500',
-      iconName: 'FileSearch',
-      featured: false,
+      accentGradient: 'from-violet-500 to-purple-500',
+      iconName: 'Sparkles',
+      featured: true,
       caseStudy: {
         overview:
-          'NeuralDoc преобразует массивы разрозненных документов в структурированную базу знаний с умным поисковым и вопросно-ответным интерфейсом.',
+          'Внутренняя система для судостроительного предприятия: десктоп-клиент и Telegram-бот, работающие на общей базе, плюс AI-ассистент с мультимодальным чатом и долгосрочной памятью.',
         problem:
-          'Поиск ответов в объемных технических регламентах и PDF-файлах по ключевым словам часто не дает результатов из-за синонимов и формулировок.',
+          'Нужно было синхронизировать десктоп-клиент и Telegram-бота без вебсокетов и лишней нагрузки на сервер, а также автоматически предупреждать о критических остатках ресурсов без участия человека.',
         solution:
-          'Разработал пайплайн умной нарезки текста (chunking), генерации эмбеддингов и гибридного ранжирования (векторный поиск + BM25), выдающий точный абзац с ответом за доли секунды.',
+          'Реализовал polling Supabase каждые 15 секунд со сравнением снапшотов таблиц — лёгкая realtime-синхронизация без постоянного соединения. Фоновый воркер раз в час сам проверяет остатки и шлёт подробные алерты в Telegram. Отдельно собрал AI-бота с системой долгосрочной памяти ("маяки" — паттерн, по которому бот сам сохраняет факты в SQLite) и ротацией ключей LLM-провайдера для устойчивости к лимитам.',
         architecture:
-          'Document Parser (PDF/DOCX) -> Text Chunker -> Vector Embedding Engine -> PostgreSQL (pgvector) -> FastAPI Answer Generator -> React Search UI.',
+          'Desktop Client (Tkinter) <-> Supabase (Postgres, realtime polling) <-> Telegram Bot (Aiogram 3) + LLM Gateway (Gemini API, ротация ключей).',
         keyFeatures: [
-          'Поддержка файлов PDF, Word, Markdown, HTML и текстовых заметок',
-          'Подсветка точного места в оригинальном документе, откуда взят ответ',
-          'Фильтрация по тегам, категориям и датам',
-          'История поисковых запросов и сохранение избранных ответов',
+          'Realtime-синхронизация между десктопом и ботом без вебсокетов',
+          'Автоматические Telegram-алерты при падении остатков ниже минимума',
+          'Долгосрочная память AI-ассистента через собственный механизм записи фактов',
+          'Мультимодальный чат: текст, изображения, аудио',
+          'Шифрование данных (Fernet, bcrypt) и автогенерация отчётов в Word с графиками',
         ],
         metrics: [
-          { label: 'Скорость поиска', value: '80мс' },
-          { label: 'Точность цитирования', value: '98%' },
-          { label: 'Объем документов', value: '100+ GB' },
-          { label: 'Удовлетворенность', value: '4.9 / 5.0' },
+          { label: 'Интервал синхронизации', value: '15 сек' },
+          { label: 'Проверка критических остатков', value: 'раз в час, автоматически' },
         ],
         techDetails: [
-          { area: 'Core Search', stack: 'FastAPI, SentenceTransformers, pgvector' },
-          { area: 'Parsing', stack: 'PyMuPDF, python-docx, Unstructured' },
-          { area: 'UI & Visuals', stack: 'React 19, TypeScript, Lucide Icons' },
-          { area: 'Deployment', stack: 'Docker, Linux, Nginx, Gunicorn' },
-        ],
-        screenshots: [
-          {
-            title: 'Поисковый интерфейс с подсветкой источников',
-            url: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000&auto=format&fit=crop',
-            description: 'Отображение найденных фрагментов с точными ссылками на страницы и контекст.',
-          },
+          { area: 'Desktop', stack: 'Python, Tkinter, pystray (трей-иконка)' },
+          { area: 'База данных', stack: 'PostgreSQL (Supabase)' },
+          { area: 'Bot', stack: 'Aiogram 3, SQLite (память диалогов)' },
+          { area: 'AI', stack: 'Gemini API с ротацией ключей, генерация изображений' },
+          { area: 'Безопасность', stack: 'Fernet (шифрование данных), bcrypt (пароли)' },
         ],
       },
     },
+
     {
-      id: 'devsync-workspace',
-      title: 'DevSync Collaboration Hub',
-      tagline: 'Совместный редактор кода и песочница в реальном времени',
+      id: 'aromo-gid',
+      title: 'Aromo Gid',
+      tagline: 'Сайт-каталог парфюмерии с адаптивным дизайном и анимациями',
       category: 'fullstack',
-      categoryLabel: 'Full-stack & Real-time',
+      categoryLabel: 'Full-stack & Web',
       shortDescription:
-        'Веб-среда для совместного написания кода, разбора сниппетов и мгновенного запуска программ в изолированных контейнерах.',
-      quoteHighlight: 'MULTI-USER REAL-TIME COLLABORATIVE CODE EXECUTION & ISOLATED SANDBOXES',
-      previewImage: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=1000&auto=format&fit=crop',
-      tags: ['React', 'TypeScript', 'Node.js', 'Docker API', 'WebSockets', 'Tailwind'],
-      githubUrl: 'https://github.com',
-      liveUrl: 'https://example.com',
-      telegramBotUrl: 'https://t.me/alex_fullstack_dev',
+        'Элегантный сайт-каталог парфюмерии: интерактивные карточки товаров с модалками и свайпами, система отзывов с pinch-to-zoom, плавные анимации.',
+      quoteHighlight: 'RESPONSIVE PERFUME CATALOG WITH GESTURE-SUPPORTED PRODUCT MODALS',
+
+      previewImage: '/projects/aromo-gid-preview.png',
+
+      tags: ['React 18', 'Vite', 'Tailwind CSS', 'Framer Motion'],
+
+      githubUrl: 'https://github.com/gidroshlupka-ops/aromo-gid',
+      liveUrl: 'https://gidroshlupka-ops.github.io/aromo-gid/', 
+
       accentColor: '#F59E0B',
       accentGradient: 'from-amber-500 to-orange-500',
-      iconName: 'TerminalSquare',
+      iconName: 'Sparkles',
       featured: false,
       caseStudy: {
         overview:
-          'DevSync позволяет одновременно редактировать код с синхронизацией курсоров нескольких участников и запускать программы на Python, JavaScript и Go.',
+          'Каталог парфюмерии с минималистичной эстетикой в стиле "Stone & Nature": просмотр карточек товаров с модальными окнами, поддержкой свайпов и полноэкранным просмотром отзывов.',
         problem:
-          'Для быстрого тестирования кода с коллегами или проведения собеседований требовался легкий инструмент без установки громоздких программ.',
+          'Нужен был премиальный, но лёгкий каталог с удобной навигацией по товарам и без задержек на мобильных устройствах.',
         solution:
-          'Спроектировал платформу с синхронизацией ввода через WebSockets и изолированным Docker-раннером с лимитом памяти и времени выполнения.',
-        architecture:
-          'React Code Canvas -> WebSocket Sync Server -> Execution Manager -> Sandboxed Docker Containers.',
+          'Собрал SPA на React 18 + Vite для быстрой сборки, стилизацию — на Tailwind, анимации переходов между карточками и модалками — на Framer Motion. Отдельно реализовал умную блокировку скролла при открытых модалках и pinch-to-zoom для просмотра отзывов.',
+        architecture: 'React 18 (Vite) -> Tailwind CSS -> Framer Motion (анимации) -> GitHub Pages (статический деплой).',
         keyFeatures: [
-          'Многопользовательское редактирование с цветными курсорами участников',
-          'Безопасный запуск кода в изолированных песочницах за секунды',
-          'Поддержка подсветки синтаксиса для популярных языков',
-          'Встроенный терминал вывода stdout/stderr и отслеживания ошибок',
+          'Интерактивные карточки товаров с модалками и поддержкой свайпов',
+          'Полноэкранный просмотр отзывов с pinch-to-zoom',
+          'Полная адаптивность под мобильные и планшеты',
+          'Быстрая сборка и загрузка на Vite',
         ],
-        metrics: [
-          { label: 'Синхронизация ввода', value: '<25ms' },
-          { label: 'Старт контейнера', value: '< 600ms' },
-          { label: 'Одновременных сессий', value: '500+' },
-          { label: 'Безопасность среды', value: '100% Sandbox' },
-        ],
+        metrics: [],
         techDetails: [
-          { area: 'Editor Engine', stack: 'Monaco Editor, WebSocket Sync' },
-          { area: 'Runner Backend', stack: 'Node.js, Docker SDK, Linux cgroups' },
-          { area: 'Frontend', stack: 'React 19, TypeScript, Tailwind CSS' },
-        ],
-        screenshots: [
-          {
-            title: 'Совместное редактирование кода',
-            url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
-            description: 'Синхронизация позиции курсоров в реальном времени с поддержкой подсветки синтаксиса.',
-          },
+          { area: 'Frontend', stack: 'React 18, Vite 6, Tailwind CSS' },
+          { area: 'Анимации', stack: 'Motion (Framer Motion)' },
+          { area: 'Иконки', stack: 'Lucide React' },
         ],
       },
     },
+
     {
-      id: 'botforge-studio',
-      title: 'BotForge Visual Builder',
-      tagline: 'Конструктор логики Telegram-ботов с поддержкой вебхуков',
-      category: 'backend',
-      categoryLabel: 'Backend & Tools',
+      id: 'fantaziya-atelier',
+      title: 'Ателье «Фантазия»',
+      tagline: 'Сайт-визитка ателье с заявками, уходящими напрямую в Telegram',
+      category: 'fullstack',
+      categoryLabel: 'Full-stack & Web',
       shortDescription:
-        'Визуальный редактор сценариев для ботов со стейт-машинами, интеграцией внешних REST API и встроенным симулятором диалогов.',
-      quoteHighlight: 'VISUAL FSM NODE EDITOR WITH IN-BROWSER TELEGRAM DIALOG SIMULATOR',
-      previewImage: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=1000&auto=format&fit=crop',
-      tags: ['Python', 'FastAPI', 'React Flow', 'PostgreSQL', 'Redis', 'Aiogram'],
-      githubUrl: 'https://github.com',
-      liveUrl: 'https://example.com',
-      telegramBotUrl: 'https://t.me/alex_fullstack_dev',
+        'Сайт-визитка швейного ателье: каталог услуг, галерея работ, форма заказа. Заявка с сайта мгновенно приходит мастеру в Telegram через собственный прокси-сервер — токен бота не светится на фронтенде.',
+      quoteHighlight: 'SECURE TELEGRAM ORDER PIPELINE WITH TOKEN-HIDING PROXY SERVER',
+
+      // Скриншот у тебя уже есть — сохрани как fantaziya-preview.png в public/projects/
+      previewImage: '/projects/fantaziya-preview.png',
+
+      tags: ['HTML5', 'Vanilla JS', 'Node.js', 'Express', 'Telegram Bot API'],
+
+      githubUrl: 'https://github.com/gidroshlupka-ops/fantaziya-site',
+      liveUrl: 'https://gidroshlupka-ops.github.io/fantaziya-site/',
+
+      accentColor: '#10B981',
+      accentGradient: 'from-emerald-500 to-teal-500',
+      iconName: 'Send',
+      featured: false,
+      caseStudy: {
+        overview:
+          'Сайт-визитка для швейного ателье: клиент просматривает каталог услуг и галерею, оставляет заявку — она сразу приходит мастеру в Telegram, без пропущенных заказов.',
+        problem:
+          'Нужно было безопасно принимать заказы с сайта в Telegram, не храня токен бота на фронтенде — иначе его мог бы украсть любой, кто откроет исходный код страницы.',
+        solution:
+          'Спроектировал схему заявок и написал Node.js/Express прокси-сервер, который принимает данные формы и пересылает их в Telegram Bot API. Токен бота хранится только на сервере, в переменных окружения — на фронтенде его нет вообще.',
+        architecture:
+          'Клиент заполняет форму -> js/main.js -> Node.js прокси-сервер (токен только здесь) -> Telegram Bot API -> Сообщение мастеру.',
+        keyFeatures: [
+          'Приём заказов с сайта напрямую в Telegram мастера',
+          'Безопасное хранение токена бота через прокси-сервер',
+          'Каталог услуг по категориям и галерея готовых работ',
+          'Полностью адаптивная вёрстка',
+        ],
+        metrics: [],
+        techDetails: [
+          { area: 'Frontend', stack: 'HTML5, CSS3, Vanilla JS' },
+          { area: 'Backend', stack: 'Node.js, Express' },
+          { area: 'Доставка заявок', stack: 'Telegram Bot API' },
+        ],
+      },
+    },
+
+    {
+      id: 'partner-bot-ecosystem',
+      title: 'Партнёрская бот-экосистема',
+      tagline: 'Реф-программа: бот-каталог, бот-админка и редирект-сервис на общей базе',
+      category: 'telegram_bot',
+      categoryLabel: 'Telegram & Боты',
+      shortDescription:
+        'Три сервиса на общей SQLite-базе: бот считает переходы по реферальным ссылкам партнёров, отдельная бот-админка показывает статистику, Flask-редиректор матчит короткие ссылки с нужным партнёром.',
+      quoteHighlight: 'MULTI-SERVICE REFERRAL SYSTEM WITH SHARED SQLITE STATE',
+
+      previewImage: '/projects/partner-bot-preview.png',
+
+      tags: ['Python', 'Aiogram 3', 'Flask', 'SQLite', 'Amvera (деплой)'],
+
+      githubUrl: 'https://github.com/gidroshlupka-ops/partneer',
+
       accentColor: '#EC4899',
       accentGradient: 'from-pink-500 to-rose-500',
       iconName: 'Workflow',
       featured: false,
       caseStudy: {
         overview:
-          'BotForge позволяет создавать сложные разветвленные сценарии диалогов для Telegram без необходимости вручную писать шаблонный код FSM.',
+          'Партнёрская программа для бота-каталога: партнёры получают персональные реферальные ссылки, бот-админка показывает статистику по каждому, а отдельный редирект-сервис на Flask направляет короткие ссылки в нужный чат.',
         problem:
-          'Быстрое прототипирование и тестирование новых воронок в ботах требовало много времени на ручное кодирование каждого шага.',
+          'Нужно было отслеживать, кто из партнёров привёл клиента, без сложной внешней аналитики — и при этом дать каждому партнёру простой личный кабинет прямо в Telegram.',
         solution:
-          'Создал визуальный drag-and-drop редактор узлов на React и движок интерпретации графа состояний на Python с мгновенным развертыванием бота по токену.',
+          'Сделал бот-админку с ролями: обычный пользователь видит свою ссылку и статистику переходов, администратор — сводный отчёт по всем партнёрам. Отдельно поднял Flask-сервис на Amvera, который матчит короткие slug-ссылки с партнёром по username/tag и редиректит в основной бот с нужным start-параметром.',
         architecture:
-          'Node Flow Builder (React) -> JSON Schema Graph -> Python FSM Interpreter -> Telegram Webhook Receiver -> Execution Engine.',
+          'Клиент переходит по короткой ссылке -> Flask-редиректор (SQLite) -> определяет партнёра -> редирект в основной Telegram-бот с start-параметром -> запись перехода в БД.',
         keyFeatures: [
-          'Визуальный граф узлов: кнопки, инлайн-меню, условия, таймеры и API запросы',
-          'Встроенный симулятор прямо в браузере для отладки логики до релиза',
-          'Поддержка динамических переменных и условий переходов',
-          'Готовые шаблоны для лидогенерации, поддержки и квизов',
+          'Личный кабинет партнёра прямо в Telegram: своя ссылка и статистика',
+          'Админ-панель со сводным отчётом по всем партнёрам',
+          'Flask-редиректор для коротких персональных ссылок',
+          'Бесплатный деплой на Amvera с persistent volume (данные не теряются при обновлениях)',
+        ],
+        metrics: [],
+        techDetails: [
+          { area: 'Боты', stack: 'Python, Aiogram 3, SQLite' },
+          { area: 'Редирект-сервис', stack: 'Flask, деплой на Amvera' },
+        ],
+      },
+    },
+
+    {
+      id: 'n8n-orchestrator-worker',
+      title: 'n8n Orchestrator / Worker',
+      tagline: 'Мультиагентный workflow с валидацией, состоянием сессии и retry-политиками',
+      category: 'backend',
+      categoryLabel: 'Automation & Orchestration',
+      shortDescription:
+        'Тестовое задание на позицию n8n-разработчика: система разделена на управляющий workflow (валидация, состояние сессии) и исполнительный (поиск данных), с политиками повторных попыток на критичных узлах.',
+      quoteHighlight: 'ORCHESTRATOR/WORKER SPLIT WITH SUPABASE SESSION STATE AND RETRY POLICIES',
+
+      previewImage: '/projects/n8n-preview.png',
+
+      tags: ['n8n', 'Supabase', 'Webhook', 'JSON API contracts'],
+
+    // ссылки на репозиторий нет — только визуальная демонстрация
+
+      accentColor: '#EF4444',
+      accentGradient: 'from-red-500 to-orange-500',
+      iconName: 'Workflow',
+      featured: false,
+      caseStudy: {
+        overview:
+          'Модульная система для обработки поисковых запросов с разделением логики на управляющий workflow (Orchestrator) и исполнительный (Worker) — тестовое задание на позицию n8n-разработчика.',
+        problem:
+          'Нужно было спроектировать архитектуру, которая масштабируется и не разваливается при ошибках: отдельно интерфейс и валидация, отдельно — тяжёлая работа с данными, с сохранением состояния между шагами.',
+        solution:
+          'Разделил систему на два независимых workflow: Orchestrator принимает вебхук, валидирует вход и сразу пишет статус сессии в Supabase (для отслеживания истории запросов), затем делегирует поиск отдельному Worker-процессу через executeWorkflow. Поиск в Worker реализован нативными средствами ноды Supabase (фильтрация на стороне БД, а не в JS) — быстрее и правильнее, чем тянуть всё в память. На всех критичных узлах (запросы к БД, вызовы под-процессов) настроены retry-политики (3 попытки, интервал 1000мс).',
+        architecture:
+          'Webhook -> Validation (JS) -> Supabase (запись session_state) -> Call Worker Workflow -> Supabase (поиск с фильтрацией) -> Структурированный JSON-ответ.',
+        keyFeatures: [
+          'Чёткое разделение Orchestrator/Worker для масштабируемости',
+          'Состояние сессии сохраняется в Supabase сразу после валидации',
+          'Поиск через нативную фильтрацию Supabase вместо обработки в JS',
+          'Retry-политики на всех критичных узлах',
+          'Структурированные JSON-контракты ответа: success / missing_data / error',
         ],
         metrics: [
-          { label: 'Ускорение релиза', value: 'в 5 раз' },
-          { label: 'Создано сценариев', value: '1,200+' },
-          { label: 'Обработка сообщений', value: '<30ms' },
-          { label: 'Отказоустойчивость', value: '99.95%' },
+          { label: 'Retry-попыток на критичных нодах', value: '3, интервал 1000мс' },
         ],
         techDetails: [
-          { area: 'Visual Editor', stack: 'React, React Flow, TypeScript, Tailwind' },
-          { area: 'Interpreter', stack: 'Python 3.12, FastAPI, State Machine Core' },
-          { area: 'Storage', stack: 'PostgreSQL, Redis' },
-          { area: 'Integrations', stack: 'Telegram Bot API, Generic HTTP Webhooks' },
-        ],
-        screenshots: [
-          {
-            title: 'Визуальный граф диалоговых цепочек',
-            url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop',
-            description: 'Конструктор шагов, условий переходов и интеграций с вебхуками сторонних API.',
-          },
+          { area: 'Оркестрация', stack: 'n8n (Webhook, Code, executeWorkflow nodes)' },
+          { area: 'Хранилище состояния', stack: 'Supabase (Postgres)' },
+          { area: 'Контракт ответа', stack: 'Структурированный JSON (success/missing_data/error)' },
         ],
       },
     },
@@ -574,31 +509,31 @@ export const portfolioData: PortfolioData = {
   socials: [
     {
       platform: 'Telegram',
-      url: 'https://t.me/alex_fullstack_dev',
+      url: 'https://t.me/@shlalalalalalalo',
       label: 'Написать в Telegram',
       iconName: 'Send',
-      handle: '@alex_fullstack_dev',
+      handle: '@shlalalalalalalo',
     },
     {
       platform: 'GitHub',
-      url: 'https://github.com',
+      url: 'https://github.com/gidroshlupka-ops',
       label: 'Профиль на GitHub',
       iconName: 'Github',
-      handle: 'github.com/developer',
+      handle: 'github.com/gidroshlupka-ops',
     },
     {
       platform: 'LinkedIn',
-      url: 'https://linkedin.com',
+      url: 'https://www.linkedin.com/in/afori',
       label: 'Связаться в LinkedIn',
       iconName: 'Linkedin',
-      handle: 'linkedin.com/in/developer',
+      handle: 'linkedin.com/in/afori',
     },
     {
       platform: 'Email',
-      url: 'mailto:alex.developer@example.com',
+      url: 'aforigidroshlupka@gmail.com',
       label: 'Отправить Email',
       iconName: 'Mail',
-      handle: 'alex.developer@example.com',
+      handle: 'aforigidroshlupka@gmail.com',
     },
   ],
 };

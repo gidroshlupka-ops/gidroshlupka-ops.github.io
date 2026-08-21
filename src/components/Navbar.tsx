@@ -44,14 +44,16 @@ export function Navbar({ onOpenResume, activeSection, onNavigate }: NavbarProps)
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
-        {/* Minimal Typographic Brand */}
+        {/* Minimal Typographic Brand with Mascot Indicator */}
         <a
           href="#hero"
           onClick={(e) => handleLinkClick(e, 'hero')}
-          className="flex items-center gap-2 group focus:outline-none"
+          className="flex items-center gap-2.5 group focus:outline-none"
         >
+          <span className="w-6 h-6 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-xs group-hover:scale-110 transition-transform">
+            🍃
+          </span>
           <span className="text-xs font-mono-tech font-bold tracking-widest text-white uppercase flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-white group-hover:bg-amber-300 transition-colors" />
             <span>ALEX</span>
             <span className="text-white/40 font-normal">// PORTFOLIO</span>
           </span>

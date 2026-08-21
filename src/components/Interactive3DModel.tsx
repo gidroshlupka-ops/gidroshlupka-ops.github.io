@@ -1,225 +1,325 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import { Sparkles, Terminal, Bot, Layers, Code2, Image as ImageIcon } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'motion/react';
+import { Heart, Sparkles } from 'lucide-react';
 
-interface Interactive3DModelProps {
-  customImageSrc?: string;
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
 }
 
-export function Interactive3DModel({ customImageSrc }: Interactive3DModelProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+const PURR_PHRASES = [
+  'Муррр... ❤️',
+  '*довольно щурится*',
+  'Мяу! Листик заряжает чистым кодом 🍃',
+  '*мурлычет от удовольствия* ✨',
+  'Бот работает 24/7 без сбоев 🚀',
+  'Поглаживание засчитано! 🐾',
+];
 
-  // Mouse motion values normalized to [-1, 1]
+export function Interactive3DModel() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isPetting, setIsPetting] = useState(false);
+  const [petCount, setPetCount] = useState(0);
+  const [speechBubble, setSpeechBubble] = useState<string | null>(null);
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const speechTimeoutRef = useRef<number | null>(null);
+
+  // Mouse Tracking values (normalized from -1 to 1)
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth springs for fluid natural motion
-  const springConfig = { damping: 25, stiffness: 120, mass: 0.5 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
+  // Physics springs for natural elastic movement
+  const springConfigPupils = { damping: 25, stiffness: 220, mass: 0.15 };
+  const smoothX = useSpring(mouseX, springConfigPupils);
+  const smoothY = useSpring(mouseY, springConfigPupils);
 
-  // Inverse transforms for different parallax depth layers (moving OPPOSITE to cursor)
-  // Layer 0: Background letters & aura (subtle inverse shift)
-  const bgShiftX = useTransform(smoothX, [-1, 1], [25, -25]);
-  const bgShiftY = useTransform(smoothY, [-1, 1], [25, -25]);
+  // Pupils motion strictly micro-clamped (max 2.2px) so they never leave the eyes
+  const pupilShiftX = useTransform(smoothX, [-1, 1], [-2.2, 2.2]);
+  const pupilShiftY = useTransform(smoothY, [-1, 1], [-1.6, 1.6]);
 
-  // Layer 1: Main 3D model / Character (moderate inverse shift + 3D rotation)
-  const modelShiftX = useTransform(smoothX, [-1, 1], [50, -50]);
-  const modelShiftY = useTransform(smoothY, [-1, 1], [40, -40]);
-  const rotateX = useTransform(smoothY, [-1, 1], [15, -15]);
-  const rotateY = useTransform(smoothX, [-1, 1], [-18, 18]);
+  // Subtle 2.5D head and body perspective tilt
+  const bodyRotateY = useTransform(smoothX, [-1, 1], [-1.8, 1.8]);
+  const bodyRotateX = useTransform(smoothY, [-1, 1], [1.2, -1.2]);
 
-  // Layer 2: Foreground floating badges (high inverse shift for depth)
-  const fg1ShiftX = useTransform(smoothX, [-1, 1], [80, -80]);
-  const fg1ShiftY = useTransform(smoothY, [-1, 1], [65, -65]);
-
-  const fg2ShiftX = useTransform(smoothX, [-1, 1], [-70, 70]);
-  const fg2ShiftY = useTransform(smoothY, [-1, 1], [-60, 60]);
+  // Parallax shifts for cat layer
+  const catShiftX = useTransform(smoothX, [-1, 1], [0.5, -0.5]);
+  const catShiftY = useTransform(smoothY, [-1, 1], [0.3, -0.3]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const normalizedX = (e.clientX / innerWidth) * 2 - 1; // -1 to 1
-      const normalizedY = (e.clientY / innerHeight) * 2 - 1; // -1 to 1
-      mouseX.set(normalizedX);
-      mouseY.set(normalizedY);
-    };
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height * 0.35;
 
-    const handleMouseLeave = () => {
-      mouseX.set(0);
-      mouseY.set(0);
+      const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
+      const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
+
+      mouseX.set(Math.max(-1, Math.min(1, deltaX)));
+      mouseY.set(Math.max(-1, Math.min(1, deltaY)));
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-    };
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
+
+  // Petting action trigger
+  const handlePetAction = (e: React.MouseEvent) => {
+    setIsPetting(true);
+    setPetCount((prev) => prev + 1);
+
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      
+      const newParticle = {
+        id: Date.now() + Math.random(),
+        x: clickX,
+        y: clickY,
+      };
+
+      setParticles((prev) => [...prev.slice(-6), newParticle]);
+
+      setTimeout(() => {
+        setParticles((prev) => prev.filter((p) => p.id !== newParticle.id));
+      }, 1200);
+    }
+
+    if (speechTimeoutRef.current) clearTimeout(speechTimeoutRef.current);
+    const phrase = PURR_PHRASES[Math.floor(Math.random() * PURR_PHRASES.length)];
+    setSpeechBubble(phrase);
+    speechTimeoutRef.current = window.setTimeout(() => {
+      setSpeechBubble(null);
+    }, 3200);
+
+    setTimeout(() => {
+      setIsPetting(false);
+    }, 900);
+  };
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[480px] sm:max-w-[540px] lg:max-w-[580px] aspect-[4/5] flex items-center justify-center select-none perspective-[1200px]"
+      className="relative w-full max-w-[440px] sm:max-w-[500px] lg:max-w-[540px] aspect-[1024/956] flex items-end justify-center select-none"
     >
-      {/* LAYER 0: Background Giant Typography & Tech Marks */}
-      <motion.div
-        style={{ x: bgShiftX, y: bgShiftY }}
-        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0"
-      >
-        <div className="text-[120px] sm:text-[160px] font-black tracking-tighter text-white/[0.03] uppercase leading-none select-none">
-          ALEX
-        </div>
-        <div className="absolute top-8 left-6 text-[10px] font-mono-tech text-white/20 tracking-widest uppercase">
-          SYS // 3D_PARALLAX_RENDER
-        </div>
-        <div className="absolute bottom-8 right-6 text-[10px] font-mono-tech text-white/20 tracking-widest">
-          POS: 35.6895° N, 139.6917° E
-        </div>
-      </motion.div>
+      {/* 1. Ground Sitting Platform - positioned exactly at the base of the character's feet/legs */}
+      <div className="absolute bottom-[10%] w-[88%] h-20 rounded-[100%] bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/15 backdrop-blur-md shadow-[0_16px_40px_rgba(0,0,0,0.95)] pointer-events-none flex items-center justify-center">
+        <div className="w-[84%] h-10 rounded-[100%] border border-cyan-500/25 bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent" />
+      </div>
 
-      {/* LAYER 0.5: Ambient Glow Halo */}
-      <motion.div
-        style={{ x: bgShiftX, y: bgShiftY }}
-        className="absolute w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-gradient-to-tr from-amber-500/10 via-rose-500/10 to-indigo-500/10 blur-3xl pointer-events-none"
-      />
+      {/* Deep Contact Occlusion Shadow directly beneath the socks, knees and hips */}
+      <div className="absolute bottom-[12%] w-[78%] h-7 rounded-[100%] bg-black/95 blur-sm pointer-events-none" />
+      <div className="absolute bottom-[10%] w-[86%] h-12 rounded-[100%] bg-black/90 blur-md pointer-events-none" />
+      <div className="absolute bottom-[8%] w-[90%] h-16 rounded-[100%] bg-black/80 blur-xl pointer-events-none" />
 
-      {/* LAYER 1: Main 3D Model / Character Card (Moving in opposite direction of mouse + 3D Tilt) */}
+      {/* 2. Floating Speech Bubble */}
+      <AnimatePresence>
+        {speechBubble && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.9 }}
+            className="absolute top-2 sm:top-6 z-40 px-4 py-2.5 rounded-2xl bg-white/95 text-black font-mono-tech text-xs font-bold shadow-2xl border border-black/10 flex items-center gap-2 max-w-[280px]"
+          >
+            <Sparkles className="w-4 h-4 text-amber-500 shrink-0 animate-spin" />
+            <span>{speechBubble}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 3. Floating Heart Particles */}
+      <div className="absolute inset-0 pointer-events-none z-50 overflow-visible">
+        {particles.map((p) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 1, scale: 0.6, x: p.x, y: p.y }}
+            animate={{
+              opacity: 0,
+              scale: 1.4,
+              y: p.y - 80,
+              x: p.x + (Math.random() * 40 - 20),
+            }}
+            transition={{ duration: 1.1, ease: 'easeOut' }}
+            className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1 text-rose-400 drop-shadow-md"
+          >
+            <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* 4. MAIN MULTI-LAYER CHARACTER STAGE */}
       <motion.div
         style={{
-          x: modelShiftX,
-          y: modelShiftY,
-          rotateX,
-          rotateY,
+          rotateY: bodyRotateY,
+          rotateX: bodyRotateX,
           transformStyle: 'preserve-3d',
         }}
-        className="relative z-10 w-[290px] sm:w-[350px] lg:w-[380px] h-[390px] sm:h-[470px] lg:h-[510px] rounded-3xl bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent p-1.5 border border-white/15 shadow-2xl backdrop-blur-md group"
-      >
-        <div className="relative w-full h-full rounded-[22px] overflow-hidden bg-[#11141a] flex flex-col items-center justify-between p-6">
-          {/* Top Card Bar */}
-          <div className="w-full flex items-center justify-between z-20">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-rose-500/80" />
-              <span className="w-2 h-2 rounded-full bg-amber-500/80" />
-              <span className="w-2 h-2 rounded-full bg-emerald-500/80" />
-            </div>
-            <span className="text-[11px] font-mono-tech uppercase text-white/50 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/10">
-              DEV // AVATAR
-            </span>
-          </div>
-
-          {/* Center: Stylized High-Craft 3D Character / Visual Representation */}
-          <div className="relative w-full flex-1 flex items-center justify-center my-4">
-            {customImageSrc ? (
-              <img
-                src={customImageSrc}
-                alt="3D Character Model"
-                className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)]"
-              />
-            ) : (
-              <div className="relative w-full h-full flex flex-col items-center justify-center">
-                {/* Visual Stylized 3D Avatar Illustration */}
-                <div className="relative w-48 sm:w-56 h-48 sm:h-56 flex items-center justify-center">
-                  {/* Outer Hologram Rings */}
-                  <div className="absolute inset-0 rounded-full border border-dashed border-white/20 animate-[spin_24s_linear_infinite]" />
-                  <div className="absolute inset-3 rounded-full border border-white/10 animate-[spin_16s_linear_infinite_reverse]" />
-                  
-                  {/* Multi-tier character avatar silhouette with cyberpunk-anime aesthetic */}
-                  <div className="relative w-36 sm:w-44 h-36 sm:h-44 rounded-full bg-gradient-to-tr from-slate-800 via-slate-700 to-slate-900 border-2 border-white/20 flex flex-col items-center justify-center shadow-inner overflow-hidden">
-                    {/* Headset / Hair aesthetic glow */}
-                    <div className="absolute top-2 w-28 h-10 bg-gradient-to-r from-rose-400/40 via-amber-300/40 to-teal-400/40 blur-md" />
-                    
-                    {/* Stylized Face & Eyewear */}
-                    <div className="w-20 h-10 rounded-xl bg-black/60 border border-white/30 backdrop-blur-xs flex items-center justify-center gap-3 shadow-lg z-10">
-                      <div className="w-4 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <div className="w-4 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    </div>
-
-                    {/* Bandage / Patch sticker like in ref */}
-                    <div className="absolute bottom-6 px-2.5 py-0.5 rounded bg-rose-500/30 border border-rose-400/40 text-[9px] font-mono-tech text-rose-200 uppercase tracking-widest">
-                      FULLSTACK
-                    </div>
-                  </div>
-                </div>
-
-                {/* Status indicator & notice */}
-                <div className="mt-3 text-center space-y-1 z-10">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono-tech text-white/70">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    <span>3D Model Tracking Active</span>
-                  </div>
-                  <p className="text-[10px] text-white/40 font-mono-tech">
-                    [ Заглушка: курсор инвертирует слой ]
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Bottom Bar: Barcode & Technical Meta (Inspired by Mochibots ref) */}
-          <div className="w-full pt-3 border-t border-white/10 flex items-center justify-between text-white/50 z-20">
-            <div className="flex flex-col">
-              <span className="text-[10px] font-mono-tech uppercase tracking-wider text-white/70">
-                ■ ALEX.SYS // DEV
-              </span>
-              <span className="text-[9px] font-mono-tech text-white/40">
-                0417-4389234-56728149
-              </span>
-            </div>
-            
-            {/* Minimalist Barcode SVG */}
-            <div className="flex items-center gap-[2px] h-5 opacity-75">
-              <span className="w-[1.5px] h-full bg-white" />
-              <span className="w-[3px] h-full bg-white" />
-              <span className="w-[1px] h-full bg-white" />
-              <span className="w-[2px] h-full bg-white" />
-              <span className="w-[4px] h-full bg-white" />
-              <span className="w-[1.5px] h-full bg-white" />
-              <span className="w-[2px] h-full bg-white" />
-              <span className="w-[3px] h-full bg-white" />
-              <span className="w-[1px] h-full bg-white" />
-              <span className="w-[2.5px] h-full bg-white" />
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* LAYER 2: Floating Foreground Badge #1 (Strong Parallax Shift) */}
-      <motion.div
-        style={{
-          x: fg1ShiftX,
-          y: fg1ShiftY,
-          translateZ: '80px',
+        animate={{
+          y: [0, -2, 0],
         }}
-        className="absolute -top-4 -left-2 sm:-left-6 z-30 p-3.5 rounded-2xl bg-black/70 border border-white/20 backdrop-blur-xl shadow-xl flex items-center gap-3"
-      >
-        <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-amber-300">
-          <Bot className="w-4 h-4" />
-        </div>
-        <div>
-          <span className="text-[10px] font-mono-tech uppercase text-white/50 block">Telegram API</span>
-          <span className="text-xs font-bold text-white tracking-tight">Mini Apps & Bots</span>
-        </div>
-      </motion.div>
-
-      {/* LAYER 3: Floating Foreground Badge #2 (Opposite Parallax Shift) */}
-      <motion.div
-        style={{
-          x: fg2ShiftX,
-          y: fg2ShiftY,
-          translateZ: '100px',
+        transition={{
+          repeat: Infinity,
+          duration: 4.5,
+          ease: 'easeInOut',
         }}
-        className="absolute -bottom-4 -right-2 sm:-right-6 z-30 p-3.5 rounded-2xl bg-black/70 border border-white/20 backdrop-blur-xl shadow-xl flex items-center gap-3"
+        onClick={handlePetAction}
+        className="relative w-full h-full cursor-pointer group"
       >
-        <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-teal-300">
-          <Code2 className="w-4 h-4" />
+        {/* LAYER 0: PONYTAIL (Super smooth autonomous idle sway, completely isolated from petting/mouse) */}
+        <motion.div
+          animate={{
+            rotate: [0, -2.5, 1.5, -1, 0],
+            y: [0, -1, 0.5, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 5.5,
+            ease: 'easeInOut',
+          }}
+          style={{
+            originX: '36%',
+            originY: '28%',
+          }}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        >
+          <img
+            src="/character/ponytail.png"
+            alt="Ponytail"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+
+        {/* LAYER 1: BASE BODY (Girl Sitting, Hoodie, Legs) */}
+        <div className="absolute inset-0 w-full h-full">
+          <img
+            src="/character/base.png"
+            alt="Character Base"
+            className="w-full h-full object-contain pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)]"
+            referrerPolicy="no-referrer"
+          />
         </div>
-        <div>
-          <span className="text-[10px] font-mono-tech uppercase text-white/50 block">Backend & Web</span>
-          <span className="text-xs font-bold text-white tracking-tight">Python / FastAPI / React</span>
+
+        {/* LAYER 2A: IRIS BASE (pupils1.png - Yellow Eye Background) */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none">
+          <img
+            src="/character/pupils1.png"
+            alt="Eye Irises Base"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
         </div>
+
+        {/* LAYER 2B: DYNAMIC PUPILS (pupils.png - Mouse Tracking) */}
+        <motion.div
+          style={{
+            x: pupilShiftX,
+            y: pupilShiftY,
+          }}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        >
+          <img
+            src="/character/pupils.png"
+            alt="Character Pupils"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+
+        {/* LAYER 2C: HOODIE STRINGS (Smooth autonomous gentle dangle) */}
+        <motion.div
+          animate={{
+            rotate: [0, 1.5, -1, 0.8, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 6,
+            ease: 'easeInOut',
+          }}
+          style={{
+            originX: '55%',
+            originY: '45%',
+          }}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        >
+          <img
+            src="/character/hoodie_strings.png"
+            alt="Hoodie Strings"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+
+        {/* LAYER 3: HAND (Smooth Petting centered at wrist, zero gap exposure) */}
+        <motion.div
+          animate={
+            isPetting
+              ? {
+                  y: [0, -1.5, 1, -0.5, 0],
+                  rotate: [0, -1.8, 1.8, -0.8, 0],
+                  originX: '38%',
+                  originY: '58%',
+                }
+              : {
+                  y: [0, -0.6, 0],
+                  originX: '38%',
+                  originY: '58%',
+                }
+          }
+          transition={
+            isPetting
+              ? { duration: 1.1, ease: 'easeInOut' }
+              : { repeat: Infinity, duration: 4.5, ease: 'easeInOut' }
+          }
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        >
+          <img
+            src="/character/hand.png"
+            alt="Hand Petting Cat"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+
+        {/* LAYER 4: CAT (Organic purr & petting snuggle without crude scaling) */}
+        <motion.div
+          style={{
+            x: catShiftX,
+            y: catShiftY,
+            originX: '50%',
+            originY: '75%',
+          }}
+          animate={
+            isPetting
+              ? {
+                  y: [0, 1.8, 0.5, 1.2, 0],
+                  rotate: [0, 1, -0.8, 0.5, 0],
+                  scaleX: [1, 1.015, 0.99, 1.01, 1],
+                  scaleY: [1, 0.985, 1.01, 0.99, 1],
+                }
+              : {
+                  y: [0, -0.8, 0],
+                  scaleX: [1, 1.008, 1],
+                  scaleY: [1, 0.995, 1],
+                }
+          }
+          transition={
+            isPetting
+              ? { duration: 1.1, ease: 'easeInOut' }
+              : { repeat: Infinity, duration: 3.8, ease: 'easeInOut' }
+          }
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        >
+          <img
+            src="/character/cat.png"
+            alt="Cat Mascot"
+            className="w-full h-full object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
       </motion.div>
     </div>
   );

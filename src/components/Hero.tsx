@@ -125,7 +125,8 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
             >
               <Github className="w-4 h-4" />
             </a>
-          </div>
+
+            </div>
 
           {/* Minimalist Specs Row */}
           <div className="pt-4 flex items-center gap-6 text-xs font-mono-tech text-white/40 border-t border-white/10">
