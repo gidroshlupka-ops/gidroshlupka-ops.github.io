@@ -23,7 +23,6 @@ export function Interactive3DModel() {
   const [petCount, setPetCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
-  const petTimeoutRef = useRef<number | null>(null);
   const speechTimeoutRef = useRef<number | null>(null);
 
   // Mouse Tracking values (normalized from -1 to 1)
@@ -96,11 +95,9 @@ export function Interactive3DModel() {
       setSpeechBubble(null);
     }, 3200);
 
-    // Keep smooth continuous petting loop for a full cycle (2.8s) without abrupt jumps
-    if (petTimeoutRef.current) clearTimeout(petTimeoutRef.current);
-    petTimeoutRef.current = window.setTimeout(() => {
+    setTimeout(() => {
       setIsPetting(false);
-    }, 2800);
+    }, 900);
   };
 
   return (
@@ -261,8 +258,8 @@ export function Interactive3DModel() {
           animate={
             isPetting
               ? {
-                  y: [0, -1.8, 0.6, -1.2, 0],
-                  rotate: [0, -2.5, 1.6, -1.2, 0],
+                  y: [0, -1.5, 1, -0.5, 0],
+                  rotate: [0, -1.8, 1.8, -0.8, 0],
                   originX: '38%',
                   originY: '58%',
                 }
@@ -274,16 +271,8 @@ export function Interactive3DModel() {
           }
           transition={
             isPetting
-              ? {
-                  repeat: Infinity,
-                  duration: 1.35,
-                  ease: 'easeInOut',
-                }
-              : {
-                  repeat: Infinity,
-                  duration: 4.5,
-                  ease: 'easeInOut',
-                }
+              ? { duration: 1.1, ease: 'easeInOut' }
+              : { repeat: Infinity, duration: 4.5, ease: 'easeInOut' }
           }
           className="absolute inset-0 w-full h-full pointer-events-none"
         >
