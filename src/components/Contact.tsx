@@ -4,6 +4,7 @@ import {
   Mail,
   Send,
   Github,
+  Twitter,
   Linkedin,
   Copy,
   Check,
@@ -11,6 +12,8 @@ import {
   MessageSquare,
   ArrowRight,
   Clock,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 
@@ -21,7 +24,9 @@ export function Contact() {
     email: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(portfolioData.personal.email);
@@ -29,35 +34,57 @@ export function Contact() {
     setTimeout(() => setCopied(false), 2200);
   };
 
-  const CONTACT_ENDPOINT = 'https://portfolio-contact-relay.afori.workers.dev';
-
-  const [sendError, setSendError] = useState(false);
-  const [sending, setSending] = useState(false);
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
-    setSending(true);
-    setSendError(false);
+    setIsSubmitting(true);
+    setErrorMessage(null);
 
-    try {
-      const res = await fetch(CONTACT_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formState.name,
-          contact: formState.email, // поле "Контакты (Telegram / Email)" из формы
-          message: formState.message,
-        }),
-      });
+    // If Cloudflare Worker URL is configured, send directly to Telegram Bot via Worker
+    if (portfolioData.personal.contactWorkerUrl) {
+      try {
+        const res = await fetch(portfolioData.personal.contactWorkerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formState.name,
+            contact: formState.email,
+            message: formState.message,
+          }),
+        });
 
-      if (!res.ok) throw new Error('request failed');
+        const data = await res.json();
+        if (data.ok) {
+          setSubmitted(true);
+          setFormState({ name: '', email: '', message: '' });
+        } else {
+          throw new Error(data.error || 'Не удалось доставить сообщение');
+        }
+      } catch (err: any) {
+        setErrorMessage('Ошибка отправки в Telegram. Открываем почту...');
+        setTimeout(() => {
+          const subject = encodeURIComponent(`Сообщение от ${formState.name} через портфолио`);
+          const body = encodeURIComponent(
+            `От: ${formState.name} (${formState.email})\n\nСообщение:\n${formState.message}`
+          );
+          window.location.href = `mailto:${portfolioData.personal.email}?subject=${subject}&body=${body}`;
+          setSubmitted(true);
+        }, 1200);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      // Direct Email Client Fallback
       setSubmitted(true);
-    } catch {
-      setSendError(true);
-    } finally {
-      setSending(false);
+      setIsSubmitting(false);
+      setTimeout(() => {
+        const subject = encodeURIComponent(`Сообщение от ${formState.name} через портфолио`);
+        const body = encodeURIComponent(
+          `От: ${formState.name} (${formState.email})\n\nСообщение:\n${formState.message}`
+        );
+        window.location.href = `mailto:${portfolioData.personal.email}?subject=${subject}&body=${body}`;
+      }, 600);
     }
   };
 
@@ -145,24 +172,33 @@ export function Contact() {
               </button>
             </div>
 
-            {/* GitHub & LinkedIn Row */}
-            <div className="grid grid-cols-2 gap-2.5">
+            {/* GitHub, Twitter & LinkedIn Row */}
+            <div className="grid grid-cols-3 gap-2.5">
               <a
                 href={portfolioData.personal.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 flex items-center gap-2.5 text-xs font-mono-tech text-white/80 hover:text-white transition-colors"
+                className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 flex items-center justify-center gap-2 text-xs font-mono-tech text-white/80 hover:text-white transition-colors"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-4 h-4 shrink-0" />
                 <span>GITHUB</span>
+              </a>
+              <a
+                href={portfolioData.personal.twitterUrl || 'https://x.com'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 flex items-center justify-center gap-2 text-xs font-mono-tech text-white/80 hover:text-white transition-colors"
+              >
+                <Twitter className="w-4 h-4 shrink-0 text-sky-400" />
+                <span>TWITTER</span>
               </a>
               <a
                 href={portfolioData.personal.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 flex items-center gap-2.5 text-xs font-mono-tech text-white/80 hover:text-white transition-colors"
+                className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 flex items-center justify-center gap-2 text-xs font-mono-tech text-white/80 hover:text-white transition-colors"
               >
-                <Linkedin className="w-4 h-4 text-sky-400" />
+                <Linkedin className="w-4 h-4 shrink-0 text-sky-400" />
                 <span>LINKEDIN</span>
               </a>
             </div>
@@ -172,17 +208,40 @@ export function Contact() {
         {/* Right Column: Clean Form */}
         <div className="lg:col-span-7 flex flex-col justify-center">
           <div className="p-6 sm:p-7 rounded-3xl bg-white/[0.04] border border-white/12 backdrop-blur-md">
-            <h4 className="text-base font-bold text-white mb-4">
-              Быстрое сообщение
-            </h4>
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-base font-bold text-white">
+                Быстрое сообщение
+              </h4>
+              {portfolioData.personal.contactWorkerUrl && (
+                <span className="text-[10px] font-mono-tech text-emerald-400/90 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Прямая доставка в Telegram
+                </span>
+              )}
+            </div>
+
+            {errorMessage && (
+              <div className="mb-3 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-mono-tech flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
 
             {submitted ? (
               <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center space-y-2">
                 <Check className="w-8 h-8 text-emerald-400 mx-auto" />
-                <h5 className="font-bold text-white">Готово!</h5>
+                <h5 className="font-bold text-white">Сообщение отправлено!</h5>
                 <p className="text-xs text-white/60">
-                  Почтовый клиент открывается с заполненным письмом.
+                  {portfolioData.personal.contactWorkerUrl
+                    ? 'Ваше сообщение успешно доставлено прямо в Telegram.'
+                    : 'Почтовый клиент открывается с заполненным письмом.'}
                 </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-3 text-xs font-mono-tech text-amber-300 hover:underline"
+                >
+                  Отправить еще одно
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3">
@@ -207,7 +266,7 @@ export function Contact() {
                     <input
                       type="text"
                       required
-                      placeholder="@username"
+                      placeholder="@username или mail@example.com"
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs font-mono-tech focus:outline-none focus:border-white/40 transition-colors"
@@ -231,10 +290,20 @@ export function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl text-xs font-mono-tech btn-solid-primary flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl text-xs font-mono-tech btn-solid-primary flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>ОТПРАВИТЬ СООБЩЕНИЕ</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>ОТПРАВКА В TELEGRAM...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>ОТПРАВИТЬ СООБЩЕНИЕ</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -245,7 +314,7 @@ export function Contact() {
       {/* Bottom Barcode & Meta */}
       <div className="relative z-10 flex items-center justify-between pt-4 border-t border-white/10 text-xs font-mono-tech text-white/40">
         <span>TRANSMISSION // READY</span>
-        <span>© 2026 AFORI.SYS</span>
+        <span>© 2026 {portfolioData.personal.name.toUpperCase()}.SYS</span>
       </div>
     </section>
   );

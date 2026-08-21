@@ -30,6 +30,9 @@ export const portfolioData: PortfolioData = {
     telegramLink: 'https://t.me/@shlalalalalalalo',
     githubUrl: 'https://github.com/gidroshlupka-ops',
     linkedinUrl: 'https://www.linkedin.com/in/afori',
+    twitterUrl: 'https://x.com/Afori19',
+    twitterLink: 'https://x.com/Afori19',
+    contactWorkerUrl: 'https://portfolio-contact-relay.afori.workers.dev', 
     experienceYears: '3+',
     metricsSummary: [
       {

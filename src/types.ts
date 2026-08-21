@@ -82,6 +82,9 @@ export interface PersonalInfo {
   telegramLink: string;
   githubUrl: string;
   linkedinUrl: string;
+  twitterUrl?: string;
+  twitterLink?: string;
+  contactWorkerUrl?: string;
   experienceYears: string;
   metricsSummary: {
     value: string;
