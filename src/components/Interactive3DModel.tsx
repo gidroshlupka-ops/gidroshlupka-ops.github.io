@@ -23,6 +23,7 @@ export function Interactive3DModel() {
   const [petCount, setPetCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const petTimeoutRef = useRef<number | null>(null);
   const speechTimeoutRef = useRef<number | null>(null);
 
   // Mouse Tracking values (normalized from -1 to 1)
