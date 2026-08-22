@@ -31,14 +31,21 @@ const lidSpring = { damping: 22, stiffness: 320, mass: 0.28 };
 function Layer({
   src,
   className = '',
+  priority = false,
 }: {
   src: string;
   className?: string;
+  priority?: boolean;
 }) {
   return (
     <img
       src={src}
       alt=""
+      width={1024}
+      height={956}
+      decoding={priority ? 'sync' : 'async'}
+      loading="eager"
+      fetchPriority={priority ? 'high' : 'auto'}
       className={`absolute inset-0 w-full h-full object-contain pointer-events-none ${className}`}
       referrerPolicy="no-referrer"
       draggable={false}
@@ -120,29 +127,50 @@ export function Interactive3DModel() {
   const leftHandRot = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.6) * 0.25 + p * 0.7);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointer = (e: PointerEvent) => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width * 0.54;
-      const centerY = rect.top + rect.height * 0.26;
-      const nx = (e.clientX - centerX) / (rect.width * 0.58);
-      const ny = (e.clientY - centerY) / (rect.height * 0.5);
+      const nx = (e.clientX - (rect.left + rect.width * 0.54)) / (rect.width * 0.58);
+      const ny = (e.clientY - (rect.top + rect.height * 0.26)) / (rect.height * 0.5);
       mouseRef.current = {
         x: Math.max(-1, Math.min(1, nx)),
         y: Math.max(-1, Math.min(1, ny)),
         movedAt: performance.now(),
       };
     };
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointermove', handlePointer, { passive: true });
+    return () => window.removeEventListener('pointermove', handlePointer);
   }, []);
 
   useEffect(() => {
+    const root = containerRef.current;
+    if (!root) return;
+
+    let visible = true;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting && entry.intersectionRatio > 0.12;
+      },
+      { threshold: [0, 0.12, 0.4], rootMargin: '40px' }
+    );
+    io.observe(root);
+
+    const coarse =
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minFrame = coarse ? 33 : 0;
+
     blinkRef.current.next = performance.now() + 2400;
     let raf = 0;
+    let lastDraw = 0;
     const start = performance.now();
 
     const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      if (document.hidden || !visible) return;
+      if (minFrame && now - lastDraw < minFrame) return;
+      lastDraw = now;
+
       const t = (now - start) / 1000;
       time.set(t);
 
@@ -164,12 +192,13 @@ export function Interactive3DModel() {
       if (now < blinkState.until) lids.set(1);
       else if (now < blinkState.openUntil) lids.set(0.35);
       else lids.set(0);
-
-      raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+    };
   }, [lids, lookX, lookY, time]);
 
   const handlePetAction = (e: React.MouseEvent) => {
@@ -199,7 +228,7 @@ export function Interactive3DModel() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-[440px] sm:max-w-[500px] lg:max-w-[540px] aspect-[1024/956] flex items-end justify-center select-none"
+      className="relative w-full max-w-[440px] sm:max-w-[500px] lg:max-w-[540px] aspect-[1024/956] flex items-end justify-center select-none [contain:layout]"
     >
       <div className="absolute bottom-[10%] w-[88%] h-20 rounded-[100%] bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/15 backdrop-blur-md shadow-[0_16px_40px_rgba(0,0,0,0.95)] pointer-events-none flex items-center justify-center">
         <div className="w-[84%] h-10 rounded-[100%] border border-cyan-500/25 bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent" />
@@ -256,7 +285,7 @@ export function Interactive3DModel() {
           style={{ scaleX: chestScaleX, scaleY: chestScaleY, originX: '50%', originY: '72%' }}
           className="absolute inset-0"
         >
-          <Layer src="/character/base.png" />
+          <Layer src="/character/base.png" priority />
         </motion.div>
 
         <motion.div
@@ -268,7 +297,7 @@ export function Interactive3DModel() {
           }}
           className="absolute inset-0 isolate"
         >
-          <Layer src="/character/head.png" />
+          <Layer src="/character/head.png" priority />
           <motion.div style={{ x: pupilShiftX, y: pupilShiftY }} className="absolute inset-0">
             <Layer src="/character/pupils1.png" />
             <Layer src="/character/pupils.png" />

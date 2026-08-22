@@ -107,7 +107,33 @@
   box-shadow: 0 8px 20px -4px rgba(255, 255, 255, 0.25);
 }
 
-/* Print styles for Resume preview */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-ambient-slow,
+  .animate-ambient-slow-reverse {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .animate-ambient-slow,
+  .animate-ambient-slow-reverse {
+    animation: none;
+  }
+  .btn-glass {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+#projects.snap-section,
+#about.snap-section,
+#contact.snap-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100vh;
+}
 @media print {
   body {
     background: white !important;

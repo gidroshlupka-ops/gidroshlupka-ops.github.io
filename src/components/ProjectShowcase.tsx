@@ -17,6 +17,25 @@ import { ProjectItem } from '../types';
 import { TechIcon } from './TechIcon';
 import { ProjectModal } from './ProjectModal';
 
+const skipHeavyFx =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(pointer: coarse), (prefers-reduced-motion: reduce)').matches;
+
+function slide(xIn: number, xOut: number) {
+  if (skipHeavyFx) {
+    return {
+      initial: { opacity: 0, x: xIn },
+      animate: { opacity: 1, x: 0 },
+      exit: { opacity: 0, x: xOut },
+    };
+  }
+  return {
+    initial: { opacity: 0, x: xIn, filter: 'blur(4px)' },
+    animate: { opacity: 1, x: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, x: xOut, filter: 'blur(4px)' },
+  };
+}
+
 export function ProjectShowcase() {
   const projects = portfolioData.projects;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -128,9 +147,7 @@ export function ProjectShowcase() {
           <AnimatePresence mode="wait">
             <motion.div
               key={`left-${currentProject.id}`}
-              initial={{ opacity: 0, x: -35, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, x: -25, filter: 'blur(4px)' }}
+              {...slide(-35, -25)}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="p-6 sm:p-7 rounded-3xl bg-white/[0.04] border border-white/12 backdrop-blur-xl space-y-5 shadow-2xl"
             >
@@ -195,19 +212,19 @@ export function ProjectShowcase() {
                   opacity: 0,
                   y: direction * 40,
                   scale: 0.9,
-                  filter: 'blur(6px)',
+                  ...(skipHeavyFx ? {} : { filter: 'blur(6px)' }),
                 }}
                 animate={{
                   opacity: 1,
                   y: 0,
                   scale: 1,
-                  filter: 'blur(0px)',
+                  ...(skipHeavyFx ? {} : { filter: 'blur(0px)' }),
                 }}
                 exit={{
                   opacity: 0,
                   y: direction * -40,
                   scale: 0.9,
-                  filter: 'blur(6px)',
+                  ...(skipHeavyFx ? {} : { filter: 'blur(6px)' }),
                 }}
                 transition={{
                   duration: 0.6,
@@ -224,6 +241,7 @@ export function ProjectShowcase() {
                     <img
                       src={currentProject.previewImage}
                       alt={currentProject.title}
+                      decoding="async"
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-60 mix-blend-screen"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e12] via-[#0c0e12]/60 to-transparent" />
@@ -285,9 +303,7 @@ export function ProjectShowcase() {
           <AnimatePresence mode="wait">
             <motion.div
               key={`right-${currentProject.id}`}
-              initial={{ opacity: 0, x: 35, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, x: 25, filter: 'blur(4px)' }}
+              {...slide(35, 25)}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="p-6 rounded-3xl bg-white/[0.04] border border-white/12 backdrop-blur-xl space-y-4 shadow-2xl"
             >
@@ -309,6 +325,7 @@ export function ProjectShowcase() {
                 <img
                   src={currentProject.previewImage}
                   alt={currentProject.title}
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -344,6 +361,8 @@ export function ProjectShowcase() {
                         <img
                           src={proj.previewImage}
                           alt={proj.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover"
                         />
                         <span className="absolute bottom-0.5 left-1 text-[8px] font-mono-tech font-bold text-white bg-black/70 px-1 rounded">

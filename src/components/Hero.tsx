@@ -24,10 +24,13 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
   const roles = portfolioData.personal.taglineRoles;
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const tick = () => {
       setRoleIndex((prev) => (prev + 1) % roles.length);
+    };
+    const interval = window.setInterval(() => {
+      if (!document.hidden) tick();
     }, 2600);
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [roles.length]);
 
   return (

@@ -280,6 +280,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               <img
                 src={currentScreenshot.url}
                 alt={currentScreenshot.title}
+                decoding="async"
                 className="w-full h-full object-cover object-center transition-all duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -328,6 +329,8 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                       <img
                         src={img.url}
                         alt={img.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover rounded-[14px]"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-[14px]" />
