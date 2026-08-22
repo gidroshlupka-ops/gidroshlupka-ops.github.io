@@ -27,7 +27,7 @@ export const portfolioData: PortfolioData = {
     availabilityNote: 'Готов к фриланс-заказам, Full-stack разработке и интересным задачам',
     email: 'aforigidroshlupka@gmail.com',
     telegramUsername: '@shlalalalalalalo',
-    telegramLink: 'https://t.me/@shlalalalalalalo',
+    telegramLink: 'https://t.me/shlalalalalalalo',
     githubUrl: 'https://github.com/gidroshlupka-ops',
     linkedinUrl: 'https://www.linkedin.com/in/afori',
     twitterUrl: 'https://x.com/Afori19',
@@ -512,7 +512,7 @@ export const portfolioData: PortfolioData = {
   socials: [
     {
       platform: 'Telegram',
-      url: 'https://t.me/@shlalalalalalalo',
+      url: 'https://t.me/shlalalalalalalo',
       label: 'Написать в Telegram',
       iconName: 'Send',
       handle: '@shlalalalalalalo',
