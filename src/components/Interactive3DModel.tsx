@@ -1,6 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'motion/react';
-import { Heart, Sparkles } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  AnimatePresence,
+} from 'motion/react';
+import { Heart } from 'lucide-react';
 
 interface Particle {
   id: number;
@@ -9,95 +15,186 @@ interface Particle {
 }
 
 const PURR_PHRASES = [
-  'Муррр... ❤️',
-  '*довольно щурится*',
-  'Мяу! Листик заряжает чистым кодом 🍃',
-  '*мурлычет от удовольствия* ✨',
-  'Бот работает 24/7 без сбоев 🚀',
-  'Поглаживание засчитано! 🐾',
+  'Мурр…',
+  '*жмурится*',
+  'Ещё чуть-чуть.',
+  'Тепло.',
+  '*трётся щекой*',
+  'Не убирай руку.',
+  'Листик доволен.',
 ];
+
+const lookSpring = { damping: 28, stiffness: 38, mass: 1.2 };
+const petSpring = { damping: 24, stiffness: 64, mass: 0.75 };
+const lidSpring = { damping: 22, stiffness: 320, mass: 0.28 };
+
+function Layer({
+  src,
+  className = '',
+}: {
+  src: string;
+  className?: string;
+}) {
+  return (
+    <img
+      src={src}
+      alt=""
+      className={`absolute inset-0 w-full h-full object-contain pointer-events-none ${className}`}
+      referrerPolicy="no-referrer"
+      draggable={false}
+    />
+  );
+}
 
 export function Interactive3DModel() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPetting, setIsPetting] = useState(false);
-  const [petCount, setPetCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
   const speechTimeoutRef = useRef<number | null>(null);
+  const phraseIndexRef = useRef(0);
+  const mouseRef = useRef({ x: 0, y: 0, movedAt: 0 });
+  const blinkRef = useRef({ until: 0, next: 0, openUntil: 0 });
 
-  // Mouse Tracking values (normalized from -1 to 1)
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const lookX = useMotionValue(0);
+  const lookY = useMotionValue(0);
+  const smoothLookX = useSpring(lookX, lookSpring);
+  const smoothLookY = useSpring(lookY, lookSpring);
 
-  // Physics springs for natural elastic movement
-  const springConfigPupils = { damping: 25, stiffness: 220, mass: 0.15 };
-  const smoothX = useSpring(mouseX, springConfigPupils);
-  const smoothY = useSpring(mouseY, springConfigPupils);
+  const time = useMotionValue(0);
+  const pet = useSpring(0, petSpring);
+  const lids = useSpring(0, lidSpring);
 
-  // Pupils motion strictly micro-clamped (max 2.2px) so they never leave the eyes
-  const pupilShiftX = useTransform(smoothX, [-1, 1], [-2.2, 2.2]);
-  const pupilShiftY = useTransform(smoothY, [-1, 1], [-1.6, 1.6]);
+  const pupilShiftX = useTransform(
+    [smoothLookX, time],
+    ([lx, t]: number[]) => lx * 3.6 + Math.sin(t * 0.5) * 0.18
+  );
+  const pupilShiftY = useTransform(
+    [smoothLookY, time],
+    ([ly, t]: number[]) => ly * 2.1 + Math.cos(t * 0.42) * 0.12
+  );
 
-  // Subtle 2.5D head and body perspective tilt
-  const bodyRotateY = useTransform(smoothX, [-1, 1], [-1.8, 1.8]);
-  const bodyRotateX = useTransform(smoothY, [-1, 1], [1.2, -1.2]);
+  const bodyRotateY = useTransform(smoothLookX, [-1, 1], [-3.4, 3.4]);
+  const bodyRotateX = useTransform(smoothLookY, [-1, 1], [2.4, -2.4]);
+  const breatheY = useTransform(time, (t) => Math.sin(t * 0.82) * 1.8);
+  const weightTilt = useTransform(time, (t) => Math.sin(t * 0.29) * 0.42);
 
-  // Parallax shifts for cat layer
-  const catShiftX = useTransform(smoothX, [-1, 1], [0.5, -0.5]);
-  const catShiftY = useTransform(smoothY, [-1, 1], [0.3, -0.3]);
+  const chestScaleY = useTransform(time, (t) => 1 + Math.sin(t * 0.82) * 0.01);
+  const chestScaleX = useTransform(time, (t) => 1 + Math.sin(t * 0.82) * 0.0035);
+
+  const ponytailRotate = useTransform(
+    time,
+    (t) => Math.sin(t * 0.58) * 2.0 + Math.sin(t * 0.24) * 0.7
+  );
+  const ponytailY = useTransform(time, (t) => Math.sin(t * 0.58 + 0.4) * 0.9);
+  const stringsRotate = useTransform(time, (t) => Math.sin(t * 0.68 + 0.8) * 1.4);
+
+  const headRot = useTransform(
+    [smoothLookX, time, pet],
+    ([lx, t, p]: number[]) => lx * 2.4 + Math.sin(t * 0.45) * 0.55 + p * 0.8
+  );
+  const headTilt = useTransform(
+    [smoothLookY, time, pet],
+    ([ly, t, p]: number[]) => -ly * 1.6 + Math.sin(t * 0.82) * 0.35 + p * 0.9
+  );
+
+  const petHandX = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.85) * 0.25 + Math.sin(t * 6.6) * 1.6 * p);
+  const petHandY = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.82 + 0.25) * 0.4 + (Math.sin(t * 6.6 + 0.3) * 2.1 - 0.25) * p);
+  const petHandRot = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.7) * 0.4 + Math.sin(t * 6.6) * 2.6 * p);
+
+  const fingersY = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.9 + 0.5) * 0.25 + Math.sin(t * 7.1 + 0.4) * 1.15 * p);
+  const thumbX = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.8) * 0.15 + Math.sin(t * 6.2) * 0.7 * p);
+
+  const catGroupY = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 1.02 + 0.55) * 1.15 + p * 0.55);
+  const catGroupRot = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.64) * 0.28 + p * 0.55);
+  const catBreathY = useTransform(time, (t) => 1 + Math.sin(t * 1.02 + 0.55) * 0.012);
+  const catBreathX = useTransform(time, (t) => 1 + Math.sin(t * 1.02 + 0.55) * 0.005);
+
+  const catHeadRot = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.72) * 0.55 + p * (1.1 + Math.sin(t * 5.4) * 0.25));
+  const catHeadY = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 1.02 + 0.8) * 0.35 + p * 0.7);
+
+  const earL = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 1.4) * 1.1 + Math.sin(t * 8) * 2.4 * p);
+  const earR = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 1.25 + 0.9) * 0.9 + Math.sin(t * 7.2 + 0.5) * 1.8 * p);
+
+  const tailRot = useTransform(time, (t) => Math.sin(t * 0.55) * 3.2 + Math.sin(t * 0.21) * 1.4);
+
+  const leftHandY = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 1.02 + 0.55) * 0.2 + p * 0.45);
+  const leftHandRot = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.6) * 0.25 + p * 0.7);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height * 0.35;
+      const centerX = rect.left + rect.width * 0.54;
+      const centerY = rect.top + rect.height * 0.26;
+      const nx = (e.clientX - centerX) / (rect.width * 0.58);
+      const ny = (e.clientY - centerY) / (rect.height * 0.5);
+      mouseRef.current = {
+        x: Math.max(-1, Math.min(1, nx)),
+        y: Math.max(-1, Math.min(1, ny)),
+        movedAt: performance.now(),
+      };
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
-      const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
-      const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
+  useEffect(() => {
+    blinkRef.current.next = performance.now() + 2400;
+    let raf = 0;
+    const start = performance.now();
 
-      mouseX.set(Math.max(-1, Math.min(1, deltaX)));
-      mouseY.set(Math.max(-1, Math.min(1, deltaY)));
+    const tick = (now: number) => {
+      const t = (now - start) / 1000;
+      time.set(t);
+
+      const idleMs = now - mouseRef.current.movedAt;
+      if (idleMs > 1600) {
+        lookX.set(-0.12 + Math.sin(t * 0.31) * 0.18);
+        lookY.set(0.28 + Math.sin(t * 0.24 + 1.1) * 0.1);
+      } else {
+        lookX.set(mouseRef.current.x * 0.85);
+        lookY.set(0.16 + mouseRef.current.y * 0.7);
+      }
+
+      const blinkState = blinkRef.current;
+      if (now >= blinkState.next) {
+        blinkState.until = now + 95;
+        blinkState.openUntil = now + 170;
+        blinkState.next = now + (Math.random() < 0.2 ? 240 : 4000 + Math.random() * 4800);
+      }
+      if (now < blinkState.until) lids.set(1);
+      else if (now < blinkState.openUntil) lids.set(0.35);
+      else lids.set(0);
+
+      raf = requestAnimationFrame(tick);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [lids, lookX, lookY, time]);
 
-  // Petting action trigger
   const handlePetAction = (e: React.MouseEvent) => {
-    setIsPetting(true);
-    setPetCount((prev) => prev + 1);
+    pet.set(1);
+    window.setTimeout(() => pet.set(0), 560);
 
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-      
-      const newParticle = {
+      const particle = {
         id: Date.now() + Math.random(),
-        x: clickX,
-        y: clickY,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
       };
-
-      setParticles((prev) => [...prev.slice(-6), newParticle]);
-
-      setTimeout(() => {
-        setParticles((prev) => prev.filter((p) => p.id !== newParticle.id));
-      }, 1200);
+      setParticles((prev) => [...prev.slice(-5), particle]);
+      window.setTimeout(() => {
+        setParticles((prev) => prev.filter((p) => p.id !== particle.id));
+      }, 1100);
     }
 
     if (speechTimeoutRef.current) clearTimeout(speechTimeoutRef.current);
-    const phrase = PURR_PHRASES[Math.floor(Math.random() * PURR_PHRASES.length)];
+    const phrase = PURR_PHRASES[phraseIndexRef.current % PURR_PHRASES.length];
+    phraseIndexRef.current += 1;
     setSpeechBubble(phrase);
-    speechTimeoutRef.current = window.setTimeout(() => {
-      setSpeechBubble(null);
-    }, 3200);
-
-    setTimeout(() => {
-      setIsPetting(false);
-    }, 900);
+    speechTimeoutRef.current = window.setTimeout(() => setSpeechBubble(null), 2400);
   };
 
   return (
@@ -105,220 +202,169 @@ export function Interactive3DModel() {
       ref={containerRef}
       className="relative w-full max-w-[440px] sm:max-w-[500px] lg:max-w-[540px] aspect-[1024/956] flex items-end justify-center select-none"
     >
-      {/* 1. Ground Sitting Platform - positioned exactly at the base of the character's feet/legs */}
       <div className="absolute bottom-[10%] w-[88%] h-20 rounded-[100%] bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/15 backdrop-blur-md shadow-[0_16px_40px_rgba(0,0,0,0.95)] pointer-events-none flex items-center justify-center">
         <div className="w-[84%] h-10 rounded-[100%] border border-cyan-500/25 bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent" />
       </div>
-
-      {/* Deep Contact Occlusion Shadow directly beneath the socks, knees and hips */}
       <div className="absolute bottom-[12%] w-[78%] h-7 rounded-[100%] bg-black/95 blur-sm pointer-events-none" />
       <div className="absolute bottom-[10%] w-[86%] h-12 rounded-[100%] bg-black/90 blur-md pointer-events-none" />
       <div className="absolute bottom-[8%] w-[90%] h-16 rounded-[100%] bg-black/80 blur-xl pointer-events-none" />
 
-      {/* 2. Floating Speech Bubble */}
       <AnimatePresence>
         {speechBubble && (
           <motion.div
-            initial={{ opacity: 0, y: 15, scale: 0.85 }}
+            initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.9 }}
-            className="absolute top-2 sm:top-6 z-40 px-4 py-2.5 rounded-2xl bg-white/95 text-black font-mono-tech text-xs font-bold shadow-2xl border border-black/10 flex items-center gap-2 max-w-[280px]"
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.28, ease: 'easeOut' }}
+            className="absolute top-2 sm:top-6 z-40 px-4 py-2 rounded-2xl bg-white/95 text-black font-mono-tech text-xs shadow-2xl border border-black/10 max-w-[240px]"
           >
-            <Sparkles className="w-4 h-4 text-amber-500 shrink-0 animate-spin" />
-            <span>{speechBubble}</span>
+            {speechBubble}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* 3. Floating Heart Particles */}
       <div className="absolute inset-0 pointer-events-none z-50 overflow-visible">
         {particles.map((p) => (
           <motion.div
             key={p.id}
-            initial={{ opacity: 1, scale: 0.6, x: p.x, y: p.y }}
-            animate={{
-              opacity: 0,
-              scale: 1.4,
-              y: p.y - 80,
-              x: p.x + (Math.random() * 40 - 20),
-            }}
-            transition={{ duration: 1.1, ease: 'easeOut' }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1 text-rose-400 drop-shadow-md"
+            initial={{ opacity: 0.9, scale: 0.55, x: p.x, y: p.y }}
+            animate={{ opacity: 0, scale: 1.12, y: p.y - 64, x: p.x + 8 }}
+            transition={{ duration: 1.05, ease: 'easeOut' }}
+            className="absolute -translate-x-1/2 -translate-y-1/2 text-rose-400"
           >
-            <Heart className="w-5 h-5 fill-rose-500 text-rose-500" />
+            <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
           </motion.div>
         ))}
       </div>
 
-      {/* 4. MAIN MULTI-LAYER CHARACTER STAGE */}
       <motion.div
         style={{
           rotateY: bodyRotateY,
           rotateX: bodyRotateX,
+          rotateZ: weightTilt,
+          y: breatheY,
           transformStyle: 'preserve-3d',
         }}
-        animate={{
-          y: [0, -2, 0],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 4.5,
-          ease: 'easeInOut',
-        }}
         onClick={handlePetAction}
-        className="relative w-full h-full cursor-pointer group"
+        className="relative w-full h-full cursor-pointer"
       >
-        {/* LAYER 0: PONYTAIL (Super smooth autonomous idle sway, completely isolated from petting/mouse) */}
         <motion.div
-          animate={{
-            rotate: [0, -2.5, 1.5, -1, 0],
-            y: [0, -1, 0.5, 0],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 5.5,
-            ease: 'easeInOut',
-          }}
-          style={{
-            originX: '36%',
-            originY: '28%',
-          }}
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          style={{ rotate: ponytailRotate, y: ponytailY, originX: '36%', originY: '28%' }}
+          className="absolute inset-0"
         >
-          <img
-            src="/character/ponytail.png"
-            alt="Ponytail"
-            className="w-full h-full object-contain"
-            referrerPolicy="no-referrer"
-          />
+          <Layer src="/character/ponytail.png" />
         </motion.div>
 
-        {/* LAYER 1: BASE BODY (Girl Sitting, Hoodie, Legs) */}
-        <div className="absolute inset-0 w-full h-full">
-          <img
-            src="/character/base.png"
-            alt="Character Base"
-            className="w-full h-full object-contain pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)]"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-
-        {/* LAYER 2A: IRIS BASE (pupils1.png - Yellow Eye Background) */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none">
-          <img
-            src="/character/pupils1.png"
-            alt="Eye Irises Base"
-            className="w-full h-full object-contain"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-
-        {/* LAYER 2B: DYNAMIC PUPILS (pupils.png - Mouse Tracking) */}
         <motion.div
-          style={{
-            x: pupilShiftX,
-            y: pupilShiftY,
-          }}
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          style={{ scaleX: chestScaleX, scaleY: chestScaleY, originX: '50%', originY: '72%' }}
+          className="absolute inset-0"
         >
-          <img
-            src="/character/pupils.png"
-            alt="Character Pupils"
-            className="w-full h-full object-contain"
-            referrerPolicy="no-referrer"
-          />
+          <Layer src="/character/base.png" className="drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)]" />
         </motion.div>
 
-        {/* LAYER 2C: HOODIE STRINGS (Smooth autonomous gentle dangle) */}
         <motion.div
-          animate={{
-            rotate: [0, 1.5, -1, 0.8, 0],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 6,
-            ease: 'easeInOut',
-          }}
           style={{
+            rotate: headRot,
+            rotateX: headTilt,
+            originX: '54%',
+            originY: '42%',
+          }}
+          className="absolute inset-0"
+        >
+          <Layer src="/character/head.png" />
+          <Layer src="/character/eye_white.png" />
+          <motion.div
+            style={{
+              x: pupilShiftX,
+              y: pupilShiftY,
+              WebkitMaskImage: 'url(/character/eye_white.png)',
+              maskImage: 'url(/character/eye_white.png)',
+              WebkitMaskSize: 'contain',
+              maskSize: 'contain',
+              WebkitMaskRepeat: 'no-repeat',
+              maskRepeat: 'no-repeat',
+              WebkitMaskPosition: 'center',
+              maskPosition: 'center',
+            }}
+            className="absolute inset-0"
+          >
+            <Layer src="/character/pupils1.png" />
+            <Layer src="/character/pupils.png" />
+          </motion.div>
+          <motion.div style={{ opacity: lids }} className="absolute inset-0">
+            <Layer src="/character/eyelids.png" />
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          style={{
+            rotate: stringsRotate,
+            scaleX: chestScaleX,
+            scaleY: chestScaleY,
             originX: '55%',
             originY: '45%',
           }}
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className="absolute inset-0"
         >
-          <img
-            src="/character/hoodie_strings.png"
-            alt="Hoodie Strings"
-            className="w-full h-full object-contain"
-            referrerPolicy="no-referrer"
-          />
+          <Layer src="/character/hoodie_strings.png" />
         </motion.div>
 
-        {/* LAYER 3: HAND (Smooth Petting centered at wrist, zero gap exposure) */}
-        <motion.div
-          animate={
-            isPetting
-              ? {
-                  y: [0, -1.5, 1, -0.5, 0],
-                  rotate: [0, -1.8, 1.8, -0.8, 0],
-                  originX: '38%',
-                  originY: '58%',
-                }
-              : {
-                  y: [0, -0.6, 0],
-                  originX: '38%',
-                  originY: '58%',
-                }
-          }
-          transition={
-            isPetting
-              ? { duration: 1.1, ease: 'easeInOut' }
-              : { repeat: Infinity, duration: 4.5, ease: 'easeInOut' }
-          }
-          className="absolute inset-0 w-full h-full pointer-events-none"
-        >
-          <img
-            src="/character/hand.png"
-            alt="Hand Petting Cat"
-            className="w-full h-full object-contain"
-            referrerPolicy="no-referrer"
-          />
-        </motion.div>
-
-        {/* LAYER 4: CAT (Organic purr & petting snuggle without crude scaling) */}
         <motion.div
           style={{
-            x: catShiftX,
-            y: catShiftY,
-            originX: '50%',
-            originY: '75%',
+            y: catGroupY,
+            rotate: catGroupRot,
+            scaleX: catBreathX,
+            scaleY: catBreathY,
+            originX: '42%',
+            originY: '78%',
           }}
-          animate={
-            isPetting
-              ? {
-                  y: [0, 1.8, 0.5, 1.2, 0],
-                  rotate: [0, 1, -0.8, 0.5, 0],
-                  scaleX: [1, 1.015, 0.99, 1.01, 1],
-                  scaleY: [1, 0.985, 1.01, 0.99, 1],
-                }
-              : {
-                  y: [0, -0.8, 0],
-                  scaleX: [1, 1.008, 1],
-                  scaleY: [1, 0.995, 1],
-                }
-          }
-          transition={
-            isPetting
-              ? { duration: 1.1, ease: 'easeInOut' }
-              : { repeat: Infinity, duration: 3.8, ease: 'easeInOut' }
-          }
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className="absolute inset-0"
         >
-          <img
-            src="/character/cat.png"
-            alt="Cat Mascot"
-            className="w-full h-full object-contain"
-            referrerPolicy="no-referrer"
-          />
+          <motion.div style={{ rotate: tailRot, originX: '47%', originY: '82%' }} className="absolute inset-0">
+            <Layer src="/character/cat_tail.png" />
+          </motion.div>
+
+          <Layer src="/character/cat.png" />
+
+          <motion.div style={{ rotate: earL, originX: '33%', originY: '66%' }} className="absolute inset-0">
+            <Layer src="/character/cat_ear_l.png" />
+          </motion.div>
+          <motion.div style={{ rotate: earR, originX: '45%', originY: '60%' }} className="absolute inset-0">
+            <Layer src="/character/cat_ear_r.png" />
+          </motion.div>
+
+          <motion.div
+            style={{ rotate: catHeadRot, y: catHeadY, originX: '40%', originY: '70%' }}
+            className="absolute inset-0"
+          >
+            <Layer src="/character/cat_head.png" />
+          </motion.div>
+
+          <motion.div
+            style={{ y: leftHandY, rotate: leftHandRot, originX: '64%', originY: '70%' }}
+            className="absolute inset-0"
+          >
+            <Layer src="/character/handoncat.png" />
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          style={{
+            x: petHandX,
+            y: petHandY,
+            rotate: petHandRot,
+            originX: '34%',
+            originY: '58%',
+          }}
+          className="absolute inset-0"
+        >
+          <motion.div style={{ x: thumbX, originX: '41%', originY: '59%' }} className="absolute inset-0">
+            <Layer src="/character/thumb.png" />
+          </motion.div>
+          <Layer src="/character/hand.png" />
+          <motion.div style={{ y: fingersY, originX: '36%', originY: '58%' }} className="absolute inset-0">
+            <Layer src="/character/fingers.png" />
+          </motion.div>
         </motion.div>
       </motion.div>
     </div>
