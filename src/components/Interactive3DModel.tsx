@@ -73,8 +73,7 @@ export function Interactive3DModel() {
     ([ly, t]: number[]) => ly * 2.1 + Math.cos(t * 0.42) * 0.12
   );
 
-  const bodyRotateY = useTransform(smoothLookX, [-1, 1], [-3.4, 3.4]);
-  const bodyRotateX = useTransform(smoothLookY, [-1, 1], [2.4, -2.4]);
+  const bodyShiftX = useTransform(smoothLookX, [-1, 1], [-3.5, 3.5]);
   const breatheY = useTransform(time, (t) => Math.sin(t * 0.82) * 1.8);
   const weightTilt = useTransform(time, (t) => Math.sin(t * 0.29) * 0.42);
 
@@ -239,10 +238,9 @@ export function Interactive3DModel() {
 
       <motion.div
         style={{
-          rotateY: bodyRotateY,
-          rotateX: bodyRotateX,
-          rotateZ: weightTilt,
+          x: bodyShiftX,
           y: breatheY,
+          rotate: weightTilt,
         }}
         onClick={handlePetAction}
         className="relative w-full h-full cursor-pointer"
@@ -258,17 +256,17 @@ export function Interactive3DModel() {
           style={{ scaleX: chestScaleX, scaleY: chestScaleY, originX: '50%', originY: '72%' }}
           className="absolute inset-0"
         >
-          <Layer src="/character/base.png" className="drop-shadow-[0_20px_40px_rgba(0,0,0,0.85)]" />
+          <Layer src="/character/base.png" />
         </motion.div>
 
         <motion.div
           style={{
             rotate: headRot,
             y: headY,
-            originX: '54%',
-            originY: '42%',
+            transformOrigin: '54% 42%',
+            backfaceVisibility: 'hidden',
           }}
-          className="absolute inset-0"
+          className="absolute inset-0 isolate"
         >
           <Layer src="/character/head.png" />
           <motion.div style={{ x: pupilShiftX, y: pupilShiftY }} className="absolute inset-0">
