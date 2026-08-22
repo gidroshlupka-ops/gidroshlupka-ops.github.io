@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X,
@@ -23,6 +24,7 @@ import {
 import { ProjectItem } from '../types';
 import { portfolioData } from '../data/portfolioData';
 import { TechIcon } from './TechIcon';
+import { lockBodyScroll, unlockBodyScroll } from '../lib/scrollLock';
 
 interface ProjectModalProps {
   project: ProjectItem | null;
@@ -59,11 +61,11 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
     };
 
     if (project) {
-      document.body.style.overflow = 'hidden';
+      lockBodyScroll();
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
-      document.body.style.overflow = '';
+      if (project) unlockBodyScroll();
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [project, onClose, currentIndex, allProjects, onSelectProject]);
@@ -101,22 +103,24 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
 
   const currentScreenshot = allImages[activeImageIndex] || allImages[0];
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <div
         id="project-fullscreen-modal"
-        className="fixed inset-0 z-50 overflow-y-auto bg-[#0c0e12] text-white flex flex-col justify-between select-none"
+        className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#0c0e12] text-white pt-16"
+        style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {/* Sticky Top Header Navigation */}
-        <header className="sticky top-0 z-40 bg-[#0c0e12]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
+        <header className="sticky top-0 z-40 bg-[#0c0e12]/95 border-b border-white/10 px-3 sm:px-8 py-3 flex items-center justify-between gap-2 flex-wrap">
           {/* Back Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 min-w-0">
             <button
               onClick={onClose}
-              className="px-3.5 py-1.5 rounded-full btn-glass text-white text-xs font-mono-tech flex items-center gap-2 hover:bg-white hover:text-black transition-all cursor-pointer"
+              className="px-3 py-1.5 rounded-full btn-glass text-white text-xs font-mono-tech flex items-center gap-2 hover:bg-white hover:text-black transition-all cursor-pointer shrink-0"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Назад к проектам</span>
+              <span className="hidden xs:inline sm:inline">Назад</span>
+              <span className="sm:hidden">Назад</span>
             </button>
 
             <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-tech uppercase bg-white/5 border border-white/10 text-white/80">
@@ -153,7 +157,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1.5 rounded-full text-xs font-mono-tech font-bold btn-solid-primary flex items-center gap-1.5 shadow-lg"
+                className="hidden sm:flex px-4 py-1.5 rounded-full text-xs font-mono-tech font-bold btn-solid-primary items-center gap-1.5 shadow-lg"
               >
                 <span>ПЕРЕЙТИ К ПРОЕКТУ</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -205,19 +209,19 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
         </header>
 
         {/* Fullscreen Body Content */}
-        <main className="max-w-6xl mx-auto w-full px-4 sm:px-8 py-8 sm:py-12 space-y-12">
+        <main className="max-w-6xl mx-auto w-full px-3 sm:px-8 py-6 sm:py-12 space-y-10 sm:space-y-12 pb-24">
           
           {/* Hero Section of Deep Dive */}
           <div className="relative p-6 sm:p-10 rounded-3xl bg-white/[0.03] border border-white/12 overflow-hidden shadow-2xl space-y-6">
             {/* Ambient Background Glow */}
             <div
-              className="absolute -right-20 -top-20 w-80 h-80 rounded-full blur-[120px] opacity-25 pointer-events-none"
+              className="absolute -right-20 -top-20 w-80 h-80 rounded-full blur-[120px] opacity-25 pointer-events-none hidden sm:block"
               style={{ backgroundColor: project.accentColor }}
             />
 
             {/* Top Barcode & Serial */}
-            <div className="flex items-center justify-between text-white/40 pb-4 border-b border-white/10">
-              <span className="text-xs font-mono-tech">
+            <div className="flex items-center justify-between text-white/40 pb-4 border-b border-white/10 gap-3 min-w-0">
+              <span className="text-[10px] sm:text-xs font-mono-tech truncate min-w-0">
                 DEEP_DIVE_SPECIFICATION // 0417-{project.id.toUpperCase()}-DOC
               </span>
               <div className="flex items-center gap-[2px] h-4">
@@ -236,7 +240,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 <span className="text-white/30">•</span>
                 <span className="text-emerald-400">PRODUCTION DEPLOYED</span>
               </div>
-              <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight break-words">
                 {project.title}
               </h1>
               <p className="text-base sm:text-xl text-white/80 max-w-3xl leading-relaxed">
@@ -245,9 +249,9 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
             </div>
 
             {/* Highlight Banner */}
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs sm:text-sm font-mono-tech text-white/90 flex items-center gap-3">
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs sm:text-sm font-mono-tech text-white/90 flex items-start gap-3 min-w-0">
               <Sparkles className="w-5 h-5 text-amber-300 shrink-0" />
-              <span>{project.quoteHighlight}</span>
+              <span className="break-words [overflow-wrap:anywhere]">{project.quoteHighlight}</span>
             </div>
 
             {/* Tags Cloud */}
@@ -265,13 +269,13 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
 
           {/* INTERACTIVE GALLERY & SCREENSHOTS VIEWER */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-mono-tech font-bold uppercase tracking-wider text-white/70 flex items-center gap-2">
-                <ImageIcon className="w-4 h-4 text-amber-300" />
-                <span>ГАЛЕРЕЯ СКРИНШОТОВ & АРХИТЕКТУРЫ ({allImages.length})</span>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <h3 className="text-xs font-mono-tech font-bold uppercase tracking-wider text-white/70 flex items-center gap-2 min-w-0">
+                <ImageIcon className="w-4 h-4 text-amber-300 shrink-0" />
+                <span className="break-words">ГАЛЕРЕЯ ({allImages.length})</span>
               </h3>
-              <span className="text-xs font-mono-tech text-white/40">
-                Кликните на миниатюру для переключения
+              <span className="text-[10px] sm:text-xs font-mono-tech text-white/40">
+                Нажмите миниатюру
               </span>
             </div>
 
@@ -351,16 +355,16 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               <span>МЕТРИКИ & КЛЮЧЕВЫЕ ПОКАЗАТЕЛИ</span>
             </h3>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
               {project.caseStudy.metrics.map((metric, idx) => (
                 <div
                   key={idx}
-                  className="p-5 rounded-3xl bg-white/[0.04] border border-white/10 text-center space-y-1 backdrop-blur-md"
+                  className="p-3 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/[0.04] border border-white/10 text-center space-y-1 min-w-0 overflow-hidden"
                 >
-                  <div className="text-2xl sm:text-3xl font-extrabold text-white">
+                  <div className="text-sm sm:text-3xl font-extrabold text-white leading-snug break-words [overflow-wrap:anywhere]">
                     {metric.value}
                   </div>
-                  <div className="text-xs font-mono-tech text-white/60">
+                  <div className="text-[10px] sm:text-xs font-mono-tech text-white/60 break-words [overflow-wrap:anywhere]">
                     {metric.label}
                   </div>
                 </div>
@@ -374,7 +378,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               <span className="text-xs font-mono-tech uppercase font-bold text-amber-300 block">
                 ■ ПРОБЛЕМА & ВЫЗОВ
               </span>
-              <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal break-words [overflow-wrap:anywhere]">
                 {project.caseStudy.problem}
               </p>
             </div>
@@ -383,7 +387,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               <span className="text-xs font-mono-tech uppercase font-bold text-emerald-400 block">
                 ■ РЕШЕНИЕ & РЕАЛИЗАЦИЯ
               </span>
-              <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal break-words [overflow-wrap:anywhere]">
                 {project.caseStudy.solution}
               </p>
             </div>
@@ -395,7 +399,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               <Layers className="w-4 h-4 text-sky-400" />
               <span>АРХИТЕКТУРА СИСТЕМЫ И ПОТОКИ ДАННЫХ</span>
             </h3>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+            <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-normal break-words [overflow-wrap:anywhere]">
               {project.caseStudy.architecture}
             </p>
           </div>
@@ -414,7 +418,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                   className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 flex items-start gap-3 text-xs sm:text-sm text-white/85"
                 >
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>{feat}</span>
+                  <span className="break-words [overflow-wrap:anywhere]">{feat}</span>
                 </div>
               ))}
             </div>
@@ -436,7 +440,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                   <span className="text-[10px] font-mono-tech font-bold uppercase text-amber-300 block">
                     {td.area}
                   </span>
-                  <span className="text-xs sm:text-sm font-medium text-white block">
+                  <span className="text-xs sm:text-sm font-medium text-white block break-words [overflow-wrap:anywhere]">
                     {td.stack}
                   </span>
                 </div>
@@ -455,13 +459,13 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="flex flex-col sm:flex-wrap sm:flex-row items-stretch sm:items-center justify-center gap-3">
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-3 rounded-full text-xs sm:text-sm font-mono-tech font-bold btn-solid-primary flex items-center gap-2"
+                  className="w-full sm:w-auto justify-center px-6 py-3 rounded-full text-xs sm:text-sm font-mono-tech font-bold btn-solid-primary flex items-center gap-2"
                 >
                   <span>ПЕРЕЙТИ К ПРОЕКТУ</span>
                   <ExternalLink className="w-4 h-4" />
@@ -473,7 +477,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-3 rounded-full text-xs sm:text-sm font-mono-tech btn-glass text-white flex items-center gap-2"
+                  className="w-full sm:w-auto justify-center px-5 py-3 rounded-full text-xs sm:text-sm font-mono-tech btn-glass text-white flex items-center gap-2"
                 >
                   <Github className="w-4 h-4" />
                   <span>Открыть на GitHub</span>
@@ -484,7 +488,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 href={portfolioData.personal.telegramLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-3 rounded-full text-xs sm:text-sm font-mono-tech btn-glass text-sky-400 flex items-center gap-2 hover:text-white"
+                className="w-full sm:w-auto justify-center px-5 py-3 rounded-full text-xs sm:text-sm font-mono-tech btn-glass text-sky-400 flex items-center gap-2 hover:text-white"
               >
                 <Send className="w-4 h-4" />
                 <span>Обсудить в Telegram</span>
@@ -492,7 +496,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
 
               <button
                 onClick={onClose}
-                className="px-5 py-3 rounded-full text-xs sm:text-sm font-mono-tech btn-glass text-white/70 hover:text-white cursor-pointer"
+                className="w-full sm:w-auto px-5 py-3 rounded-full text-xs sm:text-sm font-mono-tech btn-glass text-white/70 hover:text-white cursor-pointer"
               >
                 ← Назад к портфолио
               </button>
@@ -501,11 +505,12 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-white/10 px-4 sm:px-8 py-4 flex items-center justify-between text-xs font-mono-tech text-white/40">
-          <span>{project.title} // DEEP DIVE COMPLETE</span>
-          <span>© 2026 AFORI.SYS</span>
+        <footer className="border-t border-white/10 px-3 sm:px-8 py-4 flex items-center justify-between gap-3 text-[10px] sm:text-xs font-mono-tech text-white/40">
+          <span className="truncate min-w-0">{project.title}</span>
+          <span className="shrink-0">© 2026 AFORI.SYS</span>
         </footer>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

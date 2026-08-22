@@ -70,6 +70,12 @@ export function ProjectShowcase() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeModalProject, projects.length]);
 
+  useEffect(() => {
+    const close = () => setActiveModalProject(null);
+    window.addEventListener('portfolio:close-overlays', close);
+    return () => window.removeEventListener('portfolio:close-overlays', close);
+  }, []);
+
   return (
     <section
       id="projects"
@@ -77,15 +83,22 @@ export function ProjectShowcase() {
     >
       {/* Background Project-Adaptive Glow (Muted, Matte, Eye-Safe) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          key={`glow-${currentProject.id}`}
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 0.18, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.7 }}
-          className="absolute -top-24 left-1/2 -translate-x-1/2 w-[750px] h-[550px] rounded-full blur-[140px]"
-          style={{ backgroundColor: currentProject.accentColor }}
-        />
+        {skipHeavyFx ? (
+          <div
+            className="absolute -top-24 left-1/2 -translate-x-1/2 w-[420px] h-[280px] rounded-full blur-[80px] opacity-20"
+            style={{ backgroundColor: currentProject.accentColor }}
+          />
+        ) : (
+          <motion.div
+            key={`glow-${currentProject.id}`}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 0.18, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+            className="absolute -top-24 left-1/2 -translate-x-1/2 w-[750px] h-[550px] rounded-full blur-[140px]"
+            style={{ backgroundColor: currentProject.accentColor }}
+          />
+        )}
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30" />
       </div>
 
@@ -242,7 +255,7 @@ export function ProjectShowcase() {
                       src={currentProject.previewImage}
                       alt={currentProject.title}
                       decoding="async"
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-60 mix-blend-screen"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-60 lg:mix-blend-screen"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0c0e12] via-[#0c0e12]/60 to-transparent" />
                   </div>
@@ -320,14 +333,16 @@ export function ProjectShowcase() {
               {/* Video / Interactive Preview Card (Like 'Meet your new robot friends' in Figma) */}
               <div
                 onClick={() => setActiveModalProject(currentProject)}
-                className="group relative h-28 rounded-2xl bg-black/60 border border-white/15 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner"
+                className="group relative h-24 lg:h-28 rounded-2xl bg-black/60 border border-white/15 flex items-center justify-center cursor-pointer overflow-hidden shadow-inner"
               >
-                <img
-                  src={currentProject.previewImage}
-                  alt={currentProject.title}
-                  decoding="async"
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-500"
-                />
+                {!skipHeavyFx && (
+                  <img
+                    src={currentProject.previewImage}
+                    alt=""
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-500"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                 
                 <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform z-10">
@@ -358,16 +373,24 @@ export function ProjectShowcase() {
                         }`}
                         title={proj.title}
                       >
-                        <img
-                          src={proj.previewImage}
-                          alt={proj.title}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover"
-                        />
-                        <span className="absolute bottom-0.5 left-1 text-[8px] font-mono-tech font-bold text-white bg-black/70 px-1 rounded">
-                          0{idx + 1}
-                        </span>
+                        {skipHeavyFx ? (
+                          <span className="flex h-full items-center justify-center text-xs font-mono-tech font-bold text-white bg-white/5">
+                            0{idx + 1}
+                          </span>
+                        ) : (
+                          <>
+                            <img
+                              src={proj.previewImage}
+                              alt={proj.title}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-cover"
+                            />
+                            <span className="absolute bottom-0.5 left-1 text-[8px] font-mono-tech font-bold text-white bg-black/70 px-1 rounded">
+                              0{idx + 1}
+                            </span>
+                          </>
+                        )}
                       </button>
                     );
                   })}

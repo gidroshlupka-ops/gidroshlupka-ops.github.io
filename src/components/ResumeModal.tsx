@@ -14,6 +14,7 @@ import {
   Globe,
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { lockBodyScroll, unlockBodyScroll } from '../lib/scrollLock';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -26,11 +27,11 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
       if (e.key === 'Escape') onClose();
     };
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      lockBodyScroll();
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
-      document.body.style.overflow = '';
+      if (isOpen) unlockBodyScroll();
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
