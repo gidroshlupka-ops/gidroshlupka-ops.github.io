@@ -90,11 +90,11 @@ export function Interactive3DModel() {
 
   const headRot = useTransform(
     [smoothLookX, time, pet],
-    ([lx, t, p]: number[]) => lx * 2.4 + Math.sin(t * 0.45) * 0.55 + p * 0.8
+    ([lx, t, p]: number[]) => lx * 2.2 + Math.sin(t * 0.45) * 0.5 + p * 0.65
   );
-  const headTilt = useTransform(
-    [smoothLookY, time, pet],
-    ([ly, t, p]: number[]) => -ly * 1.6 + Math.sin(t * 0.82) * 0.35 + p * 0.9
+  const headY = useTransform(
+    [smoothLookY, time],
+    ([ly, t]: number[]) => ly * 1.1 + Math.sin(t * 0.82) * 0.35
   );
 
   const petHandX = useTransform([time, pet], ([t, p]: number[]) => Math.sin(t * 0.85) * 0.25 + Math.sin(t * 6.6) * 1.6 * p);
@@ -243,7 +243,6 @@ export function Interactive3DModel() {
           rotateX: bodyRotateX,
           rotateZ: weightTilt,
           y: breatheY,
-          transformStyle: 'preserve-3d',
         }}
         onClick={handlePetAction}
         className="relative w-full h-full cursor-pointer"
@@ -265,29 +264,14 @@ export function Interactive3DModel() {
         <motion.div
           style={{
             rotate: headRot,
-            rotateX: headTilt,
+            y: headY,
             originX: '54%',
             originY: '42%',
           }}
           className="absolute inset-0"
         >
           <Layer src="/character/head.png" />
-          <Layer src="/character/eye_white.png" />
-          <motion.div
-            style={{
-              x: pupilShiftX,
-              y: pupilShiftY,
-              WebkitMaskImage: 'url(/character/eye_white.png)',
-              maskImage: 'url(/character/eye_white.png)',
-              WebkitMaskSize: 'contain',
-              maskSize: 'contain',
-              WebkitMaskRepeat: 'no-repeat',
-              maskRepeat: 'no-repeat',
-              WebkitMaskPosition: 'center',
-              maskPosition: 'center',
-            }}
-            className="absolute inset-0"
-          >
+          <motion.div style={{ x: pupilShiftX, y: pupilShiftY }} className="absolute inset-0">
             <Layer src="/character/pupils1.png" />
             <Layer src="/character/pupils.png" />
           </motion.div>
@@ -326,6 +310,25 @@ export function Interactive3DModel() {
 
           <Layer src="/character/cat.png" />
 
+          <motion.div
+            style={{
+              x: petHandX,
+              y: petHandY,
+              rotate: petHandRot,
+              originX: '34%',
+              originY: '58%',
+            }}
+            className="absolute inset-0"
+          >
+            <motion.div style={{ x: thumbX, originX: '41%', originY: '59%' }} className="absolute inset-0">
+              <Layer src="/character/thumb.png" />
+            </motion.div>
+            <Layer src="/character/hand.png" />
+            <motion.div style={{ y: fingersY, originX: '36%', originY: '58%' }} className="absolute inset-0">
+              <Layer src="/character/fingers.png" />
+            </motion.div>
+          </motion.div>
+
           <motion.div style={{ rotate: earL, originX: '33%', originY: '66%' }} className="absolute inset-0">
             <Layer src="/character/cat_ear_l.png" />
           </motion.div>
@@ -345,25 +348,6 @@ export function Interactive3DModel() {
             className="absolute inset-0"
           >
             <Layer src="/character/handoncat.png" />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          style={{
-            x: petHandX,
-            y: petHandY,
-            rotate: petHandRot,
-            originX: '34%',
-            originY: '58%',
-          }}
-          className="absolute inset-0"
-        >
-          <motion.div style={{ x: thumbX, originX: '41%', originY: '59%' }} className="absolute inset-0">
-            <Layer src="/character/thumb.png" />
-          </motion.div>
-          <Layer src="/character/hand.png" />
-          <motion.div style={{ y: fingersY, originX: '36%', originY: '58%' }} className="absolute inset-0">
-            <Layer src="/character/fingers.png" />
           </motion.div>
         </motion.div>
       </motion.div>
