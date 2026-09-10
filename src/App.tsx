@@ -72,7 +72,7 @@ export default function App() {
         onNavigate={scrollToSection}
       />
 
-      <main ref={containerRef} className="w-full">
+      <main ref={containerRef} className="w-full print:hidden">
         <Hero
           onOpenResume={() => setIsResumeOpen(true)}
           onScrollToNext={handleScrollToNext}

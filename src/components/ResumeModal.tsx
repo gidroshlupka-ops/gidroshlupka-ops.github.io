@@ -39,6 +39,12 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
   if (!isOpen) return null;
 
   const handlePrint = () => {
+    document.documentElement.classList.add('printing-resume');
+    const restore = () => {
+      document.documentElement.classList.remove('printing-resume');
+      window.removeEventListener('afterprint', restore);
+    };
+    window.addEventListener('afterprint', restore);
     window.print();
   };
 
@@ -46,16 +52,17 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     <AnimatePresence>
       <div
         id="resume-modal-backdrop"
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-slate-950/75 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-slate-950/75 backdrop-blur-md print:static print:p-0 print:overflow-visible print:bg-transparent print:block"
         onClick={onClose}
       >
         <motion.div
+          id="resume-modal-card"
           initial={{ opacity: 0, scale: 0.95, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 16 }}
           transition={{ duration: 0.25 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-4xl bg-white text-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
+          className="relative w-full max-w-4xl bg-white text-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] print:max-h-none print:overflow-visible print:rounded-none print:shadow-none"
         >
           {/* Header Action Bar */}
           <div className="no-print p-4 sm:p-5 bg-slate-900 text-white flex items-center justify-between shrink-0 border-b border-slate-800">
@@ -84,9 +91,12 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
           </div>
 
           {/* Printable Document Paper */}
-          <div className="p-6 sm:p-10 overflow-y-auto bg-white space-y-8 text-slate-900 font-sans">
+          <div
+            id="resume-sheet"
+            className="p-6 sm:p-10 overflow-y-auto bg-white space-y-8 text-slate-900 font-sans print:overflow-visible print:p-0 print:max-h-none"
+          >
             {/* Top Resume Header */}
-            <div className="border-b border-slate-200 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="border-b border-slate-200 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 print:flex-row">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950">
                   {portfolioData.personal.name}
@@ -122,7 +132,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 <Code2 className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Технологический стек</span>
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-3 print:grid-cols-3 gap-2.5 text-xs">
                 <div className="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
                   <span className="font-bold text-slate-900 block">Backend:</span>
                   <span className="text-slate-600">Python (FastAPI, Django, Asyncio), Node.js, REST, WebSockets</span>
@@ -160,7 +170,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               <div className="space-y-6">
                 {portfolioData.experiences.map((exp) => (
                   <div key={exp.id} className="space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 print:flex-row">
                       <div>
                         <span className="text-sm font-bold text-slate-900">{exp.role}</span>
                         <span className="text-xs text-indigo-700 font-semibold ml-2">@ {exp.company}</span>
@@ -188,7 +198,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 <Award className="w-3.5 h-3.5 text-indigo-600" />
                 <span>Ключевые проекты</span>
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-3 text-xs">
                 {portfolioData.projects.slice(0, 4).map((p) => (
                   <div key={p.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200">
                     <span className="font-bold text-slate-900 block">{p.title}</span>
@@ -202,10 +212,10 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             </div>
 
             {/* Education & Languages */}
-            <div className="border-t border-slate-200 pt-4 flex flex-col sm:flex-row justify-between text-xs text-slate-600 gap-2">
+            <div className="border-t border-slate-200 pt-4 flex flex-col sm:flex-row print:flex-row justify-between text-xs text-slate-600 gap-2">
               <div>
                 <span className="font-bold text-slate-900">Образование: </span>
-                Высшее техническое (Информатика и вычислительная техника)
+                Среднее профессиональное (СПО), Информационные системы и программирование
               </div>
               <div>
                 <span className="font-bold text-slate-900">Языки: </span>

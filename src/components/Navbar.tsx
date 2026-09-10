@@ -40,7 +40,7 @@ export function Navbar({ onOpenResume, activeSection, onNavigate }: NavbarProps)
   return (
     <header
       id="main-navbar"
-      className={`fixed top-0 left-0 right-0 z-[110] transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[110] transition-all duration-300 print:hidden ${
         isScrolled
           ? 'bg-[#0c0e12]/80 backdrop-blur-md border-b border-white/10 py-3.5'
           : 'bg-transparent py-5'
