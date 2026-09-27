@@ -107,7 +107,8 @@
   box-shadow: 0 8px 20px -4px rgba(255, 255, 255, 0.25);
 }
 
-body.project-modal-open #main-navbar {
+body.project-modal-open #main-navbar,
+body.resume-modal-open #main-navbar {
   transform: translateY(-110%);
   opacity: 0;
   pointer-events: none;

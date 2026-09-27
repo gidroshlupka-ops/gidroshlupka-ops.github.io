@@ -6,10 +6,7 @@ import {
   Terminal,
   Send,
   Github,
-  Sparkles,
-  ExternalLink,
   ChevronDown,
-  Code2,
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { Interactive3DModel } from './Interactive3DModel';
@@ -36,7 +33,7 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
   return (
     <section
       id="hero"
-      className="snap-section relative w-full min-h-screen flex flex-col justify-between py-16 sm:py-20 px-4 sm:px-8 lg:px-12 overflow-hidden bg-[#0c0e12] select-none"
+      className="snap-section relative w-full min-h-[100svh] flex flex-col justify-between gap-8 py-20 sm:py-24 px-4 sm:px-8 lg:px-12 overflow-x-hidden bg-[#0c0e12] select-none"
     >
       {/* Background Subtle Organic Gradient (Matte, Eye-Safe, Non-AI) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -53,7 +50,7 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
           {/* Subtle Technical Label */}
           <div className="inline-flex items-center gap-2 text-xs font-mono-tech text-white/50 tracking-widest uppercase">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>PORTFOLIO // FULLSTACK & TELEGRAM DEV</span>
+            <span className="truncate">PORTFOLIO // PYTHON &amp; TELEGRAM</span>
           </div>
 
           {/* Massive Display Heading */}
@@ -64,6 +61,9 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
                 {portfolioData.personal.name}
               </span>
             </h1>
+            <p className="text-xs sm:text-sm font-mono-tech tracking-wide text-white/45">
+              {portfolioData.personal.legalName}
+            </p>
 
             {/* Cycling Role Pill */}
             <div className="h-9 sm:h-10 flex items-center">
@@ -132,18 +132,18 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
             </div>
 
           {/* Minimalist Specs Row */}
-          <div className="pt-4 flex items-center gap-6 text-xs font-mono-tech text-white/40 border-t border-white/10">
-            <div>
-              <span className="text-white font-bold block text-sm">30+</span>
-              <span>ПРОЕКТОВ</span>
+          <div className="pt-4 grid grid-cols-3 gap-3 text-[10px] sm:text-xs font-mono-tech text-white/40 border-t border-white/10">
+            <div className="min-w-0">
+              <span className="text-white font-bold block text-xs sm:text-sm truncate">RIGBI</span>
+              <span className="block leading-tight">ВНЕДРЁН В ИТ</span>
             </div>
-            <div>
-              <span className="text-white font-bold block text-sm">Python / React</span>
-              <span>ОСНОВНОЙ СТЕК</span>
+            <div className="min-w-0">
+              <span className="text-white font-bold block text-xs sm:text-sm truncate">Python / React</span>
+              <span className="block leading-tight">ОСНОВНОЙ СТЕК</span>
             </div>
-            <div>
-              <span className="text-white font-bold block text-sm">&lt;150ms</span>
-              <span>RESPONSE TIME</span>
+            <div className="min-w-0">
+              <span className="text-white font-bold block text-xs sm:text-sm truncate">Open</span>
+              <span className="block leading-tight">К РАБОТЕ</span>
             </div>
           </div>
         </div>
@@ -155,13 +155,13 @@ export function Hero({ onOpenResume, onScrollToNext }: HeroProps) {
       </div>
 
       {/* Bottom Scroll Indicator / Section Jump Prompt */}
-      <div className="relative z-10 flex items-center justify-between pt-4 border-t border-white/10 text-xs font-mono-tech text-white/40">
-        <span>SCROLL DOWN TO EXPLORE</span>
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-white/10 text-[10px] sm:text-xs font-mono-tech text-white/40">
+        <span className="shrink-0">SCROLL DOWN</span>
         <button
           onClick={onScrollToNext}
           className="flex items-center gap-1 text-white/70 hover:text-white transition-colors"
         >
-          <span>КЕЙСЫ ПРОЕКТОВ</span>
+          <span>КЕЙСЫ</span>
           <ChevronDown className="w-4 h-4 animate-bounce" />
         </button>
       </div>

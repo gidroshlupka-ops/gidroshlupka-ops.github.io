@@ -52,6 +52,8 @@ export interface ProjectItem {
   accentGradient: string;
   iconName: string;
   featured?: boolean;
+  shortTabLabel?: string;
+  statusLabel?: string;
   caseStudy: ProjectCaseStudy;
 }
 
@@ -75,8 +77,38 @@ export interface SocialLink {
   handle: string;
 }
 
+export interface ResumeStackLine {
+  label: string;
+  value: string;
+}
+
+export interface ResumeProjectBlock {
+  title: string;
+  bullets: string[];
+}
+
+export interface ResumeJob {
+  title: string;
+  period: string;
+  projects: ResumeProjectBlock[];
+}
+
+export interface ResumeData {
+  fullName: string;
+  title: string;
+  contactsLine: string;
+  locationLine: string;
+  salary: string;
+  about: string;
+  stack: ResumeStackLine[];
+  jobs: ResumeJob[];
+  pets: ResumeProjectBlock[];
+  education: string[];
+}
+
 export interface PersonalInfo {
   name: string;
+  legalName: string;
   role: string;
   taglineRoles: string[];
   pitchEn: string;
@@ -86,13 +118,16 @@ export interface PersonalInfo {
   workStatus: string;
   availabilityNote: string;
   email: string;
+  phone: string;
   telegramUsername: string;
   telegramLink: string;
   githubUrl: string;
-  linkedinUrl: string;
+  linkedinUrl?: string;
   twitterUrl?: string;
   twitterLink?: string;
   contactWorkerUrl?: string;
+  resumePdf: string;
+  resumeDownloadName: string;
   experienceYears: string;
   metricsSummary: {
     value: string;
@@ -109,4 +144,5 @@ export interface PortfolioData {
   projectCategories: { id: string; label: string }[];
   experiences: ExperienceItem[];
   socials: SocialLink[];
+  resume: ResumeData;
 }

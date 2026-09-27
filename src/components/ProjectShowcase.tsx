@@ -79,7 +79,7 @@ export function ProjectShowcase() {
   return (
     <section
       id="projects"
-      className="snap-section relative w-full min-h-screen flex flex-col justify-between py-12 sm:py-16 px-4 sm:px-8 lg:px-12 overflow-hidden bg-[#0c0e12] select-none"
+      className="snap-section relative w-full min-h-[100svh] flex flex-col justify-between gap-6 py-16 sm:py-20 px-4 sm:px-8 lg:px-12 overflow-x-hidden bg-[#0c0e12] select-none"
     >
       {/* Background Project-Adaptive Glow (Muted, Matte, Eye-Safe) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -111,25 +111,25 @@ export function ProjectShowcase() {
             style={{ backgroundColor: currentProject.accentColor }}
           />
           <h2 className="text-xs font-mono-tech font-bold uppercase tracking-widest text-white/90">
-            SELECTED PROJECTS // 0{activeIndex + 1} OF 0{projects.length}
+            SELECTED PROJECTS // {String(activeIndex + 1).padStart(2, '0')} OF {String(projects.length).padStart(2, '0')}
           </h2>
         </div>
 
         {/* Project Selector Pill Tabs (Exact Figma style from video) */}
-        <div className="flex items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-md overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-md overflow-x-auto max-w-full scrollbar-thin">
           {projects.map((proj, idx) => {
             const isActive = activeIndex === idx;
             return (
               <button
                 key={proj.id}
                 onClick={() => handleSelect(idx)}
-                className={`relative px-4 py-1.5 rounded-full text-xs font-mono-tech transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                className={`relative px-2.5 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-mono-tech transition-all duration-300 whitespace-nowrap cursor-pointer ${
                   isActive
                     ? 'bg-white text-black font-bold shadow-lg scale-105'
                     : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
               >
-                {proj.title.split(' ')[0]}
+                {proj.shortTabLabel || proj.title.split(' ')[0]}
               </button>
             );
           })}
@@ -264,7 +264,7 @@ export function ProjectShowcase() {
                   <div className="relative z-10 flex items-center justify-between">
                     <span className="text-[10px] font-mono-tech text-white/70 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>PROD // READY</span>
+                      <span>{currentProject.statusLabel || 'ПРОЕКТ'}</span>
                     </span>
 
                     <button
@@ -326,7 +326,7 @@ export function ProjectShowcase() {
                   EXPLORE PROJECT
                 </span>
                 <span className="text-[10px] font-mono-tech text-amber-300">
-                  0{activeIndex + 1} // 0{projects.length}
+                  {String(activeIndex + 1).padStart(2, '0')} // {String(projects.length).padStart(2, '0')}
                 </span>
               </div>
 

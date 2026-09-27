@@ -39,6 +39,7 @@ import {
   FileText,
   Clock,
   Sparkle,
+  GraduationCap,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -82,6 +83,7 @@ const iconMap: Record<string, LucideIcon> = {
   FileText,
   Clock,
   Sparkle,
+  GraduationCap,
 };
 
 interface TechIconProps {

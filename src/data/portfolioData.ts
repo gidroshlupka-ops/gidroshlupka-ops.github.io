@@ -3,68 +3,69 @@ import { PortfolioData } from '../types';
 export const portfolioData: PortfolioData = {
   personal: {
     name: 'AFORI',
-    role: 'Full-stack Developer',
+    legalName: 'Алексей Журбин',
+    role: 'Python-разработчик · React · Telegram-боты',
     taglineRoles: [
-      'Full-stack Developer',
-      'Python & FastAPI Developer',
-      'React & TypeScript Developer',
-      'Telegram Bot & TMA Architect',
-      'LLM & AI Integration Engineer',
+      'Python-разработчик',
+      'Telegram-боты и автоматизация',
+      'React и TypeScript',
+      'RAG, LLM и голосовые пайплайны',
     ],
     pitchEn:
-      'Building responsive web applications, resilient Python backends, Telegram bot ecosystems, and smart AI integrations through hands-on freelance and open-source projects.',
+      'Python backends, Telegram bot systems, Excel-scale data tools, React interfaces, RAG memory and RVC voice.',
     pitchRu:
-      'Создаю современные веб-приложения на React, производительные бэкенды на Python/FastAPI, Telegram-ботов и решения с интеграцией нейросетей.',
+      'Собираю рабочие контуры на Python: Telegram-боты, обработка данных, веб-интерфейсы, RAG-память и голосовые пайплайны. Ищу работу в команде или сильный проект.',
     aboutStory: [
-      'Занимаюсь веб-разработкой и созданием бэкендов на Python и TypeScript, решая практические задачи во фрилансе и развивая собственные пет-проекты.',
-      'Мой практический стек выстроен вокруг создания полноценных цифровых решений: от интерактивных интерфейсов на React до устойчивой серверной логики на FastAPI и PostgreSQL.',
-      'Особый интерес вызывают разработка Telegram Mini Apps, проектирование умных ботов на Aiogram и интеграция современных LLM (OpenAI, Claude, Gemini) в реальные рабочие сценарии.',
-      'Каждый свой проект я проектирую с нуля: продумываю архитектуру базы данных, настраиваю Docker-окружение и уделяю внимание деталям интерфейса.',
-      'Постоянно практикуюсь на реальных задачах, исследую новые технологии и стремлюсь писать чистый, надежный и поддерживаемый код.',
+      'Закрываю задачу целиком: схема данных, бэкенд, бот или интерфейс, деплой. Не оставляю «почти готово».',
+      'Из внедрённого: RIGBI в ИТ ССК «Звезда» — индекс 3500+ Excel и поиск быстрее 0.01 с. Из заказов: живая партнёрская бот-экосистема на общей базе. Из инженерии: «Мурка» — гибридный RAG, ротация ключей LLM и голос Edge TTS → RVC, код модулей открыт на GitHub.',
+      'Работал с постоянными заказчиками через Telegram и Кворк. Сейчас ищу штат или новый контур, который нужно довести до прода.',
+      'Диплом — десктоп учёта KPI. Сайт ателье делал в колледже, его не взяли. Каталог Aromo был в работе, потом заморозили; демо на GitHub Pages.',
     ],
-    location: 'Remote / Worldwide',
-    workStatus: 'Открыт к предложениям и проектам',
-    availabilityNote: 'Готов к фриланс-заказам, Full-stack разработке и интересным задачам',
+    location: 'Большой Камень · удалённо',
+    workStatus: 'Открыт к работе и заказам',
+    availabilityNote: 'Открыт к офферам: Python, боты, автоматизация, AI-интеграции',
     email: 'aforigidroshlupka@gmail.com',
+    phone: '+7 (914) 695-53-12',
     telegramUsername: '@shlalalalalalalo',
     telegramLink: 'https://t.me/shlalalalalalalo',
     githubUrl: 'https://github.com/gidroshlupka-ops',
-    linkedinUrl: 'https://www.linkedin.com/in/afori',
     twitterUrl: 'https://x.com/Afori19',
     twitterLink: 'https://x.com/Afori19',
-    contactWorkerUrl: 'https://portfolio-contact-relay.afori.workers.dev', 
-    experienceYears: '3+',
+    contactWorkerUrl: 'https://portfolio-contact-relay.afori.workers.dev',
+    resumePdf: 'resume.pdf',
+    resumeDownloadName: 'Zhurbin-Alexey-Resume.pdf',
+    experienceYears: 'проектная',
     metricsSummary: [
       {
-        value: '30+',
-        label: 'Реализованных проектов',
-        description: 'Web, Telegram, SaaS, AI-сервисы',
+        value: '3500+',
+        label: 'Excel в RIGBI',
+        description: 'Инструмент, который реально ставили в ИТ завода',
       },
       {
-        value: '100%',
-        label: 'Практический опыт',
-        description: 'Архитектура с нуля до релиза',
+        value: '2',
+        label: 'Постоянных заказчика',
+        description: 'Telegram / Кворк, сейчас пауза',
       },
       {
-        value: '<150мс',
-        label: 'Средний response time',
-        description: 'Оптимизация бэкенда и БД',
+        value: 'Python',
+        label: 'Основной язык',
+        description: 'Боты, RAG, React, автоматизация',
       },
       {
-        value: '24/7',
-        label: 'Uptime & Docker деплой',
-        description: 'Изоляция и контейнеризация',
+        value: 'Open',
+        label: 'К работе',
+        description: 'Junior, стажировка, заказы',
       },
     ],
   },
 
   skillCategories: [
     { id: 'all', label: 'Все технологии' },
-    { id: 'backend', label: 'Backend & Архитектура' },
-    { id: 'frontend', label: 'Frontend & UI' },
-    { id: 'ai_bots', label: 'LLM & Telegram API' },
-    { id: 'database', label: 'Базы данных & Кеш' },
-    { id: 'devops', label: 'DevOps & Инфраструктура' },
+    { id: 'backend', label: 'Backend' },
+    { id: 'frontend', label: 'Frontend' },
+    { id: 'ai_bots', label: 'Боты и LLM' },
+    { id: 'database', label: 'Базы' },
+    { id: 'devops', label: 'Деплой' },
   ],
 
   skills: [
@@ -73,71 +74,87 @@ export const portfolioData: PortfolioData = {
       category: 'backend',
       categoryLabel: 'Backend',
       iconName: 'Code2',
-      highlight: 'FastAPI, Django, Asyncio, Pydantic, Celery, парсинг данных',
+      highlight: 'asyncio, FastAPI, Flask, скрипты, валидация данных',
       featured: true,
     },
     {
-      name: 'React 19 & Next.js',
+      name: 'Aiogram 3',
+      category: 'ai_bots',
+      categoryLabel: 'Telegram',
+      iconName: 'Bot',
+      highlight: 'Боты, админки, отложенный постинг, деплой на Amvera',
+      featured: true,
+    },
+    {
+      name: 'React + TypeScript',
       category: 'frontend',
       categoryLabel: 'Frontend',
       iconName: 'Layout',
-      highlight: 'SPA, SSR, Server Components, Hooks, State Management',
+      highlight: 'Vite, Tailwind, модалки, адаптив, продакшен-вёрстка',
       featured: true,
     },
     {
-      name: 'TypeScript',
-      category: 'frontend',
-      categoryLabel: 'Frontend / Fullstack',
-      iconName: 'FileCode',
-      highlight: 'Строгая типизация, Generic types, Node.js + React',
-      featured: true,
-    },
-    {
-      name: 'PostgreSQL',
+      name: 'PostgreSQL / SQLite',
       category: 'database',
       categoryLabel: 'Databases',
       iconName: 'Database',
-      highlight: 'Индексы, оптимизация запросов, pgvector, JSONB',
+      highlight: 'Схемы, индексы, Supabase или обычный SQLite под задачу',
       featured: true,
     },
     {
-      name: 'Docker & Compose',
-      category: 'devops',
-      categoryLabel: 'DevOps',
-      iconName: 'Container',
-      highlight: 'Multi-stage сборка, контейнеризация проектов, docker-compose',
-      featured: true,
-    },
-    {
-      name: 'Telegram Bot API & TMA',
-      category: 'ai_bots',
-      categoryLabel: 'Telegram & Bots',
-      iconName: 'Bot',
-      highlight: 'Aiogram 3, Webhooks, Telegram Mini Apps, прием оплат',
-      featured: true,
-    },
-    {
-      name: 'LLM & AI Integration',
-      category: 'ai_bots',
-      categoryLabel: 'AI / LLM',
-      iconName: 'Sparkles',
-      highlight: 'RAG пайплайны, Function Calling, OpenAI / Claude / Gemini API',
-      featured: true,
-    },
-    {
-      name: 'Redis',
-      category: 'database',
-      categoryLabel: 'Caching & Queues',
+      name: 'Excel и данные',
+      category: 'backend',
+      categoryLabel: 'Data',
       iconName: 'Layers',
-      highlight: 'Кеширование, Pub/Sub, Rate Limiting, очереди задач Celery',
+      highlight: 'python-calamine, грязные даты, индексация тысяч таблиц',
+      featured: true,
+    },
+    {
+      name: 'LLM API',
+      category: 'ai_bots',
+      categoryLabel: 'AI',
+      iconName: 'Sparkles',
+      highlight: 'Gemini / OpenAI, function-style вызовы, скоринг и чат в ботах',
+      featured: true,
+    },
+    {
+      name: 'RAG / ChromaDB',
+      category: 'ai_bots',
+      categoryLabel: 'AI',
+      iconName: 'Database',
+      highlight: 'Гибридный ранкер: сходство × свежесть × важность, память по uid',
+      featured: true,
+    },
+    {
+      name: 'Voice · RVC',
+      category: 'ai_bots',
+      categoryLabel: 'AI',
+      iconName: 'Sparkles',
+      highlight: 'Edge TTS → RVC, автопитч по медиане F0, voice-to-voice',
+      featured: true,
+    },
+    {
+      name: 'Telethon',
+      category: 'ai_bots',
+      categoryLabel: 'Telegram',
+      iconName: 'Send',
+      highlight: 'Парсинг чатов и участников, FloodWait, несколько сессий',
       featured: false,
     },
     {
-      name: 'Node.js & Express',
-      category: 'backend',
-      categoryLabel: 'Backend',
-      iconName: 'Server',
-      highlight: 'RESTful API, WebSocket серверы, микросервисы',
+      name: 'Docker',
+      category: 'devops',
+      categoryLabel: 'DevOps',
+      iconName: 'Container',
+      highlight: 'docker-compose, выкладка на VPS / Amvera',
+      featured: false,
+    },
+    {
+      name: 'Git + Pages',
+      category: 'devops',
+      categoryLabel: 'DevOps',
+      iconName: 'Terminal',
+      highlight: 'GitHub Pages, Cloudflare Worker для формы без токена на фронте',
       featured: false,
     },
     {
@@ -145,330 +162,293 @@ export const portfolioData: PortfolioData = {
       category: 'frontend',
       categoryLabel: 'Frontend',
       iconName: 'Palette',
-      highlight: 'Современный адаптивный UI, дизайн-системы, Motion анимации',
+      highlight: 'Адаптив, модалки, анимации, тёмные интерфейсы',
       featured: false,
     },
     {
-      name: 'CI/CD & Linux',
-      category: 'devops',
-      categoryLabel: 'DevOps',
-      iconName: 'Terminal',
-      highlight: 'GitHub Actions, Nginx Reverse Proxy, SSL, настройка VPS',
-      featured: false,
-    },
-    {
-      name: 'REST & WebSockets',
+      name: 'REST API',
       category: 'backend',
-      categoryLabel: 'Architecture',
+      categoryLabel: 'Backend',
       iconName: 'Network',
-      highlight: 'OpenAPI/Swagger спецификации, вебхуки, real-time события',
+      highlight: 'FastAPI / Flask, вебхуки, прокси заявок в Telegram',
       featured: false,
     },
   ],
 
   projectCategories: [
     { id: 'all', label: 'Все проекты' },
-    { id: 'fullstack', label: 'Full-stack & Web' },
-    { id: 'ai_llm', label: 'AI & LLM' },
-    { id: 'telegram_bot', label: 'Telegram & Боты' },
-    { id: 'backend', label: 'Backend & Архитектура' },
+    { id: 'fullstack', label: 'Сайты' },
+    { id: 'ai_llm', label: 'AI' },
+    { id: 'telegram_bot', label: 'Боты' },
+    { id: 'backend', label: 'Автоматизация' },
   ],
 
   projects: [
     {
       id: 'rigbi',
-      title: 'RIGBI — обработчик Excel-данных',
-      tagline: 'Backend-инструмент для сбора и валидации данных из 3500+ таблиц',
+      title: 'RIGBI — поиск по Excel-архиву',
+      tagline: 'Индексация 3500+ таблиц для ИТ-отдела завода',
       category: 'backend',
-      categoryLabel: 'Backend & Data Processing',
+      categoryLabel: 'Внедрение · автоматизация',
+      shortTabLabel: 'RIGBI',
+      statusLabel: 'СТАВИЛИ В РАБОТУ',
       shortDescription:
-        'Инструмент для автоматического сбора и валидации данных из распределённого репозитория Excel-таблиц. Ускорил обработку в разы, заменив стандартный парсер на Rust-движок.',
-      quoteHighlight: 'RUST-POWERED EXCEL PARSING WITH MULTITHREADED VALIDATION PIPELINE',
-
-      // previewImage — картинка на карточке. Сделай скриншот консоли/кода/схемы и положи в public/projects/
+        'Внутренний поиск по архиву инвентарных карточек. openpyxl не тянул объём — поставил Rust-парсер и индекс, чтобы искать за доли секунды.',
+      quoteHighlight: '3500+ таблиц · calamine · поиск < 0.01 с',
       previewImage: '/projects/rigbi-preview.png',
-
-      tags: ['Python', 'python-calamine (Rust engine)', 'ThreadPoolExecutor', 'Валидация данных'],
-
-      // ССЫЛКИ:
-      githubUrl: 'https://github.com/gidroshlupka-ops/RIGBI_V2-calamine-', 
-
+      tags: ['Python', 'python-calamine', 'ThreadPoolExecutor', 'SQLite'],
+      githubUrl: 'https://github.com/gidroshlupka-ops/RIGBI_V2-calamine-',
       accentColor: '#3B82F6',
       accentGradient: 'from-blue-500 to-cyan-500',
       iconName: 'Database',
       featured: true,
       caseStudy: {
         overview:
-          'RIGBI — backend-инструмент для автоматического сбора и валидации данных из распределённого репозитория, содержащего более 3500 Excel-таблиц.',
+          'Инструмент для ИТ-отдела ССК «Звезда»: собрать разрозненный Excel-архив в индекс и быстро найти нужную карточку.',
         problem:
-          'Стандартный стек на openpyxl не тянул объём по скорости — обработка тысяч таблиц занимала неприемлемо много времени, плюс данные в таблицах были «грязными»: несогласованные форматы дат, пропуски, опечатки.',
+          'Тысячи таблиц, разные форматы дат, пустые ячейки. Обычный обход через openpyxl занимал неприлично много времени.',
         solution:
-          'Заменил openpyxl на Rust-движок python-calamine, что ускорило парсинг в разы. Добавил многопоточную обработку через ThreadPoolExecutor и отдельный слой строгой валидации/очистки данных, чтобы система не падала на кривых файлах.',
+          'Заменил парсер на python-calamine, распараллелил чтение, обновляю индекс по mtime и вычищаю кривые даты, чтобы один плохой файл не ронял всё.',
         architecture:
-          'Excel-репозиторий (3500+ файлов) -> python-calamine (Rust parser) -> ThreadPoolExecutor (параллельная обработка) -> Валидация и очистка -> Структурированный вывод.',
+          'Папка с Excel → calamine + потоки → очистка → SQLite-индекс → поиск по инвентарному номеру.',
         keyFeatures: [
-          'Парсинг тысяч Excel-файлов на Rust-движке вместо медленного openpyxl',
-          'Многопоточная обработка для параллельного чтения таблиц',
-          'Строгая валидация дат, форматов и пропусков — отказоустойчивость на «грязных» данных',
+          'Парсинг на Rust-движке вместо openpyxl',
+          'Инкрементальные обновления по дате файла',
+          'Поиск по индексу быстрее 0.01 с',
         ],
         metrics: [
-          { label: 'Обрабатываемых таблиц', value: '3500+' },
-          { label: 'Ускорение парсинга', value: 'в разы (Rust vs Python)' },
+          { label: 'Таблиц в архиве', value: '3500+' },
+          { label: 'Ускорение парсинга', value: 'в 10–50 раз' },
         ],
         techDetails: [
-          { area: 'Парсинг', stack: 'python-calamine (Rust engine)' },
-          { area: 'Многопоточность', stack: 'concurrent.futures.ThreadPoolExecutor' },
-          { area: 'Валидация', stack: 'Собственная логика очистки данных' },
+          { area: 'Парсинг', stack: 'python-calamine' },
+          { area: 'Потоки', stack: 'ThreadPoolExecutor' },
+          { area: 'Индекс', stack: 'SQLite' },
         ],
       },
     },
-
     {
       id: 'murka',
       title: 'Мурка',
-      tagline: 'AI-компаньон с памятью, своим голосом и устойчивым доступом к LLM',
+      tagline: 'Личный AI-бот: память, ключи, голос',
       category: 'ai_llm',
-      categoryLabel: 'AI Companion',
+      categoryLabel: 'Пет · AI',
+      shortTabLabel: 'Мурка',
+      statusLabel: 'ПЕТ · КОД НА GITHUB',
       shortDescription:
-        'Мультимодальный Telegram-компаньон: помнит человека через дни, не падает на free-tier 429 и отвечает голосом одного персонажа — мелодия от Edge TTS, тембр от RVC.',
-      quoteHighlight: 'HYBRID RAG · RATE-LIMIT AWARE KEYS · RVC VOICE',
-
+        'Мультимодальный компаньон: гибридный RAG, ротация ключей под 429 и голос Edge TTS → RVC. Публичный срез модулей с демо и доказательствами — на GitHub, полный бот в репозиторий не входит.',
+      quoteHighlight: 'RAG · ротация 429 · Edge TTS → RVC',
       previewImage: '/projects/murka/murka-card.png',
-
-      tags: ['Python', 'Aiogram 3', 'ChromaDB', 'FastAPI', 'RVC', 'Gemini API'],
-
+      tags: ['Python', 'Aiogram 3', 'ChromaDB', 'Gemini API', 'RVC'],
       githubUrl: 'https://github.com/gidroshlupka-ops/murka-showcase',
-
       voiceSample: {
         url: '/projects/murka/murka-voice.wav',
         durationLabel: '00:03',
         title: 'Мурка',
         caption: 'RVC',
       },
-
       accentColor: '#3390EC',
       accentGradient: 'from-sky-500 to-blue-400',
       iconName: 'Bot',
       featured: true,
       caseStudy: {
         overview:
-          'Продакшен-компаньон, из которого в открытый срез вынесены три инженерных модуля: гибридная память, умная ротация LLM-ключей и голосовой сервис на RVC.',
+          'Пет. Публичный срез — не весь бот, а три инженерных куска, которые можно прочитать без токенов и личных переписок.',
         problem:
-          'Обычный чат-бот забывает человека после паузы, падает когда кончается бесплатная квота API и звучит как синтезатор. Для компаньона это ломает ощущение «того же персонажа».',
+          'Обычный чат забывает человека, падает на бесплатной квоте и звучит как синтезатор.',
         solution:
-          'Память достаёт больше соседей, чем нужно, и переранжирует их по смыслу, свежести и важности — факт о человеке бьёт недавнюю болтовню не по слогану, а по формуле. Пул ключей отличает минутный 429 от дневного лимита и банит весь биллинг-аккаунт, а не один токен. Голос: Edge TTS даёт интонацию, RVC — тембр; на voice-to-voice питч считается из медианы F0, а не угадывается.',
+          'Память переранжирует соседей по смыслу, свежести и важности. Пул ключей отличает минутный 429 от дневного лимита. Голос: интонация от Edge TTS, тембр от RVC.',
         architecture:
-          'Telegram (Aiogram) принимает сообщение → RagMemory и факты по uid → KeyManager выбирает живой ключ → Gemini, при необходимости Groq → ответ текстом и/или POST /tts (Edge TTS → RVC). Картинки, промпты персонажа и токены в публичный репозиторий не входят.',
+          'Telegram → память по uid → живой ключ → Gemini/Groq → текст или /tts. Полный бот в репозиторий не входит.',
         keyFeatures: [
-          'Полки памяти изолированы по uid: чужие диалоги не смешиваются',
-          'Гибридный скор: 50% сходство + 30% свежесть (τ = 72 ч) + 20% важность',
-          'Маяки (#маяк / #яяк): модель сама пишет факты в долгую память',
-          'Слепок сессии, если человека не было больше двух часов',
-          'Ротация ключей: RPM 65 с, дневная квота — бан группы на 24 ч, лимит 0 — час отдыха',
-          'Голос как в Telegram: Edge TTS → RVC, автопитч по pyin',
+          'Полки памяти изолированы по пользователю',
+          'Гибридный скор: сходство / свежесть / важность',
+          'Маяки: модель сама пишет долгие факты',
+          'Ротация ключей с баном группы на сутки',
         ],
         metrics: [
           { label: 'Веса ранкера', value: '0.5 / 0.3 / 0.2' },
           { label: 'Окно свежести', value: '72 часа' },
-          { label: 'Бан на дневной 429', value: '24 ч на группу' },
-          { label: 'Голосовой сэмпл', value: '3 сек · RVC' },
         ],
         techDetails: [
-          { area: 'Память', stack: 'ChromaDB, paraphrase-multilingual-MiniLM-L12-v2, SQLite-факты' },
-          { area: 'Ключи', stack: 'KeyManager + SQLite bans, группы по префиксу ключа' },
-          { area: 'Голос', stack: 'FastAPI, Edge TTS, RVC, librosa pyin' },
-          { area: 'Бот (вне среза)', stack: 'Python, Aiogram 3, Gemini / Groq fallback' },
+          { area: 'Память', stack: 'ChromaDB, MiniLM, SQLite-факты' },
+          { area: 'Ключи', stack: 'KeyManager + SQLite bans' },
+          { area: 'Голос', stack: 'Edge TTS, RVC, pyin' },
         ],
         screenshots: [
           {
-            title: 'Murka Showcase',
+            title: 'Три модуля',
             url: '/projects/murka/hero.png',
-            description: 'Три модуля: гибридная память, пул ключей и голос RVC',
+            description: 'Память, пул ключей и голос — то, что вынесено в публичный срез',
+          },
+          {
+            title: 'Ранкер памяти',
+            url: '/projects/murka/score-demo.png',
+            description: 'Как старый важный факт бьёт свежий оффтоп',
+          },
+          {
+            title: 'Ротация ключей',
+            url: '/projects/murka/keys-demo.png',
+            description: 'Минутный 429 и дневной лимит обрабатываются по-разному',
           },
         ],
       },
     },
-
-    {
-      id: 'zvezda-murka',
-      title: 'ССК «Звезда» + Мурка',
-      tagline: 'KPI-система предприятия: десктоп-клиент, Telegram-бот и AI-ассистент',
-      category: 'ai_llm',
-      categoryLabel: 'AI & Enterprise System',
-      shortDescription:
-        'Внутренняя система учёта KPI и ресурсов производственного предприятия: десктоп-приложение в связке с Telegram-ботом на общей базе, плюс мультимодальный AI-бот с долгосрочной памятью.',
-      quoteHighlight: 'REALTIME DESKTOP-TO-TELEGRAM SYNC WITH MULTIMODAL AI MEMORY SYSTEM',
-
-      previewImage: '/projects/zvezda-preview.png',
-      // heroImage: '/projects/zvezda-hero.png', // необязательно, крупная картинка в модалке
-
-      tags: ['Python', 'Tkinter', 'PostgreSQL (Supabase)', 'Aiogram 3', 'Gemini API', 'Fernet/bcrypt'],
-
-      githubUrl: 'https://github.com/gidroshlupka-ops/SSK_ZVEZDA_KPI',
-
-      accentColor: '#8B5CF6',
-      accentGradient: 'from-violet-500 to-purple-500',
-      iconName: 'Sparkles',
-      featured: true,
-      caseStudy: {
-        overview:
-          'Внутренняя система для судостроительного предприятия: десктоп-клиент и Telegram-бот, работающие на общей базе, плюс AI-ассистент с мультимодальным чатом и долгосрочной памятью.',
-        problem:
-          'Нужно было синхронизировать десктоп-клиент и Telegram-бота без вебсокетов и лишней нагрузки на сервер, а также автоматически предупреждать о критических остатках ресурсов без участия человека.',
-        solution:
-          'Реализовал polling Supabase каждые 15 секунд со сравнением снапшотов таблиц — лёгкая realtime-синхронизация без постоянного соединения. Фоновый воркер раз в час сам проверяет остатки и шлёт подробные алерты в Telegram. Отдельно собрал AI-бота с системой долгосрочной памяти ("маяки" — паттерн, по которому бот сам сохраняет факты в SQLite) и ротацией ключей LLM-провайдера для устойчивости к лимитам.',
-        architecture:
-          'Desktop Client (Tkinter) <-> Supabase (Postgres, realtime polling) <-> Telegram Bot (Aiogram 3) + LLM Gateway (Gemini API, ротация ключей).',
-        keyFeatures: [
-          'Realtime-синхронизация между десктопом и ботом без вебсокетов',
-          'Автоматические Telegram-алерты при падении остатков ниже минимума',
-          'Долгосрочная память AI-ассистента через собственный механизм записи фактов',
-          'Мультимодальный чат: текст, изображения, аудио',
-          'Шифрование данных (Fernet, bcrypt) и автогенерация отчётов в Word с графиками',
-        ],
-        metrics: [
-          { label: 'Интервал синхронизации', value: '15 сек' },
-          { label: 'Проверка критических остатков', value: 'раз в час, автоматически' },
-        ],
-        techDetails: [
-          { area: 'Desktop', stack: 'Python, Tkinter, pystray (трей-иконка)' },
-          { area: 'База данных', stack: 'PostgreSQL (Supabase)' },
-          { area: 'Bot', stack: 'Aiogram 3, SQLite (память диалогов)' },
-          { area: 'AI', stack: 'Gemini API с ротацией ключей, генерация изображений' },
-          { area: 'Безопасность', stack: 'Fernet (шифрование данных), bcrypt (пароли)' },
-        ],
-      },
-    },
-
-    {
-      id: 'aromo-gid',
-      title: 'Aromo Gid',
-      tagline: 'Сайт-каталог парфюмерии с адаптивным дизайном и анимациями',
-      category: 'fullstack',
-      categoryLabel: 'Full-stack & Web',
-      shortDescription:
-        'Элегантный сайт-каталог парфюмерии: интерактивные карточки товаров с модалками и свайпами, система отзывов с pinch-to-zoom, плавные анимации.',
-      quoteHighlight: 'RESPONSIVE PERFUME CATALOG WITH GESTURE-SUPPORTED PRODUCT MODALS',
-
-      previewImage: '/projects/aromo-gid-preview.png',
-
-      tags: ['React 18', 'Vite', 'Tailwind CSS', 'Framer Motion'],
-
-      githubUrl: 'https://github.com/gidroshlupka-ops/aromo-gid',
-      liveUrl: 'https://gidroshlupka-ops.github.io/aromo-gid/', 
-
-      accentColor: '#F59E0B',
-      accentGradient: 'from-amber-500 to-orange-500',
-      iconName: 'Sparkles',
-      featured: false,
-      caseStudy: {
-        overview:
-          'Каталог парфюмерии с минималистичной эстетикой в стиле "Stone & Nature": просмотр карточек товаров с модальными окнами, поддержкой свайпов и полноэкранным просмотром отзывов.',
-        problem:
-          'Нужен был премиальный, но лёгкий каталог с удобной навигацией по товарам и без задержек на мобильных устройствах.',
-        solution:
-          'Собрал SPA на React 18 + Vite для быстрой сборки, стилизацию — на Tailwind, анимации переходов между карточками и модалками — на Framer Motion. Отдельно реализовал умную блокировку скролла при открытых модалках и pinch-to-zoom для просмотра отзывов.',
-        architecture: 'React 18 (Vite) -> Tailwind CSS -> Framer Motion (анимации) -> GitHub Pages (статический деплой).',
-        keyFeatures: [
-          'Интерактивные карточки товаров с модалками и поддержкой свайпов',
-          'Полноэкранный просмотр отзывов с pinch-to-zoom',
-          'Полная адаптивность под мобильные и планшеты',
-          'Быстрая сборка и загрузка на Vite',
-        ],
-        metrics: [],
-        techDetails: [
-          { area: 'Frontend', stack: 'React 18, Vite 6, Tailwind CSS' },
-          { area: 'Анимации', stack: 'Motion (Framer Motion)' },
-          { area: 'Иконки', stack: 'Lucide React' },
-        ],
-      },
-    },
-
-    {
-      id: 'fantaziya-atelier',
-      title: 'Ателье «Фантазия»',
-      tagline: 'Сайт-визитка ателье с заявками, уходящими напрямую в Telegram',
-      category: 'fullstack',
-      categoryLabel: 'Full-stack & Web',
-      shortDescription:
-        'Сайт-визитка швейного ателье: каталог услуг, галерея работ, форма заказа. Заявка с сайта мгновенно приходит мастеру в Telegram через собственный прокси-сервер — токен бота не светится на фронтенде.',
-      quoteHighlight: 'SECURE TELEGRAM ORDER PIPELINE WITH TOKEN-HIDING PROXY SERVER',
-
-      // Скриншот у тебя уже есть — сохрани как fantaziya-preview.png в public/projects/
-      previewImage: '/projects/fantaziya-preview.png',
-
-      tags: ['HTML5', 'Vanilla JS', 'Node.js', 'Express', 'Telegram Bot API'],
-
-      githubUrl: 'https://github.com/gidroshlupka-ops/fantaziya-site',
-      liveUrl: 'https://gidroshlupka-ops.github.io/fantaziya-site/',
-
-      accentColor: '#10B981',
-      accentGradient: 'from-emerald-500 to-teal-500',
-      iconName: 'Send',
-      featured: false,
-      caseStudy: {
-        overview:
-          'Сайт-визитка для швейного ателье: клиент просматривает каталог услуг и галерею, оставляет заявку — она сразу приходит мастеру в Telegram, без пропущенных заказов.',
-        problem:
-          'Нужно было безопасно принимать заказы с сайта в Telegram, не храня токен бота на фронтенде — иначе его мог бы украсть любой, кто откроет исходный код страницы.',
-        solution:
-          'Спроектировал схему заявок и написал Node.js/Express прокси-сервер, который принимает данные формы и пересылает их в Telegram Bot API. Токен бота хранится только на сервере, в переменных окружения — на фронтенде его нет вообще.',
-        architecture:
-          'Клиент заполняет форму -> js/main.js -> Node.js прокси-сервер (токен только здесь) -> Telegram Bot API -> Сообщение мастеру.',
-        keyFeatures: [
-          'Приём заказов с сайта напрямую в Telegram мастера',
-          'Безопасное хранение токена бота через прокси-сервер',
-          'Каталог услуг по категориям и галерея готовых работ',
-          'Полностью адаптивная вёрстка',
-        ],
-        metrics: [],
-        techDetails: [
-          { area: 'Frontend', stack: 'HTML5, CSS3, Vanilla JS' },
-          { area: 'Backend', stack: 'Node.js, Express' },
-          { area: 'Доставка заявок', stack: 'Telegram Bot API' },
-        ],
-      },
-    },
-
     {
       id: 'partner-bot-ecosystem',
       title: 'Партнёрская бот-экосистема',
-      tagline: 'Реф-программа: бот-каталог, бот-админка и редирект-сервис на общей базе',
+      tagline: 'Реф-ссылки, кабинет и редирект на одной SQLite',
       category: 'telegram_bot',
-      categoryLabel: 'Telegram & Боты',
+      categoryLabel: 'Заказ · боты',
+      shortTabLabel: 'Партнёрка',
+      statusLabel: 'ЖИВАЯ · БЕЗ СКРИНОВ',
       shortDescription:
-        'Три сервиса на общей SQLite-базе: бот считает переходы по реферальным ссылкам партнёров, отдельная бот-админка показывает статистику, Flask-редиректор матчит короткие ссылки с нужным партнёром.',
-      quoteHighlight: 'MULTI-SERVICE REFERRAL SYSTEM WITH SHARED SQLITE STATE',
-
+        'Три сервиса: каталог, админка партнёров и короткие ссылки. Боты живые. Скрины не кладу — в статистике чужие переходы и имена.',
+      quoteHighlight: 'каталог + админка + Flask-slug',
       previewImage: '/projects/partner-bot-preview.png',
-
-      tags: ['Python', 'Aiogram 3', 'Flask', 'SQLite', 'Amvera (деплой)'],
-
+      tags: ['Python', 'Aiogram 3', 'Flask', 'SQLite', 'Amvera'],
       githubUrl: 'https://github.com/gidroshlupka-ops/partneer',
-
       accentColor: '#EC4899',
       accentGradient: 'from-pink-500 to-rose-500',
       iconName: 'Workflow',
       featured: false,
       caseStudy: {
         overview:
-          'Партнёрская программа для бота-каталога: партнёры получают персональные реферальные ссылки, бот-админка показывает статистику по каждому, а отдельный редирект-сервис на Flask направляет короткие ссылки в нужный чат.',
+          'Партнёры получают свою ссылку, видят переходы, админ смотрит сводку. Короткий slug на Flask уводит в нужный бот.',
         problem:
-          'Нужно было отслеживать, кто из партнёров привёл клиента, без сложной внешней аналитики — и при этом дать каждому партнёру простой личный кабинет прямо в Telegram.',
+          'Нужно было понять, кто привёл клиента, без внешней аналитики и без отдельного сайта-кабинета.',
         solution:
-          'Сделал бот-админку с ролями: обычный пользователь видит свою ссылку и статистику переходов, администратор — сводный отчёт по всем партнёрам. Отдельно поднял Flask-сервис на Amvera, который матчит короткие slug-ссылки с партнёром по username/tag и редиректит в основной бот с нужным start-параметром.',
+          'Общая SQLite, роли partner/admin, редиректор на Amvera с диском, чтобы счётчики не обнулялись после обновления.',
         architecture:
-          'Клиент переходит по короткой ссылке -> Flask-редиректор (SQLite) -> определяет партнёра -> редирект в основной Telegram-бот с start-параметром -> запись перехода в БД.',
+          'Короткая ссылка → Flask → start-параметр в бота → запись перехода.',
         keyFeatures: [
-          'Личный кабинет партнёра прямо в Telegram: своя ссылка и статистика',
-          'Админ-панель со сводным отчётом по всем партнёрам',
-          'Flask-редиректор для коротких персональных ссылок',
-          'Бесплатный деплой на Amvera с persistent volume (данные не теряются при обновлениях)',
+          'Личный кабинет партнёра в Telegram',
+          'Сводный отчёт админу',
+          'Короткие персональные ссылки',
+          'Деплой на Amvera с persistent volume',
         ],
         metrics: [],
         techDetails: [
-          { area: 'Боты', stack: 'Python, Aiogram 3, SQLite' },
-          { area: 'Редирект-сервис', stack: 'Flask, деплой на Amvera' },
+          { area: 'Боты', stack: 'Aiogram 3, SQLite' },
+          { area: 'Редирект', stack: 'Flask, Amvera' },
+        ],
+      },
+    },
+    {
+      id: 'aromo-gid',
+      title: 'Aromo Gid',
+      tagline: 'Каталог, который был живым и его заморозили',
+      category: 'fullstack',
+      categoryLabel: 'Сайт · демо',
+      shortTabLabel: 'Aromo',
+      statusLabel: 'ЗАМОРОЖЕН · ДЕМО',
+      shortDescription:
+        'Каталог парфюмерии для заказчика. Раньше был в работе, потом его остановили. Сейчас это демо на GitHub Pages, без живого трафика.',
+      quoteHighlight: 'React · карточки · свайпы · демо',
+      previewImage: '/projects/aromo-gid-preview.png',
+      tags: ['React 18', 'Vite', 'Tailwind CSS', 'Framer Motion'],
+      githubUrl: 'https://github.com/gidroshlupka-ops/aromo-gid',
+      liveUrl: 'https://gidroshlupka-ops.github.io/aromo-gid/',
+      accentColor: '#F59E0B',
+      accentGradient: 'from-amber-500 to-orange-500',
+      iconName: 'Sparkles',
+      featured: false,
+      caseStudy: {
+        overview:
+          'Витрина ароматов: карточки, модалки, свайпы, отзывы. Связка с партнёрскими ботами была, сайт сейчас не продаёт.',
+        problem:
+          'Нужен был лёгкий каталог, который нормально открывается с телефона.',
+        solution:
+          'Обычный SPA на Vite. Анимации — Framer Motion. Отдельной админки и живой витрины больше нет.',
+        architecture: 'React + Vite → GitHub Pages. Бэкенд каталога — в ботах, не на этом сайте.',
+        keyFeatures: [
+          'Карточки и модалки',
+          'Свайпы на мобильном',
+          'Галерея отзывов',
+        ],
+        metrics: [],
+        techDetails: [
+          { area: 'Frontend', stack: 'React 18, Vite, Tailwind' },
+          { area: 'Статус', stack: 'Демо, заказ заморожен' },
+        ],
+      },
+    },
+    {
+      id: 'fantaziya-atelier',
+      title: 'Ателье «Фантазия»',
+      tagline: 'Учебный сайт. Ателье им не воспользовалось',
+      category: 'fullstack',
+      categoryLabel: 'Учёба · демо',
+      shortTabLabel: 'Фантазия',
+      statusLabel: 'КОЛЛЕДЖ · ОТКАЗАЛИСЬ',
+      shortDescription:
+        'Лендинг, который делал в колледже под реальное ателье. Форма заявок в Telegram через прокси есть. Сам заказчик сайт не взял. Осталось демо.',
+      quoteHighlight: 'учёба · форма в Telegram · демо',
+      previewImage: '/projects/fantaziya-preview.png',
+      tags: ['HTML5', 'Vanilla JS', 'Telegram Bot API'],
+      githubUrl: 'https://github.com/gidroshlupka-ops/fantaziya-site',
+      liveUrl: 'https://gidroshlupka-ops.github.io/fantaziya-site/',
+      accentColor: '#10B981',
+      accentGradient: 'from-emerald-500 to-teal-500',
+      iconName: 'Send',
+      featured: false,
+      caseStudy: {
+        overview:
+          'Учебная проектная работа: услуги, галерея, заявка мастеру в Telegram. В прод ателье это не ушло.',
+        problem:
+          'Нужна была визитка с заявкой без токена бота в HTML.',
+        solution:
+          'Форма уходит на прокси, токен живёт только на сервере. Сейчас смотреть можно только вёрстку и сценарий.',
+        architecture: 'Статика → прокси → Telegram Bot API.',
+        keyFeatures: [
+          'Каталог услуг и галерея',
+          'Заявка в Telegram без токена на фронте',
+          'Адаптивная вёрстка',
+        ],
+        metrics: [],
+        techDetails: [
+          { area: 'Frontend', stack: 'HTML, CSS, JS' },
+          { area: 'Заявки', stack: 'прокси + Telegram Bot API' },
+        ],
+      },
+    },
+    {
+      id: 'zvezda-diploma',
+      title: 'KPI «Звезда» — диплом',
+      tagline: 'Дипломный десктоп учёта KPI и ресурсов',
+      category: 'backend',
+      categoryLabel: 'Диплом',
+      shortTabLabel: 'Диплом',
+      statusLabel: 'ДИПЛОМ · НЕ ПРОД',
+      shortDescription:
+        'Дипломный модуль учёта KPI и ресурсов: окно на CustomTkinter, SQLite, отчёты Word, алерты в Telegram. Это защита в колледже, а не то, чем завод пользуется каждый день.',
+      quoteHighlight: 'диплом · Tkinter · SQLite · не прод',
+      previewImage: '/projects/zvezda-preview.png',
+      tags: ['Python', 'CustomTkinter', 'SQLite', 'Telegram', 'python-docx'],
+      githubUrl: 'https://github.com/gidroshlupka-ops/SSK_ZVEZDA_KPI',
+      accentColor: '#8B5CF6',
+      accentGradient: 'from-violet-500 to-purple-500',
+      iconName: 'GraduationCap',
+      featured: false,
+      caseStudy: {
+        overview:
+          'Диплом для ИТ-отдела «Звезды». Есть сборка установщика и учебные данные. Называть это внедрённой ERP нельзя.',
+        problem:
+          'Нужно было показать учёт сотрудников, KPI и остатков в одном десктоп-окне и уметь выгрузить отчёт.',
+        solution:
+          'Локальная SQLite, синхронизация через приватный GitHub как «облако», фоновые алерты в Telegram, Word с графиками. Это учебный контур.',
+        architecture:
+          'The_Storm.py → UI / БД / отчёты / трей. Не путать с RIGBI — тот как раз ставили в работу.',
+        keyFeatures: [
+          'Окно учёта KPI и ресурсов',
+          'Word-отчёт с графиками',
+          'Telegram-алерты из учебного контура',
+        ],
+        metrics: [],
+        techDetails: [
+          { area: 'UI', stack: 'CustomTkinter' },
+          { area: 'Данные', stack: 'SQLite' },
+          { area: 'Отчёты', stack: 'python-docx, графики' },
         ],
       },
     },
@@ -476,55 +456,35 @@ export const portfolioData: PortfolioData = {
 
   experiences: [
     {
-      id: 'exp-1',
-      role: 'Full-stack & Telegram Bot Разработчик',
-      company: 'Фриланс & Заказная разработка',
-      period: '2023 — Настоящее время',
-      type: 'Фриланс / Проектная работа',
-      location: 'Удаленно',
+      id: 'exp-freelance',
+      role: 'Проектная разработка',
+      company: 'Фриланс · Telegram / Кворк',
+      period: '2025 — н.в.',
+      type: 'Заказы',
+      location: 'Удалённо',
       summary:
-        'Разработка веб-приложений под ключ, создание сложных Telegram-ботов с интеграцией платежей, парсеров данных и бэкендов на FastAPI.',
+        'Заказная разработка через Telegram и Кворк: боты, реф-контуры и сайты. Сейчас беру штат или новый проект.',
       achievements: [
-        'Разработал и запустил более 15 Telegram-ботов и Mini Apps (интернет-магазины, боты для закрытых каналов с платной подпиской, AI-ассистенты).',
-        'Интегрировал платежные шлюзы (Telegram Stars, CryptoPay, ЮKassa, Stripe) с автоматической валидацией чеков и вебхуками.',
-        'Создал полнофункциональные SPA-панели управления на React и Tailwind для администрирования ботов и просмотра аналитики.',
-        'Настроил стабильный деплой проектов на VPS с Docker Compose, SSL-сертификатами и Nginx реверс-прокси.',
+        'Партнёрская экосистема Aromo: бот-каталог, админка и Flask-редиректор на общей SQLite, деплой на Amvera.',
+        'Telegram-автоматизация: отложенный постинг, парсер участников с FloodWait-retry, welcome-userbot.',
+        'Каталог Aromo на React — был в бою, сейчас демо после заморозки заказчиком.',
       ],
-      technologies: ['Python', 'FastAPI', 'Aiogram 3', 'React', 'TypeScript', 'PostgreSQL', 'Docker', 'Redis', 'Telegram API'],
+      technologies: ['Python', 'Aiogram 3', 'FastAPI', 'SQLite', 'React', 'TypeScript'],
     },
     {
-      id: 'exp-2',
-      role: 'Автор & Разработчик пет-проектов',
-      company: 'Pet Projects & Open Source',
-      period: '2022 — 2024',
-      type: 'Самостоятельная разработка',
-      location: 'Удаленно',
+      id: 'exp-zvezda',
+      role: 'Практика / диплом',
+      company: 'ССК «Звезда», ИТ-отдел',
+      period: 'Январь 2026 — март 2026',
+      type: 'Практика',
+      location: 'Большой Камень',
       summary:
-        'Проектирование и запуск собственных инструментов, RAG-сервисов с векторными базами данных и веб-приложений с нуля.',
+        'Практика в ИТ завода. Из этого периода две разные вещи: RIGBI, который ставили в работу, и дипломный KPI-модуль.',
       achievements: [
-        'Спроектировал архитектуру системы оркестрации AI-агентов OmniFlow на FastAPI и pgvector со стримингом через WebSockets.',
-        'Реализовал систему мониторинга PulseMetric с real-time графиками задержки и веб-сокетами на Node.js и React.',
-        'Оптимизировал SQL-запросы в PostgreSQL, использовал партиционирование и индексы для работы с большими объемами логов.',
-        'Оформил открытые репозитории с подробной документацией по запуску в Docker и чистой структурой кода.',
+        'RIGBI: индекс 3500+ Excel, calamine вместо openpyxl, поиск по карточкам для ИТ-отдела.',
+        'Диплом: десктоп учёта KPI на CustomTkinter + SQLite + Telegram. Учебный проект, не боевой контур предприятия.',
       ],
-      technologies: ['Python', 'FastAPI', 'React 19', 'TypeScript', 'pgvector', 'Docker', 'Redis', 'WebSockets', 'Tailwind CSS'],
-    },
-    {
-      id: 'exp-3',
-      role: 'Backend & Скрипты автоматизации',
-      company: 'Самостоятельная практика & Заказы',
-      period: '2021 — 2022',
-      type: 'Фриланс / Практика',
-      location: 'Удаленно',
-      summary:
-        'Изучение архитектуры бэкенд-систем, написание асинхронных парсеров, автоматизация рутинных процессов и создание первых ботов.',
-      achievements: [
-        'Создавал асинхронные парсеры на Python (aiohttp, BeautifulSoup, Playwright) для сбора и структурирования данных в PostgreSQL.',
-        'Разрабатывал RESTful API на Django и FastAPI с валидацией схем через Pydantic и автодокументацией Swagger.',
-        'Освоил работу с Docker, написание Dockerfile и базовую настройку Linux-серверов для непрерывной работы скриптов.',
-        'Регулярно решал алгоритмические задачи и изучал паттерны проектирования чистой архитектуры.',
-      ],
-      technologies: ['Python', 'FastAPI', 'Django', 'PostgreSQL', 'Docker', 'Linux', 'Git', 'Asyncio'],
+      technologies: ['Python', 'python-calamine', 'SQLite', 'CustomTkinter'],
     },
   ],
 
@@ -544,13 +504,6 @@ export const portfolioData: PortfolioData = {
       handle: 'github.com/gidroshlupka-ops',
     },
     {
-      platform: 'LinkedIn',
-      url: 'https://www.linkedin.com/in/afori',
-      label: 'Связаться в LinkedIn',
-      iconName: 'Linkedin',
-      handle: 'linkedin.com/in/afori',
-    },
-    {
       platform: 'Email',
       url: 'aforigidroshlupka@gmail.com',
       label: 'Отправить Email',
@@ -558,4 +511,102 @@ export const portfolioData: PortfolioData = {
       handle: 'aforigidroshlupka@gmail.com',
     },
   ],
+
+  resume: {
+    fullName: 'Журбин Алексей',
+    title: 'Python-разработчик · React · Telegram-боты',
+    contactsLine: '+7 (914) 695-53-12   ·   aforigidroshlupka@gmail.com   ·   Telegram: @shlalalalalalalo',
+    locationLine: 'github.com/gidroshlupka-ops   ·   Приморский край, г. Большой Камень   ·   удалённо, полная занятость',
+    salary: 'Желаемая зарплата: от 60 000 до 90 000 ₽',
+    about:
+      'Собираю рабочие контуры на Python: Telegram-боты, обработка данных, веб-интерфейсы, RAG и голос. Внедрил RIGBI в ИТ ССК «Звезда» — индекс 3500+ Excel, поиск < 0.01 с. Поднимаю бот-экосистемы с общей базой и деплоем. В открытом коде — модули «Мурки»: гибридный RAG (ChromaDB), ротация ключей LLM и RVC-голос. Ищу работу: Python / боты / автоматизация / AI-интеграции, удалённо.',
+    stack: [
+      {
+        label: 'Языки и backend',
+        value: 'Python (asyncio, typing), FastAPI, Flask, Aiogram 3.x, REST API',
+      },
+      {
+        label: 'Frontend',
+        value: 'React, Vite, TypeScript, Tailwind CSS, Framer Motion',
+      },
+      {
+        label: 'Базы',
+        value: 'PostgreSQL (в т.ч. Supabase), SQLite, ChromaDB',
+      },
+      {
+        label: 'Данные и Telegram',
+        value: 'python-calamine, Telethon, валидация Excel, парсинг чатов',
+      },
+      {
+        label: 'AI и голос',
+        value: 'Gemini / OpenAI API, RAG (гибридный ранкер, маяки), Edge TTS → RVC, автопитч F0',
+      },
+      {
+        label: 'Деплой',
+        value: 'Git, Docker / compose, Amvera, GitHub Pages, Cloudflare Workers, .env',
+      },
+    ],
+    jobs: [
+      {
+        title: 'Проектная разработка — фриланс (Telegram / Кворк)',
+        period: '2025 — по настоящее время',
+        projects: [
+          {
+            title: 'Партнёрка Aromo: каталог + админка + редиректор',
+            bullets: [
+              'Три сервиса на общей SQLite: реф-переходы, роли partner/admin, короткие slug-ссылки на Flask.',
+              'Деплой на Amvera с диском, чтобы статистика не обнулялась. Сайт-каталог позже заморозили, боты в работе.',
+            ],
+          },
+          {
+            title: 'Telegram-автоматизация под заказы',
+            bullets: [
+              'Отложенный постинг (Aiogram + APScheduler + SQLite), парсер участников с FloodWait-retry, welcome-userbot с антифлудом.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'ССК «Звезда», ИТ-отдел — практика / диплом',
+        period: 'Январь 2026 — март 2026',
+        projects: [
+          {
+            title: 'RIGBI — поиск по архиву Excel (ставили в работу)',
+            bullets: [
+              'Индексация 3500+ таблиц инвентарных карточек для ИТ-отдела.',
+              'openpyxl не тянул объём — python-calamine + потоки, ускорение в 10–50 раз, поиск по индексу < 0.01 с.',
+              'Инкрементальные обновления по mtime и очистка кривых дат.',
+            ],
+          },
+          {
+            title: 'Модуль KPI — дипломный проект, не прод завода',
+            bullets: [
+              'Десктоп на CustomTkinter, локальная SQLite, Word-отчёты, учебные Telegram-алерты.',
+              'Защитил как диплом. Это не внедрённая система учёта предприятия.',
+            ],
+          },
+        ],
+      },
+    ],
+    pets: [
+      {
+        title: '«Мурка» — мультимодальный AI Telegram-бот',
+        bullets: [
+          'Гибридный RAG: ChromaDB + переранжирование 0.5 сходство / 0.3 свежесть / 0.2 важность, изоляция по uid, маяки.',
+          'Ротация LLM-ключей: RPM vs дневной 429, бан биллинг-группы, кулдауны в SQLite.',
+          'Голос персонажа: Edge TTS → RVC, автопитч по медиане F0. Код модулей: github.com/gidroshlupka-ops/murka-showcase.',
+        ],
+      },
+      {
+        title: 'Портфолио',
+        bullets: [
+          'Сайт на React + Vite + TypeScript: gidroshlupka-ops.github.io. Форма контактов уходит в Telegram через Cloudflare Worker, токен на фронте не лежит.',
+        ],
+      },
+    ],
+    education: [
+      'Среднее профессиональное (СПО) — Информационные системы и программирование, выпуск 2026 г.',
+      'Учебный сайт ателье «Фантазия»: делал в колледже, ателье от внедрения отказалось. Демо — на GitHub Pages.',
+    ],
+  },
 };

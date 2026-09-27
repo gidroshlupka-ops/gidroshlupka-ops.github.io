@@ -14,14 +14,18 @@ interface Particle {
   y: number;
 }
 
+// Русская азбука Морзе, по слову за клик:
+// «если вы это прочитали возьмите меня на работу пж»
 const PURR_PHRASES = [
-  'Мурр…',
-  '*жмурится*',
-  'Ещё чуть-чуть.',
-  'Тепло.',
-  '*трётся щекой*',
-  'Не убирай руку.',
-  'Листик доволен.',
+  '. ... .-.. ..',
+  '.-- -.--',
+  '..-.. - ---',
+  '.--. .-. --- ---. .. - .- .-.. ..',
+  '.-- --- --.. -..- -- .. - .',
+  '-- . -. .-.-',
+  '-. .-',
+  '.-. .- -... --- - ..-',
+  '.--. ...-',
 ];
 
 const lookSpring = { damping: 28, stiffness: 38, mass: 1.2 };
@@ -222,7 +226,8 @@ export function Interactive3DModel() {
     const phrase = PURR_PHRASES[phraseIndexRef.current % PURR_PHRASES.length];
     phraseIndexRef.current += 1;
     setSpeechBubble(phrase);
-    speechTimeoutRef.current = window.setTimeout(() => setSpeechBubble(null), 2400);
+    const hold = Math.min(5000, 2200 + phrase.length * 35);
+    speechTimeoutRef.current = window.setTimeout(() => setSpeechBubble(null), hold);
   };
 
   return (
@@ -244,7 +249,7 @@ export function Interactive3DModel() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.28, ease: 'easeOut' }}
-            className="absolute top-2 sm:top-6 z-40 px-4 py-2 rounded-2xl bg-white/95 text-black font-mono-tech text-xs shadow-2xl border border-black/10 max-w-[240px]"
+            className="absolute top-2 sm:top-6 z-40 px-4 py-2 rounded-2xl bg-white/95 text-black font-mono-tech text-[11px] tracking-wide shadow-2xl border border-black/10 max-w-[min(92%,320px)] break-all"
           >
             {speechBubble}
           </motion.div>

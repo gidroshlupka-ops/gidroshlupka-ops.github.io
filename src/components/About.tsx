@@ -15,7 +15,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="snap-section relative w-full min-h-screen flex flex-col justify-between py-16 sm:py-20 px-4 sm:px-8 lg:px-12 overflow-hidden bg-[#0c0e12] select-none"
+      className="snap-section relative w-full min-h-[100svh] flex flex-col justify-between gap-6 py-16 sm:py-20 px-4 sm:px-8 lg:px-12 overflow-x-hidden bg-[#0c0e12] select-none"
     >
       {/* Background Animated Subtle Gradient (Eye-Safe, Muted) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -32,7 +32,7 @@ export function About() {
           </h2>
         </div>
         <span className="text-[11px] font-mono-tech text-white/40 hidden sm:inline">
-          FREELANCE & PET-PROJECTS
+          FREELANCE · PRACTICE · PETS
         </span>
       </div>
 
@@ -45,7 +45,7 @@ export function About() {
               ■ ОБО МНЕ
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Практический стек, проверенный на реальных задачах
+              Боты, автоматизация и честные учебные кейсы
             </h3>
           </div>
 
@@ -58,19 +58,19 @@ export function About() {
           <div className="grid grid-cols-2 gap-2 pt-2 text-xs font-mono-tech">
             <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="text-white/80">Async & FastAPI</span>
+              <span className="text-white/80">Python & FastAPI</span>
             </div>
             <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="text-white/80">Telegram Mini Apps</span>
+              <span className="text-white/80">Telegram-боты</span>
             </div>
             <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="text-white/80">Docker & Linux</span>
+              <span className="text-white/80">Excel и данные</span>
             </div>
             <div className="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="text-white/80">LLM & RAG Systems</span>
+              <span className="text-white/80">RAG + Voice</span>
             </div>
           </div>
         </div>

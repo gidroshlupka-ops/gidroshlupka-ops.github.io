@@ -5,7 +5,6 @@ import {
   Send,
   Github,
   Twitter,
-  Linkedin,
   Copy,
   Check,
   Sparkles,
@@ -91,7 +90,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="snap-section relative w-full min-h-screen flex flex-col justify-between py-16 sm:py-20 px-4 sm:px-8 lg:px-12 overflow-hidden bg-[#0c0e12] select-none"
+      className="snap-section relative w-full min-h-[100svh] flex flex-col justify-between gap-6 py-16 sm:py-20 px-4 sm:px-8 lg:px-12 overflow-x-hidden bg-[#0c0e12] select-none"
     >
       {/* Background Subtle Organic Gradient (Eye-Safe, Muted) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -124,7 +123,7 @@ export function Contact() {
               Обсудим проект или задачу?
             </h3>
             <p className="text-xs sm:text-sm text-white/70">
-              Отвечаю быстро в Telegram или по электронной почте.
+              {portfolioData.personal.availabilityNote}. Пишите в Telegram или на почту.
             </p>
           </div>
 
@@ -172,8 +171,7 @@ export function Contact() {
               </button>
             </div>
 
-            {/* GitHub, Twitter & LinkedIn Row */}
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-2 gap-2.5">
               <a
                 href={portfolioData.personal.githubUrl}
                 target="_blank"
@@ -192,15 +190,6 @@ export function Contact() {
                 <Twitter className="w-4 h-4 shrink-0 text-sky-400" />
                 <span>TWITTER</span>
               </a>
-              <a
-                href={portfolioData.personal.linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-white/20 flex items-center justify-center gap-2 text-xs font-mono-tech text-white/80 hover:text-white transition-colors"
-              >
-                <Linkedin className="w-4 h-4 shrink-0 text-sky-400" />
-                <span>LINKEDIN</span>
-              </a>
             </div>
           </div>
         </div>
@@ -208,7 +197,7 @@ export function Contact() {
         {/* Right Column: Clean Form */}
         <div className="lg:col-span-7 flex flex-col justify-center">
           <div className="p-6 sm:p-7 rounded-3xl bg-white/[0.04] border border-white/12 backdrop-blur-md">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <h4 className="text-base font-bold text-white">
                 Быстрое сообщение
               </h4>
