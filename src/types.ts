@@ -26,6 +26,13 @@ export interface ProjectCaseStudy {
   screenshots?: ProjectScreenshot[];
 }
 
+export interface ProjectVoiceSample {
+  url: string;
+  durationLabel: string;
+  title?: string;
+  caption?: string;
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -40,6 +47,7 @@ export interface ProjectItem {
   githubUrl?: string;
   liveUrl?: string;
   telegramBotUrl?: string;
+  voiceSample?: ProjectVoiceSample;
   accentColor: string;
   accentGradient: string;
   iconName: string;

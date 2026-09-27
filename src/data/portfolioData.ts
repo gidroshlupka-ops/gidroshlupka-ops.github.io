@@ -224,6 +224,82 @@ export const portfolioData: PortfolioData = {
     },
 
     {
+      id: 'murka',
+      title: 'Мурка',
+      tagline: 'AI-компаньон с памятью, своим голосом и устойчивым доступом к LLM',
+      category: 'ai_llm',
+      categoryLabel: 'AI Companion',
+      shortDescription:
+        'Мультимодальный Telegram-компаньон: помнит человека через дни, не падает на free-tier 429 и отвечает голосом одного персонажа — мелодия от Edge TTS, тембр от RVC.',
+      quoteHighlight: 'HYBRID RAG · RATE-LIMIT AWARE KEYS · RVC VOICE',
+
+      previewImage: '/projects/murka/hero-art.png',
+
+      tags: ['Python', 'Aiogram 3', 'ChromaDB', 'FastAPI', 'RVC', 'Gemini API'],
+
+      githubUrl: 'https://github.com/gidroshlupka-ops/murka-showcase',
+
+      voiceSample: {
+        url: '/projects/murka/murka-voice.wav',
+        durationLabel: '00:03',
+        title: 'Мурка',
+        caption: 'RVC',
+      },
+
+      accentColor: '#3390EC',
+      accentGradient: 'from-sky-500 to-blue-400',
+      iconName: 'Bot',
+      featured: true,
+      caseStudy: {
+        overview:
+          'Продакшен-компаньон, из которого в открытый срез вынесены три инженерных модуля: гибридная память, умная ротация LLM-ключей и голосовой сервис на RVC.',
+        problem:
+          'Обычный чат-бот забывает человека после паузы, падает когда кончается бесплатная квота API и звучит как синтезатор. Для компаньона это ломает ощущение «того же персонажа».',
+        solution:
+          'Память достаёт больше соседей, чем нужно, и переранжирует их по смыслу, свежести и важности — факт о человеке бьёт недавнюю болтовню не по слогану, а по формуле. Пул ключей отличает минутный 429 от дневного лимита и банит весь биллинг-аккаунт, а не один токен. Голос: Edge TTS даёт интонацию, RVC — тембр; на voice-to-voice питч считается из медианы F0, а не угадывается.',
+        architecture:
+          'Telegram (Aiogram) принимает сообщение → RagMemory и факты по uid → KeyManager выбирает живой ключ → Gemini, при необходимости Groq → ответ текстом и/или POST /tts (Edge TTS → RVC). Картинки, промпты персонажа и токены в публичный репозиторий не входят.',
+        keyFeatures: [
+          'Полки памяти изолированы по uid: чужие диалоги не смешиваются',
+          'Гибридный скор: 50% сходство + 30% свежесть (τ = 72 ч) + 20% важность',
+          'Маяки (#маяк / #яяк): модель сама пишет факты в долгую память',
+          'Слепок сессии, если человека не было больше двух часов',
+          'Ротация ключей: RPM 65 с, дневная квота — бан группы на 24 ч, лимит 0 — час отдыха',
+          'Голос как в Telegram: Edge TTS → RVC, автопитч по pyin',
+        ],
+        metrics: [
+          { label: 'Веса ранкера', value: '0.5 / 0.3 / 0.2' },
+          { label: 'Окно свежести', value: '72 часа' },
+          { label: 'Бан на дневной 429', value: '24 ч на группу' },
+          { label: 'Голосовой сэмпл', value: '3 сек · RVC' },
+        ],
+        techDetails: [
+          { area: 'Память', stack: 'ChromaDB, paraphrase-multilingual-MiniLM-L12-v2, SQLite-факты' },
+          { area: 'Ключи', stack: 'KeyManager + SQLite bans, группы по префиксу ключа' },
+          { area: 'Голос', stack: 'FastAPI, Edge TTS, RVC, librosa pyin' },
+          { area: 'Бот (вне среза)', stack: 'Python, Aiogram 3, Gemini / Groq fallback' },
+        ],
+        screenshots: [
+          {
+            title: 'Гибридный ранкер',
+            url: '/projects/murka/score-demo.png',
+            description: 'Оффтоп проигрывает факту: importance 0.9 бьёт свежую болтовню',
+          },
+          {
+            title: 'Ротация ключей',
+            url: '/projects/murka/keys-demo.png',
+            description: 'Дневной 429 банит группу аккаунта на 24 часа, следующий ключ — из другого',
+          },
+          {
+            title: 'Карточка голоса',
+            url: '/projects/murka/hero.png',
+            description: 'Тот же персонаж: мелодия TTS, тембр RVC-чекпоинта',
+          },
+        ],
+      },
+    },
+
+    {
       id: 'zvezda-murka',
       title: 'ССК «Звезда» + Мурка',
       tagline: 'KPI-система предприятия: десктоп-клиент, Telegram-бот и AI-ассистент',
@@ -403,53 +479,6 @@ export const portfolioData: PortfolioData = {
         techDetails: [
           { area: 'Боты', stack: 'Python, Aiogram 3, SQLite' },
           { area: 'Редирект-сервис', stack: 'Flask, деплой на Amvera' },
-        ],
-      },
-    },
-
-    {
-      id: 'n8n-orchestrator-worker',
-      title: 'n8n Orchestrator / Worker',
-      tagline: 'Мультиагентный workflow с валидацией, состоянием сессии и retry-политиками',
-      category: 'backend',
-      categoryLabel: 'Automation & Orchestration',
-      shortDescription:
-        'Тестовое задание на позицию n8n-разработчика: система разделена на управляющий workflow (валидация, состояние сессии) и исполнительный (поиск данных), с политиками повторных попыток на критичных узлах.',
-      quoteHighlight: 'ORCHESTRATOR/WORKER SPLIT WITH SUPABASE SESSION STATE AND RETRY POLICIES',
-
-      previewImage: '/projects/n8n-preview.png',
-
-      tags: ['n8n', 'Supabase', 'Webhook', 'JSON API contracts'],
-
-    // ссылки на репозиторий нет — только визуальная демонстрация
-
-      accentColor: '#EF4444',
-      accentGradient: 'from-red-500 to-orange-500',
-      iconName: 'Workflow',
-      featured: false,
-      caseStudy: {
-        overview:
-          'Модульная система для обработки поисковых запросов с разделением логики на управляющий workflow (Orchestrator) и исполнительный (Worker) — тестовое задание на позицию n8n-разработчика.',
-        problem:
-          'Нужно было спроектировать архитектуру, которая масштабируется и не разваливается при ошибках: отдельно интерфейс и валидация, отдельно — тяжёлая работа с данными, с сохранением состояния между шагами.',
-        solution:
-          'Разделил систему на два независимых workflow: Orchestrator принимает вебхук, валидирует вход и сразу пишет статус сессии в Supabase (для отслеживания истории запросов), затем делегирует поиск отдельному Worker-процессу через executeWorkflow. Поиск в Worker реализован нативными средствами ноды Supabase (фильтрация на стороне БД, а не в JS) — быстрее и правильнее, чем тянуть всё в память. На всех критичных узлах (запросы к БД, вызовы под-процессов) настроены retry-политики (3 попытки, интервал 1000мс).',
-        architecture:
-          'Webhook -> Validation (JS) -> Supabase (запись session_state) -> Call Worker Workflow -> Supabase (поиск с фильтрацией) -> Структурированный JSON-ответ.',
-        keyFeatures: [
-          'Чёткое разделение Orchestrator/Worker для масштабируемости',
-          'Состояние сессии сохраняется в Supabase сразу после валидации',
-          'Поиск через нативную фильтрацию Supabase вместо обработки в JS',
-          'Retry-политики на всех критичных узлах',
-          'Структурированные JSON-контракты ответа: success / missing_data / error',
-        ],
-        metrics: [
-          { label: 'Retry-попыток на критичных нодах', value: '3, интервал 1000мс' },
-        ],
-        techDetails: [
-          { area: 'Оркестрация', stack: 'n8n (Webhook, Code, executeWorkflow nodes)' },
-          { area: 'Хранилище состояния', stack: 'Supabase (Postgres)' },
-          { area: 'Контракт ответа', stack: 'Структурированный JSON (success/missing_data/error)' },
         ],
       },
     },

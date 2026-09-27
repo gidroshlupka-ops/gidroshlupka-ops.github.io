@@ -107,13 +107,63 @@
   box-shadow: 0 8px 20px -4px rgba(255, 255, 255, 0.25);
 }
 
+body.project-modal-open #main-navbar {
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#main-navbar {
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.35s ease,
+    background-color 0.3s ease,
+    padding 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.project-modal-header {
+  transform: translateY(0);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-top: max(10px, env(safe-area-inset-top, 0px));
+  will-change: transform;
+}
+
+.project-modal-header.is-hidden {
+  transform: translateY(calc(-100% - 8px));
+  pointer-events: none;
+}
+
+.project-modal-header-spacer {
+  height: calc(56px + env(safe-area-inset-top, 0px));
+}
+
+.murka-wave-bar {
+  animation: murkaWave 0.9s ease-in-out infinite;
+}
+
+@keyframes murkaWave {
+  0%,
+  100% {
+    transform: scaleY(0.55);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .animate-ambient-slow,
-  .animate-ambient-slow-reverse {
+  .animate-ambient-slow-reverse,
+  .murka-wave-bar {
     animation: none !important;
+  }
+  #main-navbar,
+  .project-modal-header {
+    transition-duration: 0.01ms !important;
   }
 }
 

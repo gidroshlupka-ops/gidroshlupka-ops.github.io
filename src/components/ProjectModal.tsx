@@ -1,20 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import {
   X,
   ExternalLink,
   Github,
   CheckCircle2,
   Layers,
-  Cpu,
   Zap,
   TrendingUp,
   Share2,
   Check,
   Code2,
   ArrowLeft,
-  ArrowRight,
   Send,
   ChevronLeft,
   ChevronRight,
@@ -25,6 +23,8 @@ import { ProjectItem } from '../types';
 import { portfolioData } from '../data/portfolioData';
 import { TechIcon } from './TechIcon';
 import { lockBodyScroll, unlockBodyScroll } from '../lib/scrollLock';
+import { MurkaOverview } from './MurkaOverview';
+import { MurkaVoicePlayer } from './MurkaVoicePlayer';
 
 interface ProjectModalProps {
   project: ProjectItem | null;
@@ -35,14 +35,38 @@ interface ProjectModalProps {
 export function ProjectModal({ project, onClose, onSelectProject }: ProjectModalProps) {
   const [copied, setCopied] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const allProjects = portfolioData.projects;
   const currentIndex = project ? allProjects.findIndex((p) => p.id === project.id) : -1;
 
-  // Reset active image when project changes
   useEffect(() => {
     setActiveImageIndex(0);
+    setHeaderHidden(false);
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [project?.id]);
+
+  useEffect(() => {
+    if (project) {
+      document.body.classList.add('project-modal-open');
+    } else {
+      document.body.classList.remove('project-modal-open');
+    }
+    return () => document.body.classList.remove('project-modal-open');
+  }, [project]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || !project) return;
+
+    const onScroll = () => {
+      setHeaderHidden(el.scrollTop > 16);
+    };
+
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [project]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -107,11 +131,15 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
     <AnimatePresence>
       <div
         id="project-fullscreen-modal"
-        className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#0c0e12] text-white pt-16"
+        ref={scrollRef}
+        className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#0c0e12] text-white"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        {/* Sticky Top Header Navigation */}
-        <header className="sticky top-0 z-40 bg-[#0c0e12]/95 border-b border-white/10 px-3 sm:px-8 py-3 flex items-center justify-between gap-2 flex-wrap">
+        <header
+          className={`project-modal-header fixed top-0 inset-x-0 z-50 bg-[#0c0e12]/95 backdrop-blur-md border-b border-white/10 px-3 sm:px-8 py-2.5 flex items-center justify-between gap-2 flex-nowrap ${
+            headerHidden ? 'is-hidden' : ''
+          }`}
+        >
           {/* Back Button */}
           <div className="flex items-center gap-2 min-w-0">
             <button
@@ -119,8 +147,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               className="px-3 py-1.5 rounded-full btn-glass text-white text-xs font-mono-tech flex items-center gap-2 hover:bg-white hover:text-black transition-all cursor-pointer shrink-0"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="hidden xs:inline sm:inline">Назад</span>
-              <span className="sm:hidden">Назад</span>
+              <span className="hidden sm:inline">Назад</span>
             </button>
 
             <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-tech uppercase bg-white/5 border border-white/10 text-white/80">
@@ -207,6 +234,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
             </button>
           </div>
         </header>
+        <div className="project-modal-header-spacer" aria-hidden />
 
         {/* Fullscreen Body Content */}
         <main className="max-w-6xl mx-auto w-full px-3 sm:px-8 py-6 sm:py-12 space-y-10 sm:space-y-12 pb-24">
@@ -265,7 +293,15 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 </span>
               ))}
             </div>
+
+            {project.voiceSample && (
+              <div className="pt-2">
+                <MurkaVoicePlayer sample={project.voiceSample} />
+              </div>
+            )}
           </div>
+
+          {project.id === 'murka' && <MurkaOverview />}
 
           {/* INTERACTIVE GALLERY & SCREENSHOTS VIEWER */}
           <div className="space-y-4">
