@@ -233,7 +233,7 @@ export const portfolioData: PortfolioData = {
         'Мультимодальный Telegram-компаньон: помнит человека через дни, не падает на free-tier 429 и отвечает голосом одного персонажа — мелодия от Edge TTS, тембр от RVC.',
       quoteHighlight: 'HYBRID RAG · RATE-LIMIT AWARE KEYS · RVC VOICE',
 
-      previewImage: '/projects/murka/hero-art.png',
+      previewImage: '/projects/murka/murka-card.png',
 
       tags: ['Python', 'Aiogram 3', 'ChromaDB', 'FastAPI', 'RVC', 'Gemini API'],
 
@@ -281,19 +281,9 @@ export const portfolioData: PortfolioData = {
         ],
         screenshots: [
           {
-            title: 'Гибридный ранкер',
-            url: '/projects/murka/score-demo.png',
-            description: 'Оффтоп проигрывает факту: importance 0.9 бьёт свежую болтовню',
-          },
-          {
-            title: 'Ротация ключей',
-            url: '/projects/murka/keys-demo.png',
-            description: 'Дневной 429 банит группу аккаунта на 24 часа, следующий ключ — из другого',
-          },
-          {
-            title: 'Карточка голоса',
+            title: 'Murka Showcase',
             url: '/projects/murka/hero.png',
-            description: 'Тот же персонаж: мелодия TTS, тембр RVC-чекпоинта',
+            description: 'Три модуля: гибридная память, пул ключей и голос RVC',
           },
         ],
       },

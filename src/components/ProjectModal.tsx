@@ -116,14 +116,16 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
     }
   };
 
-  const allImages = [
-    {
-      title: 'Главное превью & Mockup',
-      url: project.previewImage,
-      description: project.tagline,
-    },
-    ...(project.caseStudy.screenshots || []),
-  ];
+  const allImages =
+    project.caseStudy.screenshots && project.caseStudy.screenshots.length > 0
+      ? project.caseStudy.screenshots
+      : [
+          {
+            title: 'Главное превью',
+            url: project.previewImage,
+            description: project.tagline,
+          },
+        ];
 
   const currentScreenshot = allImages[activeImageIndex] || allImages[0];
 
@@ -140,8 +142,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
             headerHidden ? 'is-hidden' : ''
           }`}
         >
-          {/* Back Button */}
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="relative z-10 flex items-center gap-2 min-w-0">
             <button
               onClick={onClose}
               className="px-3 py-1.5 rounded-full btn-glass text-white text-xs font-mono-tech flex items-center gap-2 hover:bg-white hover:text-black transition-all cursor-pointer shrink-0"
@@ -150,41 +151,43 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
               <span className="hidden sm:inline">Назад</span>
             </button>
 
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-tech uppercase bg-white/5 border border-white/10 text-white/80">
-              <TechIcon name={project.iconName} className="w-3.5 h-3.5" />
-              <span>{project.categoryLabel}</span>
+            <span className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-tech uppercase bg-white/5 border border-white/10 text-white/80 max-w-[220px] truncate">
+              <TechIcon name={project.iconName} className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">{project.categoryLabel}</span>
             </span>
           </div>
 
-          {/* Project Switcher Arrows */}
-          <div className="hidden md:flex items-center gap-2">
-            <button
-              onClick={handlePrevProject}
-              className="p-1.5 rounded-lg btn-glass text-white hover:text-white cursor-pointer"
-              title="Предыдущий проект [←]"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="text-xs font-mono-tech text-white/50 px-1">
-              0{currentIndex + 1} / 0{allProjects.length}
-            </span>
-            <button
-              onClick={handleNextProject}
-              className="p-1.5 rounded-lg btn-glass text-white hover:text-white cursor-pointer"
-              title="Следующий проект [→]"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+          <div className="pointer-events-none absolute inset-y-0 left-1/2 z-20 flex -translate-x-1/2 items-center">
+            <div className="pointer-events-auto flex items-center gap-0.5 rounded-full border border-white/10 bg-white/5 px-1 py-0.5">
+              <button
+                onClick={handlePrevProject}
+                className="p-1.5 rounded-full text-white hover:bg-white/10 cursor-pointer"
+                title="Предыдущий проект [←]"
+                aria-label="Предыдущий проект"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <span className="w-12 sm:w-14 text-center text-xs font-mono-tech tabular-nums text-white/60">
+                {String(currentIndex + 1).padStart(2, '0')} / {String(allProjects.length).padStart(2, '0')}
+              </span>
+              <button
+                onClick={handleNextProject}
+                className="p-1.5 rounded-full text-white hover:bg-white/10 cursor-pointer"
+                title="Следующий проект [→]"
+                aria-label="Следующий проект"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          {/* Direct CTA Action Buttons */}
-          <div className="flex items-center gap-2">
+          <div className="relative z-10 flex items-center justify-end gap-2 shrink-0">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex px-4 py-1.5 rounded-full text-xs font-mono-tech font-bold btn-solid-primary items-center gap-1.5 shadow-lg"
+                className="hidden xl:flex px-4 py-1.5 rounded-full text-xs font-mono-tech font-bold btn-solid-primary items-center gap-1.5 shadow-lg"
               >
                 <span>ПЕРЕЙТИ К ПРОЕКТУ</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -196,11 +199,11 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex px-3.5 py-1.5 rounded-full text-xs font-mono-tech btn-glass text-white/90 items-center gap-1.5"
+                className="hidden md:flex px-2.5 lg:px-3.5 py-1.5 rounded-full text-xs font-mono-tech btn-glass text-white/90 items-center gap-1.5"
                 title="Репозиторий на GitHub"
               >
                 <Github className="w-3.5 h-3.5" />
-                <span>GitHub</span>
+                <span className="hidden lg:inline">GitHub</span>
               </a>
             )}
 
@@ -209,7 +212,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 href={project.telegramBotUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex px-3.5 py-1.5 rounded-full text-xs font-mono-tech btn-glass text-sky-400 items-center gap-1.5"
+                className="hidden xl:flex px-3.5 py-1.5 rounded-full text-xs font-mono-tech btn-glass text-sky-400 items-center gap-1.5"
                 title="Telegram-бот проекта"
               >
                 <Send className="w-3.5 h-3.5" />
@@ -316,12 +319,12 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
             </div>
 
             {/* Main Active Screenshot Stage */}
-            <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-3xl bg-black/60 border border-white/15 overflow-hidden shadow-2xl group">
+            <div className="relative aspect-video rounded-3xl bg-black/60 border border-white/15 overflow-hidden shadow-2xl group">
               <img
                 src={currentScreenshot.url}
                 alt={currentScreenshot.title}
                 decoding="async"
-                className="w-full h-full object-cover object-center transition-all duration-500"
+                className="w-full h-full object-contain object-center transition-all duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
