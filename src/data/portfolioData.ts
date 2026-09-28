@@ -21,11 +21,10 @@ export const portfolioData: PortfolioData = {
       'Работал с постоянными заказчиками через Telegram и Кворк. Сейчас ищу штат или новый контур, который нужно довести до прода.',
       'Диплом — десктоп учёта KPI. Сайт ателье делал в колледже, его не взяли. Каталог Aromo был в работе, потом заморозили; демо на GitHub Pages.',
     ],
-    location: 'Большой Камень · удалённо',
+    location: 'Удалённо',
     workStatus: 'Открыт к работе и заказам',
     availabilityNote: 'Открыт к офферам: Python, боты, автоматизация, AI-интеграции',
     email: 'aforigidroshlupka@gmail.com',
-    phone: '+7 (914) 695-53-12',
     telegramUsername: '@shlalalalalalalo',
     telegramLink: 'https://t.me/shlalalalalalalo',
     githubUrl: 'https://github.com/gidroshlupka-ops',
@@ -224,6 +223,13 @@ export const portfolioData: PortfolioData = {
           { area: 'Парсинг', stack: 'python-calamine' },
           { area: 'Потоки', stack: 'ThreadPoolExecutor' },
           { area: 'Индекс', stack: 'SQLite' },
+        ],
+        screenshots: [
+          {
+            title: 'Поиск карточки',
+            url: '/projects/rigbi/search.png',
+            description: 'Индекс Excel и поиск по инвентарному номеру поверх открытой карточки',
+          },
         ],
       },
     },
@@ -450,6 +456,13 @@ export const portfolioData: PortfolioData = {
           { area: 'Данные', stack: 'SQLite' },
           { area: 'Отчёты', stack: 'python-docx, графики' },
         ],
+        screenshots: [
+          {
+            title: 'Дашборд KPI',
+            url: '/projects/zvezda/dashboard.png',
+            description: 'Дипломный десктоп: сводка по отделам, динамика и учебные данные',
+          },
+        ],
       },
     },
   ],
@@ -477,7 +490,7 @@ export const portfolioData: PortfolioData = {
       company: 'ССК «Звезда», ИТ-отдел',
       period: 'Январь 2026 — март 2026',
       type: 'Практика',
-      location: 'Большой Камень',
+      location: 'Удалённо',
       summary:
         'Практика в ИТ завода. Из этого периода две разные вещи: RIGBI, который ставили в работу, и дипломный KPI-модуль.',
       achievements: [
@@ -515,8 +528,8 @@ export const portfolioData: PortfolioData = {
   resume: {
     fullName: 'Журбин Алексей',
     title: 'Python-разработчик · React · Telegram-боты',
-    contactsLine: '+7 (914) 695-53-12   ·   aforigidroshlupka@gmail.com   ·   Telegram: @shlalalalalalalo',
-    locationLine: 'github.com/gidroshlupka-ops   ·   Приморский край, г. Большой Камень   ·   удалённо, полная занятость',
+    contactsLine: 'aforigidroshlupka@gmail.com   ·   Telegram: @shlalalalalalalo',
+    locationLine: 'github.com/gidroshlupka-ops   ·   удалённо',
     salary: 'Желаемая зарплата: от 60 000 до 90 000 ₽',
     about:
       'Собираю рабочие контуры на Python: Telegram-боты, обработка данных, веб-интерфейсы, RAG и голос. Внедрил RIGBI в ИТ ССК «Звезда» — индекс 3500+ Excel, поиск < 0.01 с. Поднимаю бот-экосистемы с общей базой и деплоем. В открытом коде — модули «Мурки»: гибридный RAG (ChromaDB), ротация ключей LLM и RVC-голос. Ищу работу: Python / боты / автоматизация / AI-интеграции, удалённо.',

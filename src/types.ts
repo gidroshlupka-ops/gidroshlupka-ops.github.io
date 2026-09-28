@@ -118,7 +118,7 @@ export interface PersonalInfo {
   workStatus: string;
   availabilityNote: string;
   email: string;
-  phone: string;
+  phone?: string;
   telegramUsername: string;
   telegramLink: string;
   githubUrl: string;

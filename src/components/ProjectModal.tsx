@@ -18,6 +18,7 @@ import {
   ChevronRight,
   Image as ImageIcon,
   Sparkles,
+  Maximize2,
 } from 'lucide-react';
 import { ProjectItem } from '../types';
 import { portfolioData } from '../data/portfolioData';
@@ -36,6 +37,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
   const [copied, setCopied] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [headerHidden, setHeaderHidden] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const allProjects = portfolioData.projects;
@@ -44,6 +46,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
   useEffect(() => {
     setActiveImageIndex(0);
     setHeaderHidden(false);
+    setLightboxOpen(false);
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [project?.id]);
 
@@ -71,16 +74,46 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!project) return;
+      const gallery =
+        project.caseStudy.screenshots && project.caseStudy.screenshots.length > 0
+          ? project.caseStudy.screenshots
+          : [
+              {
+                title: 'Главное превью',
+                url: project.previewImage,
+                description: project.tagline,
+              },
+            ];
+
       if (e.key === 'Escape') {
+        if (lightboxOpen) {
+          setLightboxOpen(false);
+          return;
+        }
         onClose();
+        return;
       }
-      if (e.key === 'ArrowRight' && currentIndex !== -1 && onSelectProject) {
-        const nextIndex = (currentIndex + 1) % allProjects.length;
-        onSelectProject(allProjects[nextIndex]);
+      if (e.key === 'ArrowRight') {
+        if (lightboxOpen) {
+          e.preventDefault();
+          setActiveImageIndex((prev) => (prev + 1) % gallery.length);
+          return;
+        }
+        if (currentIndex !== -1 && onSelectProject) {
+          const nextIndex = (currentIndex + 1) % allProjects.length;
+          onSelectProject(allProjects[nextIndex]);
+        }
       }
-      if (e.key === 'ArrowLeft' && currentIndex !== -1 && onSelectProject) {
-        const prevIndex = (currentIndex - 1 + allProjects.length) % allProjects.length;
-        onSelectProject(allProjects[prevIndex]);
+      if (e.key === 'ArrowLeft') {
+        if (lightboxOpen) {
+          e.preventDefault();
+          setActiveImageIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
+          return;
+        }
+        if (currentIndex !== -1 && onSelectProject) {
+          const prevIndex = (currentIndex - 1 + allProjects.length) % allProjects.length;
+          onSelectProject(allProjects[prevIndex]);
+        }
       }
     };
 
@@ -92,7 +125,7 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
       if (project) unlockBodyScroll();
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [project, onClose, currentIndex, allProjects, onSelectProject]);
+  }, [project, onClose, currentIndex, allProjects, onSelectProject, lightboxOpen]);
 
   if (!project) return null;
 
@@ -129,7 +162,13 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
 
   const currentScreenshot = allImages[activeImageIndex] || allImages[0];
 
+  const cycleGallery = (dir: 1 | -1) => {
+    if (allImages.length < 2) return;
+    setActiveImageIndex((prev) => (prev + dir + allImages.length) % allImages.length);
+  };
+
   return createPortal(
+    <>
     <AnimatePresence>
       <div
         id="project-fullscreen-modal"
@@ -314,43 +353,52 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                 <span className="break-words">ГАЛЕРЕЯ ({allImages.length})</span>
               </h3>
               <span className="text-[10px] sm:text-xs font-mono-tech text-white/40">
-                Нажмите миниатюру
+                Нажмите фото — на весь экран
               </span>
             </div>
 
             {/* Main Active Screenshot Stage */}
-            <div className="relative aspect-video rounded-3xl bg-black/60 border border-white/15 overflow-hidden shadow-2xl group">
-              <img
-                src={currentScreenshot.url}
-                alt={currentScreenshot.title}
-                decoding="async"
-                className="w-full h-full object-contain object-center transition-all duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="relative aspect-[16/10] sm:aspect-video rounded-2xl sm:rounded-3xl bg-black/70 border border-white/15 overflow-hidden shadow-2xl">
+              <button
+                type="button"
+                onClick={() => setLightboxOpen(true)}
+                className="absolute inset-0 z-10 cursor-zoom-in group"
+                aria-label="Открыть скриншот на весь экран"
+              >
+                <img
+                  src={currentScreenshot.url}
+                  alt={currentScreenshot.title}
+                  decoding="async"
+                  className="w-full h-full object-contain object-center"
+                />
+                <span className="absolute top-3 right-3 p-2 rounded-xl bg-black/70 text-white border border-white/20 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                  <Maximize2 className="w-4 h-4" />
+                </span>
+              </button>
 
-              {/* Bottom Caption */}
-              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-                <div className="space-y-1">
-                  <div className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span>{currentScreenshot.title}</span>
+              <div className="absolute bottom-0 inset-x-0 z-20 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                  <div className="space-y-0.5 min-w-0">
+                    <div className="text-sm sm:text-base font-bold text-white truncate">
+                      {currentScreenshot.title}
+                    </div>
+                    <p className="text-[11px] sm:text-xs text-white/70 font-mono-tech line-clamp-2">
+                      {currentScreenshot.description}
+                    </p>
                   </div>
-                  <p className="text-xs text-white/70 font-mono-tech max-w-xl">
-                    {currentScreenshot.description}
-                  </p>
-                </div>
 
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 rounded-xl text-xs font-mono-tech btn-solid-primary flex items-center gap-1.5 self-start sm:self-auto"
-                  >
-                    <span>Открыть вживую</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pointer-events-auto px-4 py-2 rounded-xl text-xs font-mono-tech btn-solid-primary flex items-center gap-1.5 self-start sm:self-auto"
+                    >
+                      <span>Открыть вживую</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -362,7 +410,10 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
                   return (
                     <button
                       key={idx}
-                      onClick={() => setActiveImageIndex(idx)}
+                      onClick={() => {
+                        setActiveImageIndex(idx);
+                        if (isActive) setLightboxOpen(true);
+                      }}
                       className={`relative aspect-[16/9] rounded-2xl overflow-hidden border p-0.5 text-left transition-all cursor-pointer ${
                         isActive
                           ? 'border-white ring-2 ring-white/50 scale-[1.02]'
@@ -549,7 +600,73 @@ export function ProjectModal({ project, onClose, onSelectProject }: ProjectModal
           <span className="shrink-0">© 2026 AFORI.SYS</span>
         </footer>
       </div>
-    </AnimatePresence>,
+    </AnimatePresence>
+    {lightboxOpen && (
+      <div
+        className="gallery-lightbox"
+        role="dialog"
+        aria-modal="true"
+        aria-label={currentScreenshot.title}
+        onClick={() => setLightboxOpen(false)}
+      >
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(false)}
+          className="gallery-lightbox-close"
+          aria-label="Закрыть фото"
+        >
+          <X className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+
+        {allImages.length > 1 && (
+          <>
+            <button
+              type="button"
+              className="gallery-lightbox-nav gallery-lightbox-nav-prev"
+              onClick={(e) => {
+                e.stopPropagation();
+                cycleGallery(-1);
+              }}
+              aria-label="Предыдущее фото"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              type="button"
+              className="gallery-lightbox-nav gallery-lightbox-nav-next"
+              onClick={(e) => {
+                e.stopPropagation();
+                cycleGallery(1);
+              }}
+              aria-label="Следующее фото"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+
+        <figure
+          className="gallery-lightbox-figure"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <img
+            src={currentScreenshot.url}
+            alt={currentScreenshot.title}
+            decoding="async"
+            className="gallery-lightbox-image"
+          />
+          <figcaption className="gallery-lightbox-caption">
+            <span className="block font-semibold text-white text-sm sm:text-base">
+              {currentScreenshot.title}
+            </span>
+            <span className="block text-[11px] sm:text-xs text-white/70 mt-0.5">
+              {currentScreenshot.description}
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    )}
+    </>,
     document.body
   );
 }

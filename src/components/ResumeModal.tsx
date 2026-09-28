@@ -111,7 +111,7 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 >
                   github.com/gidroshlupka-ops
                 </a>
-                <span> · Приморский край, г. Большой Камень · удалённо, полная занятость</span>
+                <span> · удалённо</span>
               </p>
               <p className="text-[11px] sm:text-[12px] text-[#555555]">{resume.salary}</p>
             </header>
